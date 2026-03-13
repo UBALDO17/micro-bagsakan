@@ -137,9 +137,10 @@
     }
 
     .subject-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px;
     }
-    @media(max-width:560px) { .subject-grid { grid-template-columns: 1fr; } }
+    @media(max-width:720px) { .subject-grid { grid-template-columns: 1fr 1fr; } }
+    @media(max-width:480px) { .subject-grid { grid-template-columns: 1fr; } }
 
     .subject-card {
       background: var(--card); border-radius: 18px; padding: 26px 20px;
@@ -385,6 +386,12 @@
         <div class="card-sub">MICE Sector · Special Events · Travel Trade</div>
         <div class="card-count">75 Questions</div>
       </div>
+      <div class="subject-card" id="card-h6" onclick="selectSubject('h6',this)">
+        <div class="card-emoji">📊</div>
+        <div class="card-title">Handout 6</div>
+        <div class="card-sub">Client Profiling · Travel Motivation · Consumer Behavior · Marketing Strategies</div>
+        <div class="card-count">60 Questions</div>
+      </div>
     </div>
 
     <div class="shuffle-toggle" id="shuffleToggle" onclick="toggleShuffle()">
@@ -438,7 +445,7 @@
     <div class="modal-title">MABUHAY!</div>
     <div class="modal-msg" style="margin-bottom:18px;line-height:1.8;color:var(--muted);">
       Welcome to <strong style="color:var(--teal);">Micro Tourism Bagsakan</strong>!<br>
-      Now with <strong>2 Handouts</strong> — Transportation/Recreation/Gaming & MICE/Travel Trade. Choose and go! 🎉
+      Now with <strong>3 Handouts</strong> — Transportation/Recreation/Gaming, MICE/Travel Trade, and Strategic Solutions. Choose and go! 🎉
     </div>
     <button class="btn btn-welcome" onclick="closeWelcome()">Tara na! 🚀</button>
   </div>
@@ -683,6 +690,67 @@ const h5Q = [
   { q: "What is the overall value of the Travel Trade to destinations?", choices: ["It limits the number of tourists to prevent overcrowding", "It helps open up new markets, attract more visitors, and encourage longer stays", "It replaces the need for direct booking by tourists", "It only benefits long-haul international travelers"], answer: "B" },
 ];
 
+// ══════════════════════════════════
+// HANDOUT 6 — Strategic Solutions for Tourism Businesses
+// ══════════════════════════════════
+const h6Q = [
+  // ── CLIENT PROFILING ──
+  { q: "What is client profiling?", choices: ["The process of hiring and training tourism staff", "The process of segmenting clients into different clusters based on common traits and characteristics", "The process of designing tourism packages for specific destinations", "The process of evaluating tourism business performance"], answer: "B" },
+  { q: "What does client profiling enable businesses to do?", choices: ["Reduce their workforce and operating costs", "Better target and engage with customers by determining clear messages and imagery for specific segments", "Eliminate the need for marketing campaigns", "Set prices for their tourism products"], answer: "B" },
+  { q: "What are the results of effective client profiling according to the handout?", choices: ["Reduced staff workload and lower operational costs", "Enhanced customer experience, optimized retention and loyalty, and a more efficient marketing strategy", "Increased prices and premium positioning in the market", "Elimination of negative customer reviews"], answer: "B" },
+  { q: "What is the first step in the Process of Client Profiling?", choices: ["Create a Client Profile Template", "Survey Customers", "Identify the Best Customers", "Extract Data from Online Channels"], answer: "C" },
+  { q: "When identifying the best customers, which types of attributes should be listed?", choices: ["Only purchasing history and frequency of visits", "Demographic, psychographic, socio-economic, geographic, and work profile", "Only age, gender, and nationality", "Only spending habits and brand preferences"], answer: "B" },
+  { q: "Why should businesses conduct surveys during the client profiling process?", choices: ["To replace all other forms of data collection", "To fill gaps in customer attribute information that may not be available", "To promote new tourism products directly to customers", "To gather negative feedback for internal review only"], answer: "B" },
+  { q: "Which online channels are mentioned in the handout as common sources for extracting customer data?", choices: ["Printed newspapers and television advertisements", "Email, websites, and social media", "Radio broadcasts and billboards", "Travel magazines and brochures"], answer: "B" },
+  { q: "When creating a Client Profile Template, what is the key principle to follow?", choices: ["Make it as detailed and complex as possible", "Keep it simple and store all profiles in one place for ease of access and historical reference", "Create a separate template for each individual customer", "Include only the most recent customer data and discard historical records"], answer: "B" },
+  { q: "Why should businesses Update client profiles Regularly?", choices: ["To reduce the cost of data storage", "To capture changing customer preferences and interests and keep profiles up-to-date", "To comply with government regulations on data collection", "To remove inactive customers from the database"], answer: "B" },
+  { q: "How many steps are there in the Process of Client Profiling as described in the handout?", choices: ["Three", "Four", "Five", "Six"], answer: "C" },
+
+  // ── TRAVEL MOTIVATION ──
+  { q: "According to the handout, where does the motivation of tourists stem from?", choices: ["Economic factors and disposable income", "The domain of human psychology", "Government travel policies and incentives", "The availability of transportation and accommodation"], answer: "B" },
+  { q: "Travel motivation is described as what kind of factor in tourists?", choices: ["The decision-forming factor", "The satisfaction-forming factor", "The budget-forming factor", "The destination-forming factor"], answer: "B" },
+  { q: "How many types can the factors of travel motivation be categorized into?", choices: ["One", "Two", "Three", "Four"], answer: "B" },
+  { q: "What do Internal Factors of Motivation do?", choices: ["They push tourists toward specific destinations based on advertising", "They arouse, direct, and integrate a person's behavior and influence travel decisions", "They determine the budget a tourist will spend on a trip", "They are influenced by social media and peer recommendations"], answer: "B" },
+  { q: "What does Intrinsic Motivation pertain to?", choices: ["Seeking money and material rewards from travel", "Assuring one's capabilities on different emotional fronts, driving tourists to seek intangible rewards like fun and assurance", "Following social trends and peer recommendations", "Responding to external advertising and marketing"], answer: "B" },
+  { q: "Intrinsic motivation drives tourists to seek what types of rewards?", choices: ["Money and tangible prizes", "Intangible rewards such as fun, assurance, and other emotional needs", "Discounts and promotional travel packages", "Career advancement and professional recognition"], answer: "B" },
+  { q: "With extrinsic motivation, what external factors motivate a tourist?", choices: ["Personal emotions and psychological needs", "Money and the need to feel competent on the scale of expenditure and performance", "Religious beliefs and cultural heritage", "Health conditions and physical fitness levels"], answer: "B" },
+  { q: "Which of the following is listed as an external factor that affects tourists' travel decisions?", choices: ["Personal goals and intrinsic desires", "Place of origin, family and age, culture, social class, and market", "Individual health and wellness requirements", "Personal hobbies and leisure preferences"], answer: "B" },
+
+  // ── CONSUMER BEHAVIOR ──
+  { q: "Consumer behavior in tourism involves studying what?", choices: ["How tourism businesses set their prices", "Why a tourist chooses a particular destination and the driving factors influencing the decision to travel", "The economic performance of tourism destinations", "The effectiveness of government tourism campaigns"], answer: "B" },
+  { q: "Which factor affecting tourist behavior includes climatic conditions and marketing by tourism businesses?", choices: ["Social Factors", "Education of Tourist", "Geographical Factors", "Place of Origin"], answer: "C" },
+  { q: "How do Social Factors affect tourist behavior?", choices: ["They determine the physical route a tourist takes", "A person's social network provides first-hand information that can alter a decision to visit or not visit a place", "They set the budget a tourist allocates for travel", "They govern the legal requirements for international travel"], answer: "B" },
+  { q: "According to the handout, Japanese and Korean tourists are used as an example of which factor affecting tourist behavior?", choices: ["Education of Tourist", "Tourism Destination", "Social Factors", "Place of Origin"], answer: "D" },
+  { q: "What basic provisions does a Tourism Destination need to attract tourists?", choices: ["Only luxury hotels and resorts", "Electricity, water, clean surroundings, proper accessibility, amenities, and significance", "Only famous landmarks and world heritage sites", "Only beaches and natural attractions"], answer: "B" },
+  { q: "How does the Education of a Tourist affect travel behavior?", choices: ["More educated tourists travel less frequently due to work commitments", "The more educated the tourist, the wider the range of choices, curiosity, and knowledge, driving destination decision-making", "Education has no impact on tourism decision-making", "More educated tourists prefer cheaper and simpler destinations"], answer: "B" },
+
+  // ── MARKETING STRATEGIES ──
+  { q: "What is a marketing strategy defined as in the handout?", choices: ["A daily operational plan for tourism businesses", "An overarching plan to achieve marketing goals and objectives, ensuring tactics continuously contribute to business goals", "A budget allocation plan for advertising", "A customer service training program"], answer: "B" },
+  { q: "What is the first marketing strategy recommended for tourism businesses?", choices: ["Optimize Your Website", "Accept Online Bookings", "Understand Your Customers", "Be Social"], answer: "C" },
+  { q: "Which of the following is a brainstorming question used when understanding ideal customers?", choices: ["What is their net worth?", "What motivates them to travel and how do they prefer to book?", "Where do they live and what do they eat?", "What is their political affiliation?"], answer: "B" },
+  { q: "What is a website described as in the context of tourism business marketing?", choices: ["An optional add-on for large businesses only", "The foundation for a business's internet marketing efforts", "A replacement for physical brochures and print advertising", "A government-required platform for tourism compliance"], answer: "B" },
+  { q: "Why should tourism businesses optimize their website?", choices: ["To reduce the cost of customer service", "To improve user experience and boost conversion rates", "To eliminate the need for social media marketing", "To comply with data privacy regulations"], answer: "B" },
+  { q: "What does the 'Focus on Mobile' strategy emphasize?", choices: ["Developing a mobile app only for premium customers", "Ensuring the mobile experience is as good as or better than the desktop website experience", "Replacing website marketing with SMS campaigns", "Using mobile advertising billboards near tourist destinations"], answer: "B" },
+  { q: "Why is Facebook highlighted as a social media platform for tour and activity providers?", choices: ["It is the cheapest social media platform available", "Despite being a crowded network, its specific targeting and advertising can help a business find its market", "It has the most users under the age of 18", "It is the only platform that allows video content"], answer: "B" },
+  { q: "Why is Instagram described as a perfect medium to market a destination?", choices: ["It has the most users worldwide", "It is a purely visual platform", "It offers free advertising to all tourism businesses", "It allows businesses to list prices directly on posts"], answer: "B" },
+  { q: "What is the growing trend in video marketing for tourism?", choices: ["Pre-recorded documentary-style videos", "Live streaming videos are getting more and more popular", "Animated videos about destinations", "Short 15-second advertisement clips"], answer: "B" },
+  { q: "Why is an email list described as more powerful than other marketing strategies?", choices: ["It reaches the most people at the lowest cost", "It converts better than both social media and search marketing", "It is the oldest and most trusted form of marketing", "It is required by law for all tourism businesses"], answer: "B" },
+  { q: "How can a tourism business build an active email list?", choices: ["By purchasing contact lists from data brokers", "By having a subscription form on the business website to invite visitors into the online community", "By collecting business cards at trade shows", "By requiring registration before accessing the website"], answer: "B" },
+  { q: "According to Zion Market Research cited in the handout, what was the online travel booking market worth in 2017?", choices: ["265 billion USD", "565 billion USD", "765 billion USD", "965 billion USD"], answer: "C" },
+  { q: "What percentage of all travel reservations are made online according to the handout?", choices: ["Over 37%", "Over 47%", "Over 57%", "Over 67%"], answer: "C" },
+  { q: "What is the expected value of the online travel booking market by 2026?", choices: ["955 billion USD", "1,255 billion USD", "1,655 billion USD", "1,955 billion USD"], answer: "D" },
+  { q: "Why is it important for tourism businesses to accept online bookings?", choices: ["To avoid paying commissions to travel agents", "Because travelers are booking travel deals online and businesses must meet them where they are", "Because it is required by government tourism regulations", "Because online bookings are always cheaper for the business"], answer: "B" },
+  { q: "What does 'Tap into the Power of Reviews' as a strategy recommend?", choices: ["Only responding to positive reviews to maintain brand image", "Responding to all negative and positive reviews to show customers they are listened to", "Hiding negative reviews from the public", "Paying customers to write positive reviews"], answer: "B" },
+  { q: "How do reviews benefit a tourism business's website according to the handout?", choices: ["They replace the need for paid advertising", "User-generated content can help boost website ranking and conversion rates", "They eliminate the need for social media marketing", "They automatically generate email subscriptions"], answer: "B" },
+  { q: "What does Blogging help tourism businesses do?", choices: ["Replace the need for a website", "Tell stories, share unique insights about a destination, share travel tips, and connect with customers", "Manage employee schedules and operations", "Process online bookings and payments"], answer: "B" },
+  { q: "What is experiential marketing also known as?", choices: ["Content marketing", "Influencer marketing", "Engagement marketing", "Search engine marketing"], answer: "C" },
+  { q: "How does experiential marketing work in tourism?", choices: ["By offering the lowest prices among competitors", "By enabling people to interact with brands one-on-one using physical branded materials to show what the brand offers", "By using automated chatbots to answer customer queries", "By partnering with airlines to offer bundled packages"], answer: "B" },
+  { q: "What are Micro-Influencers characterized by compared to large influencers?", choices: ["Larger audiences and higher costs", "Smaller and more targeted audiences, higher engagement, more loyal followers, better conversions, and lower cost", "Less credibility and fewer followers", "Wider reach but lower engagement rates"], answer: "B" },
+  { q: "Why are micro-influencers preferred by an increasing number of brands?", choices: ["They have millions of followers and global reach", "They offer higher engagement, more loyal followers, better conversions, and are cheaper than big influencers", "They are required by social media platforms to promote tourism", "They exclusively focus on luxury travel content"], answer: "B" },
+  { q: "What does the 'Set Goals, Monitor, and Optimize' strategy involve?", choices: ["Setting a fixed marketing plan that never changes", "Assessing and analyzing changes in data or feedback and making appropriate adjustments to the marketing strategy", "Eliminating all underperforming marketing channels immediately", "Hiring external consultants to manage marketing optimization"], answer: "B" },
+  { q: "What does the handout state is essential for operating a sustainable and profitable tourism experience?", choices: ["Having the lowest prices in the market", "Having a deep understanding of customers", "Having the most employees in the industry", "Having the most locations and branches"], answer: "B" },
+];
+
 // ══ STATE ══
 let activeData = [], idx = 0, userAnswers = [], score = 0, shuffleOn = false, selectedSubject = null;
 
@@ -708,7 +776,7 @@ function toggleShuffle() {
 
 function startQuiz() {
   if (!selectedSubject) return alert('Please select a handout first!');
-  const pool = selectedSubject === 'h5' ? h5Q : h4Q;
+  const pool = selectedSubject === 'h5' ? h5Q : selectedSubject === 'h6' ? h6Q : h4Q;
   activeData = shuffleOn ? shuffleArr(pool) : [...pool];
   idx = 0; userAnswers = []; score = 0;
   document.getElementById('startScreen').classList.remove('active');
