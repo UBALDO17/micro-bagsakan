@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Micro Tourism Bagsakan</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap');
+
+    :root {
+      --gold: #F59E0B;
+      --teal: #0D9488;
+      --dark-teal: #0f766e;
+      --red: #EF4444;
+      --white: #FAFAFA;
+      --card: #ffffff;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --correct: #16a34a;
+      --wrong: #dc2626;
+      --correct-bg: #dcfce7;
+      --wrong-bg: #fee2e2;
+      --shadow: 0 8px 32px rgba(13, 148, 136, 0.15);
+    }
+
+    body.dark {
+      --card: #1a2e2e;
+      --text: #e8f4f4;
+      --muted: #9ca3af;
+      --white: #0d1f1f;
+      --correct-bg: #14532d;
+      --wrong-bg: #7f1d1d;
+      --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      transition: background 0.3s;
+    }
+
+    body:not(.dark) {
+      background: linear-gradient(135deg, #e6fffe 0%, #fffbeb 50%, #f0fdf4 100%);
+    }
+
+    body.dark {
+      background: linear-gradient(135deg, #071a1a 0%, #0d1f1f 100%);
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--teal) 0%, #134e4a 100%);
+      color: white;
+      padding: 20px 24px;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(13,148,136,0.4);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 4px;
+      position: relative;
+    }
+
+    .header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .header-sub {
+      text-align: center;
+      font-size: 11px;
+      opacity: 0.8;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .back-btn {
+      position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.15); border: none; color: white;
+      padding: 7px 13px; border-radius: 8px; cursor: pointer;
+      font-size: 14px; font-family: 'Nunito', sans-serif; font-weight: 700;
+      display: none; align-items: center; gap: 4px; transition: background 0.2s;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.25); }
+    .back-btn.show { display: flex; }
+
+    .theme-btn {
+      position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.15); border: none; color: white;
+      width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
+      font-size: 17px; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .theme-btn:hover { background: rgba(255,255,255,0.25); }
+
+    .progress-wrap {
+      background: rgba(255,255,255,0.15); border-radius: 10px;
+      padding: 11px 15px; margin-top: 13px; display: none;
+    }
+    .progress-bar { background: rgba(255,255,255,0.2); border-radius: 10px; height: 11px; overflow: hidden; }
+    .progress-fill {
+      background: linear-gradient(90deg, var(--gold), #f97316);
+      height: 100%; border-radius: 10px; transition: width 0.4s ease;
+    }
+    .progress-stats { display: flex; justify-content: space-between; margin-top: 7px; font-size: 12px; font-weight: 700; }
+
+    .container { max-width: 780px; margin: 0 auto; padding: 22px 16px; }
+
+    .start-screen { display: none; text-align: center; animation: fadeUp 0.5s ease; }
+    .start-screen.active { display: block; }
+
+    .welcome-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, var(--teal), #0f766e);
+      color: white; padding: 7px 18px; border-radius: 50px;
+      font-size: 12px; font-weight: 700; letter-spacing: 1px;
+      margin-bottom: 16px; text-transform: uppercase;
+    }
+
+    .start-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: 40px;
+      color: var(--text); letter-spacing: 2px; margin-bottom: 6px;
+    }
+
+    .start-desc {
+      color: var(--muted); font-size: 14px; margin-bottom: 28px;
+      max-width: 500px; margin-left: auto; margin-right: auto;
+    }
+
+    .subject-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;
+    }
+    @media(max-width:560px) { .subject-grid { grid-template-columns: 1fr; } }
+
+    .subject-card {
+      background: var(--card); border-radius: 18px; padding: 26px 20px;
+      box-shadow: var(--shadow); border: 3px solid transparent;
+      cursor: pointer; transition: all 0.3s; position: relative;
+      overflow: hidden; text-align: center;
+    }
+    .subject-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+      background: linear-gradient(90deg, var(--teal), var(--gold), var(--red));
+    }
+    .subject-card:hover { transform: translateY(-4px); border-color: var(--teal); box-shadow: 0 16px 48px rgba(13,148,136,0.2); }
+    .subject-card.selected { border-color: var(--correct); box-shadow: 0 0 0 4px rgba(22,163,74,0.2); }
+
+    .card-emoji { font-size: 42px; margin-bottom: 8px; }
+    .card-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--text); letter-spacing: 1px; }
+    .card-sub { color: var(--muted); font-size: 12px; font-weight: 600; margin-top: 4px; line-height: 1.4; }
+    .card-count {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--teal), var(--dark-teal));
+      color: white; padding: 3px 12px; border-radius: 20px;
+      font-size: 12px; font-weight: 700; margin-top: 8px;
+    }
+
+    .shuffle-toggle {
+      background: var(--card); border: 2px solid #e5e7eb; border-radius: 14px;
+      padding: 14px 18px; cursor: pointer; display: none; align-items: center;
+      gap: 12px; margin-bottom: 18px; transition: all 0.2s; box-shadow: var(--shadow);
+    }
+    .shuffle-toggle:hover { border-color: var(--teal); }
+    .shuffle-toggle.selected { border-color: var(--teal); background: rgba(13,148,136,0.05); }
+
+    .checkbox-box {
+      width: 24px; height: 24px; border: 2px solid var(--teal); border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--teal); font-weight: 800; font-size: 14px; flex-shrink: 0;
+    }
+    .shuffle-label { font-weight: 700; color: var(--text); font-size: 14px; }
+    .shuffle-sub { font-size: 11px; color: var(--muted); }
+
+    .btn-start {
+      display: none;
+      background: linear-gradient(135deg, var(--teal), var(--dark-teal));
+      color: white; border: none; padding: 15px 55px; font-size: 17px;
+      font-family: 'Nunito', sans-serif; font-weight: 800; border-radius: 14px;
+      cursor: pointer; letter-spacing: 1px; transition: all 0.3s;
+      box-shadow: 0 8px 24px rgba(13,148,136,0.35);
+    }
+    .btn-start:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(13,148,136,0.45); }
+
+    .quiz-wrap { display: none; animation: fadeUp 0.4s ease; }
+
+    .q-card {
+      background: var(--card); border-radius: 20px; padding: 28px;
+      box-shadow: var(--shadow); margin-bottom: 14px;
+      position: relative; overflow: hidden;
+    }
+    .q-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--teal), var(--gold));
+    }
+
+    .q-num { font-size: 11px; font-weight: 800; color: var(--teal); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+    .q-text { font-size: 16px; line-height: 1.7; color: var(--text); font-weight: 600; margin-bottom: 22px; }
+
+    .choices { display: flex; flex-direction: column; gap: 9px; }
+
+    .choice {
+      background: var(--white); border: 2px solid #e5e7eb; border-radius: 11px;
+      padding: 13px 16px; cursor: pointer; display: flex; align-items: center;
+      gap: 12px; transition: all 0.25s; font-weight: 600; color: var(--text);
+    }
+    body.dark .choice { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
+    .choice:hover:not(.disabled) { border-color: var(--teal); background: rgba(13,148,136,0.05); transform: translateX(4px); }
+
+    .choice-ltr {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal), var(--dark-teal));
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 13px; flex-shrink: 0;
+    }
+
+    .choice.correct { background: var(--correct-bg); border-color: var(--correct); }
+    .choice.correct .choice-ltr { background: var(--correct); }
+    .choice.wrong { background: var(--wrong-bg); border-color: var(--wrong); }
+    .choice.wrong .choice-ltr { background: var(--wrong); }
+    .choice.disabled { cursor: not-allowed; }
+
+    .feedback {
+      margin-top: 14px; padding: 13px 16px; border-radius: 11px;
+      font-weight: 700; font-size: 14px; display: none; align-items: center; gap: 8px;
+    }
+    .feedback.show { display: flex; }
+    .feedback.correct { background: var(--correct-bg); color: var(--correct); }
+    .feedback.wrong { background: var(--wrong-bg); color: var(--wrong); }
+
+    .nav-bar { display: none; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 0; }
+
+    .btn {
+      padding: 11px 22px; border: none; border-radius: 10px; font-size: 13px;
+      font-family: 'Nunito', sans-serif; font-weight: 800; cursor: pointer;
+      transition: all 0.2s; letter-spacing: 0.5px;
+    }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-prev { background: #6b7280; color: white; }
+    .btn-prev:hover:not(:disabled) { background: #4b5563; }
+    .btn-next { background: linear-gradient(135deg, var(--teal), var(--dark-teal)); color: white; box-shadow: 0 4px 12px rgba(13,148,136,0.3); }
+    .btn-next:hover:not(:disabled) { transform: translateY(-1px); }
+    .btn-reset { background: var(--red); color: white; }
+    .btn-reset:hover { background: #b91c1c; }
+
+    .result-screen { display: none; text-align: center; animation: fadeUp 0.5s ease; }
+    .result-screen.active { display: block; }
+
+    .result-card {
+      background: var(--card); border-radius: 24px; padding: 44px 28px;
+      box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
+    .result-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+      background: linear-gradient(90deg, var(--teal), var(--gold), var(--red));
+    }
+
+    .result-icon { font-size: 68px; margin-bottom: 14px; }
+    .result-score { font-family: 'Bebas Neue', sans-serif; font-size: 58px; color: var(--teal); letter-spacing: 3px; line-height: 1; margin-bottom: 10px; }
+    .result-msg { font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 24px; }
+
+    .result-stats { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 24px; }
+
+    .stat-box { background: var(--white); border-radius: 12px; padding: 14px; font-weight: 700; }
+    body.dark .stat-box { background: rgba(255,255,255,0.08); }
+    .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+    .stat-val { font-size: 26px; color: var(--text); font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
+
+    .result-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .btn-review { background: #f59e0b; color: white; padding: 13px 28px; font-size: 15px; }
+    .btn-review:hover { background: #d97706; }
+    .btn-restart { background: linear-gradient(135deg, var(--teal), var(--dark-teal)); color: white; padding: 13px 28px; font-size: 15px; box-shadow: 0 4px 16px rgba(13,148,136,0.3); }
+    .btn-restart:hover { transform: translateY(-1px); }
+
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(4px); }
+    .modal.active { display: flex; }
+
+    .modal-box { background: var(--card); border-radius: 20px; padding: 32px 26px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.4); animation: popIn 0.3s ease; }
+    .modal-icon { font-size: 48px; margin-bottom: 14px; }
+    .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--text); letter-spacing: 2px; margin-bottom: 8px; }
+    .modal-msg { font-size: 14px; color: var(--muted); margin-bottom: 22px; line-height: 1.6; }
+    .modal-btns { display: flex; gap: 10px; justify-content: center; }
+    .btn-cancel { background: #6b7280; color: white; padding: 11px 26px; }
+    .btn-cancel:hover { background: #4b5563; }
+    .btn-confirm { background: var(--red); color: white; padding: 11px 26px; }
+    .btn-confirm:hover { background: #b91c1c; }
+
+    .review-modal-box {
+      background: var(--card); border-radius: 20px; max-width: 680px; width: 100%;
+      max-height: 85vh; overflow: hidden; display: flex; flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4); animation: popIn 0.3s ease;
+    }
+    .review-header { padding: 18px 22px; border-bottom: 2px solid rgba(13,148,136,0.1); display: flex; justify-content: space-between; align-items: center; background: var(--card); }
+    .review-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--text); letter-spacing: 2px; }
+    .close-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--muted); padding: 4px 8px; border-radius: 8px; transition: background 0.2s; }
+    .close-btn:hover { background: rgba(0,0,0,0.08); }
+    .review-body { padding: 18px; overflow-y: auto; }
+    .review-item { background: var(--white); border-radius: 11px; padding: 14px; margin-bottom: 10px; }
+    body.dark .review-item { background: rgba(255,255,255,0.05); }
+    .review-q { font-weight: 700; color: var(--text); margin-bottom: 7px; font-size: 13px; }
+    .review-a { padding: 7px 11px; border-radius: 7px; font-size: 12px; font-weight: 600; }
+    .review-correct { background: var(--correct-bg); color: var(--correct); }
+    .review-wrong { background: var(--wrong-bg); color: var(--wrong); }
+
+    .welcome-modal-box {
+      background: var(--card); border-radius: 22px; padding: 38px 30px; max-width: 440px; width: 100%;
+      text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.4); animation: popIn 0.4s ease;
+      position: relative; overflow: hidden;
+    }
+    .welcome-modal-box::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+      background: linear-gradient(90deg, var(--teal), var(--gold), var(--red), var(--gold), var(--teal));
+    }
+    .btn-welcome {
+      background: linear-gradient(135deg, var(--teal), var(--dark-teal));
+      color: white; padding: 13px 44px; font-size: 16px; border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(13,148,136,0.35);
+    }
+    .btn-welcome:hover { transform: translateY(-2px); }
+
+    .unanswered-list {
+      background: #fffbeb; border: 1px solid #fcd34d; border-radius: 10px;
+      padding: 12px; margin: 14px 0; text-align: left;
+      font-size: 13px; color: #92400e; font-weight: 600;
+    }
+    body.dark .unanswered-list { background: #451a03; border-color: #92400e; color: #fcd34d; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+    @media(max-width:600px) {
+      .header h1 { font-size: 22px; }
+      .start-title { font-size: 32px; }
+      .q-text { font-size: 14px; }
+      .result-score { font-size: 46px; }
+      .q-card { padding: 18px; }
+      .btn { padding: 10px 14px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <button class="back-btn" id="backBtn" onclick="showBackModal()">← Back</button>
+    <span style="font-size:18px;">✈️</span>
+    <h1>MICRO TOURISM BAGSAKAN</h1>
+    <span style="font-size:18px;">🏨</span>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+  </div>
+  <div class="header-sub">Micro Perspective of Tourism & Hospitality · TH2108</div>
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-stats">
+      <span>Q <span id="qCurrent">1</span>/<span id="qTotal">1</span></span>
+      <span>Score: <span id="scoreDisplay">0</span>/<span id="answeredDisplay">0</span></span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="start-screen active" id="startScreen">
+    <div><span class="welcome-badge">✈️ TH2108 — Micro Tourism</span></div>
+    <div class="start-title">IBAGSAK MO BAYBEH!</div>
+    <div class="start-desc">Choose your handout and test your knowledge. Kaya mo 'yan! 🎉</div>
+
+    <div class="subject-grid">
+      <div class="subject-card" id="card-h4" onclick="selectSubject('h4',this)">
+        <div class="card-emoji">🚌</div>
+        <div class="card-title">Handout 4</div>
+        <div class="card-sub">Transportation · Recreation & Attractions · Gaming & Entertainment</div>
+        <div class="card-count">80 Questions</div>
+      </div>
+      <div class="subject-card" style="opacity:0.5;cursor:not-allowed;" title="Coming soon!">
+        <div class="card-emoji">📦</div>
+        <div class="card-title">Handout 5</div>
+        <div class="card-sub">Coming Soon...</div>
+        <div class="card-count">?? Questions</div>
+      </div>
+    </div>
+
+    <div class="shuffle-toggle" id="shuffleToggle" onclick="toggleShuffle()">
+      <div class="checkbox-box" id="checkBox"></div>
+      <div>
+        <div class="shuffle-label">🔀 Shuffle Questions</div>
+        <div class="shuffle-sub">Randomize the order for a new challenge</div>
+      </div>
+    </div>
+    <button class="btn btn-start" id="startBtn" onclick="startQuiz()">Start Exam 🚀</button>
+  </div>
+
+  <div class="quiz-wrap" id="quizWrap">
+    <div class="q-card">
+      <div class="q-num" id="qNum"></div>
+      <div class="q-text" id="qText"></div>
+      <div class="choices" id="choices"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+  </div>
+
+  <div class="result-screen" id="resultScreen">
+    <div class="result-card">
+      <div class="result-icon" id="resultIcon">🎉</div>
+      <div class="result-score" id="resultScore"></div>
+      <div class="result-msg" id="resultMsg"></div>
+      <div class="result-stats">
+        <div class="stat-box"><div class="stat-label">Total</div><div class="stat-val" id="statTotal"></div></div>
+        <div class="stat-box"><div class="stat-label">Correct</div><div class="stat-val" style="color:var(--correct);" id="statCorrect"></div></div>
+        <div class="stat-box"><div class="stat-label">Wrong</div><div class="stat-val" style="color:var(--wrong);" id="statWrong"></div></div>
+        <div class="stat-box"><div class="stat-label">Percentage</div><div class="stat-val" id="statPercent"></div></div>
+      </div>
+      <div class="result-btns">
+        <button class="btn btn-review" onclick="showReview()">📋 Review Answers</button>
+        <button class="btn btn-restart" onclick="restartQuiz()">🔄 Restart</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-bar" id="navBar">
+    <button class="btn btn-prev" id="prevBtn" onclick="prevQ()">← Prev</button>
+    <button class="btn btn-reset" onclick="showResetModal()">⟳ Reset</button>
+    <button class="btn btn-next" id="nextBtn" onclick="nextQ()">Next →</button>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal active" id="welcomeModal">
+  <div class="welcome-modal-box">
+    <div style="font-size:58px;margin-bottom:14px;">✈️</div>
+    <div class="modal-title">MABUHAY!</div>
+    <div class="modal-msg" style="margin-bottom:18px;line-height:1.8;color:var(--muted);">
+      Welcome to <strong style="color:var(--teal);">Micro Tourism Bagsakan</strong>!<br>
+      Handout 4 is ready — Transportation, Recreation & Attractions, and Gaming & Entertainment. More handouts coming! 🎉
+    </div>
+    <button class="btn btn-welcome" onclick="closeWelcome()">Tara na! 🚀</button>
+  </div>
+</div>
+
+<div class="modal" id="resetModal">
+  <div class="modal-box">
+    <div class="modal-icon">⚠️</div>
+    <div class="modal-title">Reset Exam?</div>
+    <div class="modal-msg">All your progress will be lost. Are you sure?</div>
+    <div class="modal-btns">
+      <button class="btn btn-cancel" onclick="closeModal('resetModal')">Cancel</button>
+      <button class="btn btn-confirm" onclick="confirmReset()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="backModal">
+  <div class="modal-box">
+    <div class="modal-icon">⚠️</div>
+    <div class="modal-title">Go Back?</div>
+    <div class="modal-msg">Your progress will be lost if you go back to subject selection.</div>
+    <div class="modal-btns">
+      <button class="btn btn-cancel" onclick="closeModal('backModal')">Cancel</button>
+      <button class="btn btn-confirm" onclick="confirmBack()">Go Back</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="unansweredModal">
+  <div class="modal-box">
+    <div class="modal-icon">📝</div>
+    <div class="modal-title">Unanswered Questions!</div>
+    <div class="modal-msg" id="unansweredMsg"></div>
+    <div class="unanswered-list" id="unansweredList"></div>
+    <div class="modal-btns"><button class="btn btn-cancel" onclick="closeModal('unansweredModal')">OK, I'll finish</button></div>
+  </div>
+</div>
+
+<div class="modal" id="reviewModal">
+  <div class="review-modal-box">
+    <div class="review-header">
+      <div class="review-title">📋 Question Review</div>
+      <button class="close-btn" onclick="closeModal('reviewModal')">✕</button>
+    </div>
+    <div class="review-body" id="reviewBody"></div>
+  </div>
+</div>
+
+<script>
+const L = ['A','B','C','D'];
+
+// ══════════════════════════════════
+// HANDOUT 4 — Transportation, Recreation & Attractions, Gaming & Entertainment
+// ══════════════════════════════════
+const h4Q = [
+  // ── TRANSPORTATION & TRAVEL EVOLUTION ──
+  { q: "According to the handout, why has transportation been an integral part of the tourism and hospitality industry?", choices: ["Because it is the most profitable sector", "Due to rapid development of the sector and technological innovations enabling tourists to reach destinations worldwide", "Because tourists prefer traveling by land", "Because transportation creates the most jobs in tourism"], answer: "B" },
+  { q: "Which era of transportation history was characterized by few common carriers and almost no regularly scheduled transportation services?", choices: ["Early-Industrial Travel System Era", "Express-Travel System Era", "Pre-Industrial Travel System Era", "Mature-Railway System Era"], answer: "C" },
+  { q: "During the Early-Industrial Travel System Era, what caused transportation to improve significantly?", choices: ["Government subsidies for travel", "Innovation and transportation technology advances such as railways, canals, and steamship services", "Private sector investment in automobiles", "The discovery of oil"], answer: "B" },
+  { q: "Who began his company's activities in the United Kingdom in 1840 during the Mature-Railway System Era?", choices: ["Henry Ford", "James Watt", "Thomas Cook", "George Pullman"], answer: "C" },
+  { q: "What characterized the Mature-Railway System Era?", choices: ["The dominance of automobiles over trains", "Railways expanded operations by running hotels and providing other travel-related services", "Airplanes replaced railways as the primary mode of transport", "Travel was limited to the wealthy"], answer: "B" },
+  { q: "What was the key feature of the Express-Travel System Era?", choices: ["Trains stopped at every station to pick up passengers", "Travel speeds slowed due to overcrowding", "Trains did not stop at every station or terminal, increasing speed of travel", "Express trains were only available to first-class passengers"], answer: "C" },
+  { q: "During which years was the automobile predominant over other travel modes?", choices: ["1880 to 1920", "1900 to 1940", "1920 to 1945", "1945 to 1974"], answer: "C" },
+  { q: "What characterizes the Modern-Tourism Travel System Era?", choices: ["Return of railway travel as the dominant mode", "Mass air travel and wide-bodied jets introduction; car ownership increased at expense of rail travel", "The end of tourist package tours", "Government control of all transportation"], answer: "B" },
+  { q: "The introduction of wide-bodied jets in which year greatly increased air travel?", choices: ["1950", "1960", "1965", "1970"], answer: "D" },
+  { q: "What triggered the Post-Mobility Adjustment Era in 1973–1974?", choices: ["A global financial crisis", "A world war that disrupted transportation", "The OPEC oil embargo and resulting fuel price increases", "The introduction of budget airlines"], answer: "C" },
+  { q: "In the Post-Mobility Adjustment Era, what did travelers look for?", choices: ["Faster and more expensive modes of transport", "Alternative, group-oriented modes of transportation", "Private jets and luxury travel", "Sea voyages instead of air travel"], answer: "B" },
+
+  // ── TRANSPORTATION MODES ──
+  { q: "Which mode of transportation has made significant changes in people's minds concerning time and distance?", choices: ["Railway transportation", "Sea transportation", "Air transportation", "Automobile transportation"], answer: "C" },
+  { q: "Which of the following is NOT an example of air transport vehicle?", choices: ["Airplane", "Helicopter", "Hot air balloon", "Ferry"], answer: "D" },
+  { q: "What advantage does automobile transportation offer over other modes?", choices: ["It is faster for long distances", "It offers great flexibility and low prices compared to air transportation", "It is the safest mode of transportation", "It can carry the most passengers at once"], answer: "B" },
+  { q: "What makes automobile transportation important in tourism?", choices: ["It is the fastest mode of transportation", "It is exclusively used for luxury tourism", "It makes it easy to see local cultures and offers great flexibility and low prices", "It offers zero-emission travel"], answer: "C" },
+  { q: "Why is railway transportation considered the oldest type?", choices: ["Trains were invented before all other vehicles", "Railways were frequently used in the 19th Century", "Thomas Cook invented the railway", "Railway transport predates human civilization"], answer: "B" },
+  { q: "In modern times, why are railways more commonly used to transport loads rather than tourists?", choices: ["Because railways are too expensive for tourists", "Because tourists prefer air or automobile transportation", "Because railways are too slow for long distances", "Because railways only operate in major cities"], answer: "B" },
+  { q: "Which of the following is an example of a modern railway transport type?", choices: ["Ro-ro vessel", "Cruise ship", "Hot air balloon", "High-speed train"], answer: "D" },
+  { q: "Cruise ships are described in the handout as what?", choices: ["The cheapest mode of sea transportation", "Sailing hotels that provide tourists with indispensable travel opportunities", "The fastest mode of sea transportation", "Vessels exclusively used for cargo"], answer: "B" },
+  { q: "Which of the following is NOT a form of sea transportation mentioned in the handout?", choices: ["Cruise travel", "Yachting", "Ferry travel", "Monorail"], answer: "D" },
+  { q: "What unique benefit do cruise ships offer tourists?", choices: ["They are the fastest way to travel", "Tourists can see several countries at a time while aboard", "They offer the cheapest fares in international travel", "They provide the most direct route between destinations"], answer: "B" },
+
+  // ── RECREATION & LEISURE ──
+  { q: "How is recreation defined in the handout?", choices: ["The activity of visiting a place to participate in activities that are relaxing or diverting from normal routines", "The professional management of tourist destinations", "The government's program for developing tourism infrastructure", "The study of tourist behavior patterns"], answer: "A" },
+  { q: "How is leisure defined in the handout?", choices: ["Any activity done outside of work hours", "The productive, creative, or contemplative use of free time", "Time spent on commercial entertainment", "Passive activities that do not require effort"], answer: "B" },
+  { q: "According to the handout, for some people recreation means what?", choices: ["Expensive luxury travel abroad", "The network of public agencies that provide parks, playgrounds, swimming pools, and community centers", "Private sports clubs and entertainment venues", "Online gaming and virtual reality experiences"], answer: "B" },
+  { q: "Which group would be principally concerned about the impact of outdoor recreation on forests, mountains, rivers, and lakes?", choices: ["Casino operators", "Environmentalists", "Railway companies", "Hotel managers"], answer: "B" },
+  { q: "Which of the following is NOT part of recreational participation as described in the handout?", choices: ["Travel and tourism", "Cultural entertainment and participation in the arts", "Membership in social clubs or interest groups", "Mandatory government service"], answer: "D" },
+  { q: "Recreation can be enjoyed in which of the following ways?", choices: ["Only in large groups with spectators", "Only as a solitary experience", "With thousands of participants or spectators, or as a solitary experience; strenuous or mental", "Only through strenuous physical activities"], answer: "C" },
+
+  // ── ATTRACTIONS ──
+  { q: "Which type of attraction serves as the 'mainsprings' that drive many people to travel?", choices: ["Commercial Attractions", "Heritage Attractions", "Natural Attractions", "Industrial Attractions"], answer: "C" },
+  { q: "National parks, forests, botanical parks, and zoological parks are examples of which type of attraction?", choices: ["Purpose Built Attractions", "Heritage Attractions", "Recreation Attractions", "Natural Attractions"], answer: "D" },
+  { q: "Which type of attraction has been purposely developed for tourism, such as theme parks, zoos, or art galleries?", choices: ["Natural Attractions", "Heritage Attractions", "Purpose Built Attractions", "Commercial Attractions"], answer: "C" },
+  { q: "The Great Wall of China and the Rice Terraces of the Philippine Cordilleras are examples of which type of attraction?", choices: ["Natural Attractions", "Heritage Attractions", "Industrial Attractions", "Recreation Attractions"], answer: "B" },
+  { q: "Heritage Attractions appeal to people who are inspired to do what?", choices: ["Participate in extreme sports and adventure activities", "Learn more about contemporary and long-vanished civilizations", "Shop for handmade crafts and souvenirs", "Observe wildlife in its natural habitat"], answer: "B" },
+  { q: "Which type of attraction provides access to indoor and outdoor facilities for sports and activities like bowling, camping, fishing, and golfing?", choices: ["Commercial Attractions", "Heritage Attractions", "Natural Attractions", "Recreation Attractions"], answer: "D" },
+  { q: "Shopping centers and boutiques that attract tourists are classified as which type of attraction?", choices: ["Industrial Attractions", "Heritage Attractions", "Commercial Attractions", "Recreation Attractions"], answer: "C" },
+  { q: "Wineries and breweries are examples of which type of tourist attraction?", choices: ["Natural Attractions", "Commercial Attractions", "Recreation Attractions", "Industrial Attractions"], answer: "D" },
+  { q: "Factory tours are associated with which type of tourist attraction?", choices: ["Industrial Attractions", "Heritage Attractions", "Recreation Attractions", "Purpose Built Attractions"], answer: "A" },
+
+  // ── CHALLENGES IN RECREATION ──
+  { q: "Which of the following is a challenge faced by the Recreation and Leisure Service Field in the 21st century?", choices: ["Reducing the number of parks and public spaces", "Serving a diverse society in terms of race, age, and gender", "Eliminating all outdoor forms of recreation", "Removing accreditation requirements for recreation professionals"], answer: "B" },
+  { q: "What does the challenge of 'promoting recreation's identity as a health-related field' aim to achieve?", choices: ["Turning all recreation into medical treatments", "Recognizing and publicizing the health benefits of recreation activities", "Restricting recreation to hospitals and medical centers", "Eliminating commercial recreation"], answer: "B" },
+  { q: "Which challenge involves researching, proving, and publicizing positive outcomes of recreation?", choices: ["Serving diverse society", "Expanding family-centered programs", "Adopting a benefits-based management approach", "Developing partnerships with environmental organizations"], answer: "C" },
+  { q: "Which challenge calls for unifying public, nonprofit, commercial, and therapeutic recreation fields?", choices: ["Promote higher values in youth sports", "Unify separate recreation and leisure service fields in common programs and projects", "Plan for long-term role in a job-scarce economy", "Strive for mainstreaming of persons with disabilities"], answer: "B" },
+
+  // ── GAMING ENTERTAINMENT – DEFINITIONS ──
+  { q: "What activities does the gaming industry include?", choices: ["Only casino slot machines", "Casinos, card games, charitable games, lottery-operated games, and betting on greyhound and horse races", "Only sports betting and lottery", "Only horse and greyhound racing"], answer: "B" },
+  { q: "Gaming entertainment is described as a subset of what?", choices: ["The hospitality industry", "The recreation and leisure field", "The gaming industry", "The transportation sector"], answer: "C" },
+  { q: "What does gaming entertainment refer to?", choices: ["Only the games played on the casino floor", "The casino gaming business and all its aspects, including hotel operations, entertainment, retail shopping, and recreational activities", "The management of lottery programs nationwide", "Online video gaming platforms and esports"], answer: "B" },
+  { q: "Who are 'social gamblers' as described in the handout?", choices: ["Professional gamblers who earn a living from casino games", "People who gamble exclusively online", "Customers who combine gambling with many other activities during their stay", "Tourists who only visit casinos for sightseeing"], answer: "C" },
+
+  // ── CASINO GAMES ──
+  { q: "What are Table Games in a casino?", choices: ["Games played on mobile devices within the casino", "Games that involve wagering or betting between the casino and customers on a table layout", "Games where players compete only against each other", "Games played in a separate sports arena"], answer: "B" },
+  { q: "Which of the following is an example of a Table Game?", choices: ["Blackjack", "Poker", "Slot machine", "Roulette"], answer: "D" },
+  { q: "How are Card Games different from Table Games in a casino?", choices: ["Card games are played on electronic screens only", "In card games, the casino does not wager against the player; players gamble against each other", "Card games always involve a physical dealer", "Card games have higher minimum bets than table games"], answer: "B" },
+  { q: "Which of the following is an example of a Card Game?", choices: ["Roulette", "Craps", "Baccarat", "Keno"], answer: "C" },
+  { q: "Slot machines feature what activated by a handle or button?", choices: ["Digital scoreboards that display jackpot amounts", "Simulated or actual spinning reels", "Live dealer video feeds", "Random card displays"], answer: "B" },
+  { q: "Pay-offs in slot machines are based on what?", choices: ["The time of day you play", "The player's casino membership level", "A computerized random number generator or alignment of same graphics/symbols on each reel", "The amount of money previously inserted by all players"], answer: "C" },
+  { q: "Keno and Bingo are both based on what?", choices: ["Player skill and strategy", "A random number", "Dealer choice", "Physical card matching"], answer: "B" },
+  { q: "What do Racebooks involve in a casino?", choices: ["Wagering on professional sports events", "Wagering on horse track betting", "Betting on card games", "Wagering on soccer matches"], answer: "B" },
+  { q: "What do Sportsbooks feature in a casino?", choices: ["Horse track betting", "Wagering on professional and collegiate sporting events", "Slot machine tournaments", "Lottery ticket sales"], answer: "B" },
+  { q: "What is the Casino Cage responsible for?", choices: ["Monitoring players for cheating", "Financial customer transactions and accounting for monies handled on the casino floor", "Operating the slot machines", "Managing hotel reservations"], answer: "B" },
+  { q: "Surveillance in a casino is also known as what?", choices: ["The watch tower", "Casino security desk", "The eye in the sky", "The monitoring room"], answer: "C" },
+  { q: "What does casino surveillance do?", choices: ["Provides entertainment by filming games for TV", "Maintains a careful watch on all gaming activities through high-tech cameras and video recording devices", "Monitors the number of chips in each game", "Reviews customer complaints and resolves disputes"], answer: "B" },
+  { q: "Which of the following are examples of Ancillary Departments in a casino?", choices: ["Table games and slot machines", "Keno and bingo halls", "Restaurant operations, bars, entertainment centers, and lodging facilities", "Surveillance and casino cage operations"], answer: "C" },
+
+  // ── REASONS FOR VISITING CASINOS ──
+  { q: "The 'Lure of Gambling' as a reason to visit casinos refers to what?", choices: ["The free food and drinks offered at casinos", "People who just like to gamble, wager, or enter games of chance or skill", "The social media presence of casinos", "The architecture and luxury of casino buildings"], answer: "B" },
+  { q: "Why do many people visit casinos for Recreation and Entertainment?", choices: ["Because casinos offer the cheapest accommodation", "Because a casino environment is an exciting form of entertainment and a mental escape from work stress", "Because casinos are open 24 hours a day", "Because casinos offer free entry to all guests"], answer: "B" },
+  { q: "Which demographic is drawn to casinos primarily for Social reasons?", choices: ["College students on vacation", "Business executives for networking", "Senior citizens and retirees for social interaction", "Young professionals for after-work entertainment"], answer: "C" },
+  { q: "What Economic strategy do some casinos use to attract gamblers?", choices: ["Offering free transportation to the casino", "Offering low room rates", "Providing discounts on all meals", "Giving complimentary gambling chips to all guests"], answer: "B" },
+  { q: "What motivates Curiosity seekers to visit casinos?", choices: ["The chance to become professional gamblers", "Today's mega resorts with must-see facilities", "Free shows and entertainment outside the casino", "The history and heritage of gambling"], answer: "B" },
+  { q: "What Amenity Offerings draw people to hotels and casinos?", choices: ["24-hour grocery stores and hardware shops", "Health spas, hair salons, beauty parlors, barbershops, amusement centers, and theme parks", "Outdoor markets and street food stalls", "Academic libraries and study rooms"], answer: "B" },
+
+  // ── MIXED / APPLICATION ──
+  { q: "Which transportation mode is described as turning into a 'separate tourist attraction element' through examples like cruising and orient express trains?", choices: ["Air transportation only", "Railway transportation only", "Any mode of transportation", "Sea transportation only"], answer: "C" },
+  { q: "Which era marked the beginning of mass tourism philosophy and marketing approaches in the 1950s to 1960s?", choices: ["Express-Travel System Era", "Mature-Railway System Era", "Post-Mobility Adjustment Era", "Modern-Tourism Travel System Era"], answer: "D" },
+  { q: "Video poker, keno, bingo, and lottery terminals are classified under which casino game type?", choices: ["Table Games", "Card Games", "Slot Machine/Video Games", "Race and Sports Books"], answer: "C" },
+  { q: "Which attraction type would a visit to a strawberry farm with guided tour of the jam-making process fall under?", choices: ["Heritage Attractions", "Natural Attractions", "Recreation Attractions", "Industrial Attractions"], answer: "D" },
+  { q: "Transportation can enrich the travel experience depending on what two factors?", choices: ["Cost and speed", "The mode of transport and the frequency of use", "The passenger's age and destination", "Distance traveled and weather conditions"], answer: "B" },
+  { q: "According to the handout, what became another post-World War II occurrence in the Modern-Tourism Travel System Era?", choices: ["The decline of automobile use", "The return of sea voyages as the dominant mode of travel", "Mass air travel", "The invention of the locomotive"], answer: "C" },
+  { q: "Which challenge in recreation specifically addresses working with youth and serving persons with disabilities?", choices: ["Adopting benefits-based management", "Emphasizing key social purposes of recreation", "Developing higher levels of professionalism", "Expanding family-centered programs"], answer: "B" },
+  { q: "The dice/craps game and the Big 6 wheel are examples of which casino game category?", choices: ["Card Games", "Table Games", "Slot Machine/Video Games", "Race and Sports Books"], answer: "B" },
+  { q: "A tourist who books a guided winery tour while visiting a region is engaging with which type of attraction?", choices: ["Natural Attractions", "Heritage Attractions", "Commercial Attractions", "Industrial Attractions"], answer: "D" },
+  { q: "Which of the following best summarizes the overall role of the Transportation Sector in tourism?", choices: ["It provides accommodation for tourists at their destination", "It is the sole determinant of how much tourists spend during their trip", "It enables tourists to reach destinations and can itself become a tourist attraction element", "It is less important than attractions and gaming entertainment"], answer: "C" },
+];
+
+// ══ STATE ══
+let activeData = [], idx = 0, userAnswers = [], score = 0, shuffleOn = false, selectedSubject = null;
+
+function shuffleArr(a) { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+function closeWelcome() { document.getElementById('welcomeModal').classList.remove('active'); }
+function toggleTheme() { document.body.classList.toggle('dark'); document.getElementById('themeBtn').textContent = document.body.classList.contains('dark') ? '☀️' : '🌙'; localStorage.setItem('microTheme', document.body.classList.contains('dark')?'dark':''); }
+
+function selectSubject(key, el) {
+  selectedSubject = key;
+  document.querySelectorAll('.subject-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('shuffleToggle').style.display = 'flex';
+  document.getElementById('startBtn').style.display = 'inline-block';
+  setTimeout(() => document.getElementById('shuffleToggle').scrollIntoView({behavior:'smooth',block:'center'}), 100);
+}
+
+function toggleShuffle() {
+  shuffleOn = !shuffleOn;
+  document.getElementById('checkBox').textContent = shuffleOn ? '✓' : '';
+  document.getElementById('shuffleToggle').classList.toggle('selected', shuffleOn);
+}
+
+function startQuiz() {
+  if (!selectedSubject) return alert('Please select a handout first!');
+  const pool = h4Q;
+  activeData = shuffleOn ? shuffleArr(pool) : [...pool];
+  idx = 0; userAnswers = []; score = 0;
+  document.getElementById('startScreen').classList.remove('active');
+  document.getElementById('progressWrap').style.display = 'block';
+  document.getElementById('quizWrap').style.display = 'block';
+  document.getElementById('navBar').style.display = 'flex';
+  document.getElementById('backBtn').classList.add('show');
+  loadQ();
+}
+
+function loadQ() {
+  const q = activeData[idx];
+  document.getElementById('qNum').textContent = `Question ${idx+1} of ${activeData.length}`;
+  document.getElementById('qText').textContent = q.q;
+  const ch = document.getElementById('choices'); ch.innerHTML = '';
+  const fb = document.getElementById('feedback'); fb.className = 'feedback'; fb.textContent = '';
+  q.choices.forEach((c,i) => {
+    const div = document.createElement('div'); div.className = 'choice';
+    div.innerHTML = `<div class="choice-ltr">${L[i]}</div><span>${c}</span>`;
+    if (userAnswers[idx]) {
+      div.classList.add('disabled');
+      if (L[i] === q.answer) div.classList.add('correct');
+      if (L[i] === userAnswers[idx] && userAnswers[idx] !== q.answer) div.classList.add('wrong');
+    } else { div.onclick = () => selectAnswer(L[i]); }
+    ch.appendChild(div);
+  });
+  if (userAnswers[idx]) showFeedback(userAnswers[idx] === q.answer, q.answer);
+  updateProgress(); updateBtns();
+}
+
+function selectAnswer(letter) {
+  const q = activeData[idx];
+  userAnswers[idx] = letter;
+  const cs = document.querySelectorAll('.choice');
+  cs.forEach(c => { c.classList.add('disabled'); c.onclick = null; });
+  cs[L.indexOf(letter)].classList.add(letter === q.answer ? 'correct' : 'wrong');
+  if (letter !== q.answer) cs[L.indexOf(q.answer)].classList.add('correct');
+  if (letter === q.answer) score++;
+  showFeedback(letter === q.answer, q.answer);
+  updateProgress(); updateBtns();
+}
+
+function showFeedback(correct, ans) {
+  const fb = document.getElementById('feedback');
+  fb.className = `feedback show ${correct ? 'correct' : 'wrong'}`;
+  fb.textContent = correct ? '✅ Correct! Great job!' : `❌ Wrong! The correct answer is ${ans}.`;
+}
+
+function updateProgress() {
+  const pct = ((idx+1)/activeData.length)*100;
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('qCurrent').textContent = idx+1;
+  document.getElementById('qTotal').textContent = activeData.length;
+  document.getElementById('scoreDisplay').textContent = score;
+  document.getElementById('answeredDisplay').textContent = userAnswers.filter(Boolean).length;
+}
+
+function updateBtns() {
+  document.getElementById('prevBtn').disabled = idx === 0;
+  const nb = document.getElementById('nextBtn');
+  const left = activeData.length - userAnswers.filter(Boolean).length;
+  if (idx === activeData.length-1) { nb.textContent = left > 0 ? `Finish (${left} left)` : 'Finish ✓'; }
+  else { nb.textContent = 'Next →'; }
+  nb.disabled = !userAnswers[idx];
+}
+
+function prevQ() { if (idx > 0) { idx--; loadQ(); } }
+function nextQ() {
+  if (!userAnswers[idx]) return;
+  if (idx < activeData.length-1) { idx++; loadQ(); }
+  else {
+    const left = activeData.length - userAnswers.filter(Boolean).length;
+    if (left > 0) {
+      document.getElementById('unansweredMsg').textContent = `You have ${left} unanswered question${left>1?'s':''}. Please answer all before finishing.`;
+      const nums = activeData.map((_,i) => !userAnswers[i] ? i+1 : null).filter(Boolean);
+      document.getElementById('unansweredList').innerHTML = `<strong>Unanswered:</strong> ${nums.join(', ')}`;
+      document.getElementById('unansweredModal').classList.add('active');
+    } else { showResults(); }
+  }
+}
+
+function showResults() {
+  document.getElementById('quizWrap').style.display = 'none';
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('backBtn').classList.remove('show');
+  document.getElementById('resultScreen').classList.add('active');
+  const total = activeData.length, pct = ((score/total)*100).toFixed(1);
+  document.getElementById('resultScore').textContent = `${score}/${total}`;
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statCorrect').textContent = score;
+  document.getElementById('statWrong').textContent = total-score;
+  document.getElementById('statPercent').textContent = pct+'%';
+  let msg, icon;
+  if (pct >= 80) { msg = 'Excellent! You aced it! 🌟'; icon = '🏆'; }
+  else if (pct >= 60) { msg = 'Good job! Keep it up! 👍'; icon = '🎉'; }
+  else if (pct >= 40) { msg = 'Not bad! Keep practicing! 💪'; icon = '📚'; }
+  else { msg = "Keep studying! You'll get it! 💡"; icon = '📖'; }
+  document.getElementById('resultMsg').textContent = msg;
+  document.getElementById('resultIcon').textContent = icon;
+}
+
+function showReview() {
+  const body = document.getElementById('reviewBody'); body.innerHTML = '';
+  activeData.forEach((q,i) => {
+    const ua = userAnswers[i], correct = ua === q.answer;
+    const uaIdx = L.indexOf(ua), caIdx = L.indexOf(q.answer);
+    const uaText = uaIdx !== -1 ? q.choices[uaIdx] : 'Not answered';
+    const caText = q.choices[caIdx];
+    const div = document.createElement('div'); div.className = 'review-item';
+    div.innerHTML = `<div class="review-q">Q${i+1}: ${q.q}</div>
+      <div class="review-a ${correct ? 'review-correct' : 'review-wrong'}">
+        Your answer: ${ua ? `${ua}. ${uaText}` : 'Not answered'}
+        ${!correct ? `<br><strong>✓ Correct: ${q.answer}. ${caText}</strong>` : ''}
+      </div>`;
+    body.appendChild(div);
+  });
+  document.getElementById('reviewModal').classList.add('active');
+}
+
+function showResetModal() { document.getElementById('resetModal').classList.add('active'); }
+function confirmReset() { closeModal('resetModal'); idx=0; userAnswers=[]; score=0; loadQ(); }
+
+function showBackModal() { document.getElementById('backModal').classList.add('active'); }
+function confirmBack() {
+  closeModal('backModal');
+  idx=0; userAnswers=[]; score=0; selectedSubject=null; shuffleOn=false; activeData=[];
+  document.getElementById('quizWrap').style.display='none';
+  document.getElementById('navBar').style.display='none';
+  document.getElementById('progressWrap').style.display='none';
+  document.getElementById('backBtn').classList.remove('show');
+  document.getElementById('startScreen').classList.add('active');
+  document.querySelectorAll('.subject-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('shuffleToggle').style.display='none';
+  document.getElementById('startBtn').style.display='none';
+  document.getElementById('checkBox').textContent='';
+  document.getElementById('shuffleToggle').classList.remove('selected');
+}
+
+function restartQuiz() {
+  document.getElementById('resultScreen').classList.remove('active');
+  idx=0; userAnswers=[]; score=0; selectedSubject=null; shuffleOn=false; activeData=[];
+  document.getElementById('progressWrap').style.display='none';
+  document.getElementById('startScreen').classList.add('active');
+  document.querySelectorAll('.subject-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('shuffleToggle').style.display='none';
+  document.getElementById('startBtn').style.display='none';
+  document.getElementById('checkBox').textContent='';
+  document.getElementById('shuffleToggle').classList.remove('selected');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (localStorage.getItem('microTheme') === 'dark') {
+    document.body.classList.add('dark');
+    document.getElementById('themeBtn').textContent = '☀️';
+  }
+});
+</script>
+</body>
+</html>
