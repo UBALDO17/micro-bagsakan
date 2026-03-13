@@ -379,11 +379,11 @@
         <div class="card-sub">Transportation · Recreation & Attractions · Gaming & Entertainment</div>
         <div class="card-count">80 Questions</div>
       </div>
-      <div class="subject-card" style="opacity:0.5;cursor:not-allowed;" title="Coming soon!">
-        <div class="card-emoji">📦</div>
+      <div class="subject-card" id="card-h5" onclick="selectSubject('h5',this)">
+        <div class="card-emoji">🐭</div>
         <div class="card-title">Handout 5</div>
-        <div class="card-sub">Coming Soon...</div>
-        <div class="card-count">?? Questions</div>
+        <div class="card-sub">MICE Sector · Special Events · Travel Trade</div>
+        <div class="card-count">75 Questions</div>
       </div>
     </div>
 
@@ -438,7 +438,7 @@
     <div class="modal-title">MABUHAY!</div>
     <div class="modal-msg" style="margin-bottom:18px;line-height:1.8;color:var(--muted);">
       Welcome to <strong style="color:var(--teal);">Micro Tourism Bagsakan</strong>!<br>
-      Handout 4 is ready — Transportation, Recreation & Attractions, and Gaming & Entertainment. More handouts coming! 🎉
+      Now with <strong>2 Handouts</strong> — Transportation/Recreation/Gaming & MICE/Travel Trade. Choose and go! 🎉
     </div>
     <button class="btn btn-welcome" onclick="closeWelcome()">Tara na! 🚀</button>
   </div>
@@ -587,6 +587,102 @@ const h4Q = [
   { q: "Which of the following best summarizes the overall role of the Transportation Sector in tourism?", choices: ["It provides accommodation for tourists at their destination", "It is the sole determinant of how much tourists spend during their trip", "It enables tourists to reach destinations and can itself become a tourist attraction element", "It is less important than attractions and gaming entertainment"], answer: "C" },
 ];
 
+// ══════════════════════════════════
+// HANDOUT 5 — MICE & Travel Trade
+// ══════════════════════════════════
+const h5Q = [
+  // ── WHAT IS MICE ──
+  { q: "What does the acronym MICE stand for?", choices: ["Meetings, Interactions, Conferences, and Exhibitions", "Meetings, Incentives, Conventions, and Exhibitions", "Management, Incentives, Conventions, and Events", "Meetings, Incentives, Conferences, and Events"], answer: "B" },
+  { q: "According to Juliana Hahn (2021), what alternative terms have been gaining popularity for MICE in recent years?", choices: ["Business travel industry and corporate events industry", "Meetings industry and events industry", "Conference industry and trade show industry", "Incentive industry and convention industry"], answer: "B" },
+  { q: "What is the main goal of MICE?", choices: ["To provide leisure travel for employees", "To promote gambling and entertainment", "To bring professionals together, foster connections, promote new ideas, and push growth", "To generate profit for hotel chains"], answer: "C" },
+  { q: "Traditionally, what types of events does MICE encompass?", choices: ["Mostly leisure events like concerts and festivals", "Mostly business events", "Only government and military events", "Only educational and religious events"], answer: "B" },
+  { q: "What impact did COVID-19 have on the MICE industry?", choices: ["It permanently ended in-person events", "Demand for hybrid and virtual events skyrocketed", "MICE events became exclusively outdoor", "COVID-19 had no impact on MICE"], answer: "B" },
+  { q: "How many main event types (pillars) make up the MICE sector?", choices: ["Two", "Three", "Four", "Five"], answer: "C" },
+
+  // ── MEETINGS ──
+  { q: "Where are meetings typically held?", choices: ["Outdoor venues and parks", "Hotel conference rooms or convention centers", "Sports arenas and stadiums", "Airports and transportation hubs"], answer: "B" },
+  { q: "What is the purpose of meetings in the MICE sector?", choices: ["To provide entertainment and leisure activities", "To bring together people to address challenges, discuss plans, and set goals", "To showcase and sell new products", "To conduct award ceremonies for industry leaders"], answer: "B" },
+  { q: "Which meeting format involves attendees learning by doing in small groups interacting individually?", choices: ["Forum", "Symposium", "Workshop", "Clinic"], answer: "D" },
+  { q: "What is a Forum in the context of MICE meetings?", choices: ["A formal meeting of professionals for a common purpose", "An assembly to discuss a group's common concerns featuring a panel of experts presenting opposite sides", "An informal discussion on group-selected topics", "A small group led by a trainer for skill enhancement"], answer: "B" },
+  { q: "Which meeting type involves professionals working together under the guidance of a discussion leader?", choices: ["Clinic", "Symposium", "Seminar", "Colloquium"], answer: "C" },
+  { q: "What is a Symposium?", choices: ["A workshop where attendees learn by doing", "A meeting where experts discuss a subject and a consensus of the group is gathered", "An informal discussion on group-selected topics", "A formal meeting of professionals for a common purpose"], answer: "B" },
+  { q: "Which meeting format focuses on skill enhancement led by a trainer in a small group?", choices: ["Lecture", "Panel", "Conference", "Workshop"], answer: "D" },
+  { q: "A Conference is best described as?", choices: ["An informal discussion on group-selected topics", "A workshop where attendees learn by doing", "A formal meeting of professionals assembled for a common purpose", "A meeting where experts discuss a subject and gather consensus"], answer: "C" },
+  { q: "What is a Colloquium?", choices: ["A formal meeting of professionals assembled for a common purpose", "An informal discussion on group-selected topics", "A meeting where two or more speakers state their viewpoints", "A gathering where an expert speaker addresses an audience"], answer: "B" },
+  { q: "A Panel in a MICE meeting consists of what?", choices: ["One expert speaker addressing an audience", "Small groups interacting individually", "Two or more speakers stating their viewpoints", "A trainer leading a skill enhancement workshop"], answer: "C" },
+  { q: "What is a Lecture in the context of meetings?", choices: ["An informal discussion on group-selected topics", "A meeting in which an expert speaker addresses an audience", "A workshop where attendees learn by doing", "An assembly featuring a panel of experts on opposite sides"], answer: "B" },
+  { q: "The Theater Style meeting setup is intended for what type of audience?", choices: ["A small number of people requiring note-taking", "Participants who need to refer to documents", "A large audience that does not need many notes or documents", "Executives needing a boardroom environment"], answer: "C" },
+  { q: "When is the Classroom Setup used in meetings?", choices: ["For small executive meetings", "When participants need to take notes or refer to documents", "For large audiences with no need for notes", "For informal discussions among peers"], answer: "B" },
+  { q: "Which meeting setup is intended for a small number of people?", choices: ["Theater Style", "Classroom Setup", "Auditorium Setup", "Boardroom Setup"], answer: "D" },
+  { q: "Who typically organizes meetings?", choices: ["Only government agencies and embassies", "Travel agents and tour operators exclusively", "Corporations, associations, or social, military, educational, religious, and fraternal groups", "Convention and Visitors Bureaus only"], answer: "C" },
+
+  // ── INCENTIVES ──
+  { q: "Incentives in the MICE context are described as what?", choices: ["Mandatory team-building activities for employees", "All types of travel rewards a company offers to staff, teams, or partners", "Government-sponsored travel programs", "Awards given at annual conventions"], answer: "B" },
+  { q: "What is the goal of an incentive in the MICE sector?", choices: ["To introduce new products to the market", "To thank people for great performance, boost morale, or increase employee loyalty", "To conduct large networking events for industry professionals", "To train new employees on company policies"], answer: "B" },
+  { q: "Which of the following is a factor a company considers when planning incentives?", choices: ["Choosing the most expensive destination available", "Setting specific goals, measuring performance, and communicating standards to participants", "Holding the event only in foreign countries", "Inviting clients and competitors to join"], answer: "B" },
+  { q: "Incentives are described as which part of the MICE segment?", choices: ["The most formal and structured part", "The most technical and data-driven part", "The most fun part", "The most challenging part"], answer: "C" },
+
+  // ── CONVENTIONS ──
+  { q: "How are Conventions different from regular Meetings in MICE?", choices: ["Conventions are always virtual", "Conventions are larger meetings that include some form of exposition or trade shows", "Conventions are only held by government agencies", "Conventions last only one day unlike meetings"], answer: "B" },
+  { q: "How do conventions contribute to an association's finances?", choices: ["They cost the association money to run", "Several associations raise a large part of their budget through conventions", "They are fully funded by the government", "Conventions are free events with no registration fees"], answer: "B" },
+  { q: "According to the typical convention format, what happens right after the President's welcome speech?", choices: ["Luncheon", "Exposition booths open", "First keynote address by a speaker", "Dinner"], answer: "C" },
+  { q: "How long are most conventions typically held?", choices: ["One day only", "One to two days", "Three to five days", "One to two weeks"], answer: "C" },
+  { q: "Where are most conventions held?", choices: ["Always in dedicated convention centers", "Mostly in large hotels", "In outdoor stadiums and arenas", "Only in government buildings"], answer: "B" },
+  { q: "In terms of attendance, how do conventions compare to meetings?", choices: ["Conventions usually have fewer attendees than meetings", "Conventions usually have more attendees than meetings", "Conventions and meetings always have the same number of attendees", "Conventions are limited to 50 people maximum"], answer: "B" },
+
+  // ── EXHIBITIONS ──
+  { q: "Exhibitions are also referred to as what?", choices: ["Incentive programs", "Trade shows", "Keynote events", "Conventions"], answer: "B" },
+  { q: "How long can exhibitions last?", choices: ["Only one day", "One to two days maximum", "Several days to a week", "Several months"], answer: "C" },
+  { q: "Why are exhibitions described as industry-specific?", choices: ["They are organized only by government agencies", "They have a well-defined target market and focus on one industry", "They only feature products from one company", "They require special government permits"], answer: "B" },
+  { q: "Why do exhibitors attend trade shows?", choices: ["To take vacations and explore destinations", "To present and promote their products, drive business, and liaise with existing and potential partners", "To attend seminars on personal development", "To compete in industry championships"], answer: "B" },
+  { q: "Why do industry professionals attend trade shows?", choices: ["To gamble and attend entertainment shows", "To network, find clients or jobs, and discover new ways to solve problems", "To shop for personal items and souvenirs", "To attend mandatory government briefings"], answer: "B" },
+  { q: "What is the purpose of Networking Events at trade shows?", choices: ["To conduct formal award ceremonies", "To meet potential partners, discuss collaborations, and exchange thoughts on current trends", "To provide entertainment for attendees", "To promote the host city's tourist attractions"], answer: "B" },
+  { q: "What purpose do Awards at exhibitions serve?", choices: ["They replace keynote speeches at conventions", "They honor industry leaders for their achievements and provide a public relations and marketing push", "They are given only to exhibitors who sell the most products", "They serve as incentives for employees only"], answer: "B" },
+  { q: "New Business Pitches at exhibitions benefit which group most?", choices: ["Large established corporations looking for new clients", "Government agencies seeking private partnerships", "Start-ups looking to gain visibility, funding, clients, and job applicants", "Hotel chains promoting their venues"], answer: "C" },
+
+  // ── KEY PLAYERS ──
+  { q: "What does a professional Meeting Planner do?", choices: ["They design the interior of convention halls", "They make hotel and meeting bookings and ensure contracted services have been delivered", "They provide transportation for meeting attendees", "They conduct the keynote speeches at conventions"], answer: "B" },
+  { q: "Which of the following is a Pre-meeting Activity of a Meeting Planner?", choices: ["Conducting pre-event briefings", "Debriefing and evaluating after the event", "Planning the meeting agenda and selecting the meeting site", "Approving invoices"], answer: "C" },
+  { q: "Which of the following is an On-site Activity of a Meeting Planner?", choices: ["Planning exhibitions and preparing exhibitor packets", "Setting the meeting budget", "Conducting pre-event briefings and troubleshooting", "Planning for the next year of operations"], answer: "C" },
+  { q: "Which of the following is a Post-meeting Activity of a Meeting Planner?", choices: ["Negotiating contracts and planning travel", "Arranging ground transportation", "Debriefing, evaluating, providing recognition, and planning for the next year", "Creating a marketing plan"], answer: "C" },
+  { q: "What is the Convention and Visitors Bureau (CVB)?", choices: ["A for-profit company that manages luxury hotels", "A non-profit organization representing an urban area that solicits business from pleasure-seeking visitors", "A government agency that issues travel permits", "A private tour company that organizes conventions"], answer: "B" },
+  { q: "Which industry sectors does the CVB represent?", choices: ["Only hotels and airlines", "Transportation, hotels and motels, restaurants, attractions, and suppliers", "Only restaurants and entertainment venues", "Government agencies and military organizations"], answer: "B" },
+  { q: "Which of the following is a responsibility of the CVB?", choices: ["Setting room rates for hotels in the area", "Encouraging tourists to participate in historical, cultural, and recreational opportunities offered by the city", "Conducting security checks for convention attendees", "Managing the finances of local restaurants"], answer: "B" },
+
+  // ── SPECIAL EVENTS ──
+  { q: "Why are special events important to MICE attendees?", choices: ["They replace the need for formal meetings and conventions", "They encourage networking, build camaraderie, and provide lasting memories", "They serve as mandatory training sessions for employees", "They are required by government regulations"], answer: "B" },
+  { q: "Incentive programs, product introductions, and ribbon cuttings are examples of which type of special event?", choices: ["Public Events", "Social or Private Events", "Retail Events", "Corporate Events"], answer: "D" },
+  { q: "Gala dinners, opening receptions, and award ceremonies are part of which special events category?", choices: ["Corporate Events", "Public Events", "Meetings, Conventions, and Expositions", "Retail Events"], answer: "C" },
+  { q: "Parades, firework displays, and military ceremonies are examples of which type of special event?", choices: ["Corporate Events", "Public Events", "Retail Events", "Social or Private Events"], answer: "B" },
+  { q: "Grand openings, promotions, and celebrity appearances fall under which special events category?", choices: ["Social or Private Events", "Corporate Events", "Public Events", "Retail Events"], answer: "D" },
+  { q: "Weddings, graduations, funerals, and charity balls are examples of which type of special event?", choices: ["Public Events", "Retail Events", "Corporate Events", "Social or Private Events"], answer: "D" },
+
+  // ── MICE IMPORTANCE & TRENDS ──
+  { q: "According to Dr. Hayley Stainton (2021), MICE tourism is beneficial to what?", choices: ["Only international hotel chains", "A destination's economy", "Only the organizing companies", "Only transportation companies"], answer: "B" },
+  { q: "Which of the following is a benefit of MICE tourism?", choices: ["It discourages international travel", "It attracts high-spending visitors and provides high yield and returns per capita", "It limits access to new technology", "It reduces competitiveness in the tourism market"], answer: "B" },
+  { q: "How do MICE tourists compare to other tourists in terms of behavior?", choices: ["They spend less and stay for shorter periods", "They stay longer and spend more money than other tourists", "They only visit during peak tourism seasons", "They exclusively travel in small groups"], answer: "B" },
+  { q: "According to Getz (2008), what can MICE tourism contribute to beyond economics?", choices: ["Military strategy and national defense", "Community building, urban renewal, and the growth of national identity", "Reduction of the tourism workforce", "Limitation of foreign investment"], answer: "B" },
+  { q: "What infrastructure can MICE tourism encourage development in?", choices: ["Mining and agricultural facilities", "Convention and exhibition centers, airports, and transport infrastructure", "Military bases and government buildings", "Private residential properties"], answer: "B" },
+  { q: "What are the two leading factors shaping emerging trends in the MICE industry?", choices: ["Changes in food and hospitality standards, and new tax policies", "Changes in the communication system (the internet) and the changing character of nations into a global community", "Shifts in climate patterns and new travel safety regulations", "Changing demographics of tourists and rising fuel costs"], answer: "B" },
+  { q: "What accessible format does the internet provide for the MICE industry?", choices: ["Physical venue booking and catering management", "Virtual meetings, exhibitions, video conferencing, and online education", "Printing and distribution of event brochures", "Security surveillance for large events"], answer: "B" },
+
+  // ── TRAVEL TRADE ──
+  { q: "How is Travel Trade defined in the handout?", choices: ["Airlines and hotels that directly sell travel products to customers", "People and companies that resell travel products they have bought and/or reserved from other parties", "Government agencies that regulate international travel", "Tour guides and couriers who accompany tourists"], answer: "B" },
+  { q: "What does the travel trade sector support?", choices: ["The management of immigration and customs procedures", "The bookings and sales in other tourism sectors", "The financing of new hotels and resorts", "The training of tourism professionals"], answer: "B" },
+  { q: "What reservations do people in the travel trade make?", choices: ["Only airline tickets and hotel rooms", "Accommodations, tours, transportation, food and beverage, and/or attractions", "Only international travel arrangements", "Only luxury and premium travel packages"], answer: "B" },
+  { q: "What do Travel Agents do?", choices: ["They build holiday packages and deal with large group travel", "They organize personal travel and accommodation for travelers and provide services on behalf of suppliers", "They develop and market inclusive tours through travel agencies", "They specialize in procuring accommodation facilities for clients"], answer: "B" },
+  { q: "Which suppliers do Travel Agents provide services on behalf of?", choices: ["Only hotels and resorts", "Airlines, hotels, cruise lines, railways, and package tour operators", "Only domestic transportation companies", "Only online booking platforms"], answer: "B" },
+  { q: "What do Tour Operators do that distinguishes them from Travel Agents?", choices: ["They only book airline tickets for individual travelers", "They build a complete package including travel, accommodation, transfers, and activities, often for large groups", "They specialize in short 1–4 night accommodation packages", "They work voluntarily for non-profit organizations"], answer: "B" },
+  { q: "What do Wholesalers in the travel trade do?", choices: ["They sell directly to the public via retail stores", "They develop and market inclusive tours through travel agencies, selling to other travel trade elements", "They organize personal travel for individual clients", "They manage all aspects of conference organization"], answer: "B" },
+  { q: "What is the role of Tour Guides and Couriers?", choices: ["They build holiday packages for large groups", "They travel with tourists, ensure travelers' needs are met, make travel arrangements, and organize excursions", "They develop and market tours through travel agencies", "They procure accommodation facilities for clients"], answer: "B" },
+  { q: "Many travel couriers are described as what type of workers?", choices: ["Full-time government employees", "Freelance workers who work for tour operators", "Corporate staff employed by large hotel chains", "Volunteers working for non-profit organizations"], answer: "B" },
+  { q: "What type of packages do Short Break Operators offer?", choices: ["Long-haul international travel packages of 2–4 weeks", "Accommodation packages usually between 1 and 4 nights", "All-inclusive resort packages for full weeks", "Cruise and sea travel packages"], answer: "B" },
+  { q: "Who do Group Travel Organizers (GTOs) typically work for?", choices: ["Large multinational corporations exclusively", "Government tourism departments", "Organizations such as the Women's Institute, often voluntarily", "International airline companies"], answer: "C" },
+  { q: "What do Hotel Booking Agencies specialize in?", choices: ["Organizing group tours and excursions", "Procuring accommodation facilities and services for their clients", "Building complete holiday packages including flights", "Managing all aspects of conference organization"], answer: "B" },
+  { q: "What do Conference and Incentive Organizers do?", choices: ["They manage only the catering and food services at conferences", "They manage all aspects of conference organization on behalf of clients and offer tourism-based incentives", "They specialize only in short accommodation break packages", "They develop and market inclusive tours through travel agencies"], answer: "B" },
+  { q: "What is the overall value of the Travel Trade to destinations?", choices: ["It limits the number of tourists to prevent overcrowding", "It helps open up new markets, attract more visitors, and encourage longer stays", "It replaces the need for direct booking by tourists", "It only benefits long-haul international travelers"], answer: "B" },
+];
+
 // ══ STATE ══
 let activeData = [], idx = 0, userAnswers = [], score = 0, shuffleOn = false, selectedSubject = null;
 
@@ -612,7 +708,7 @@ function toggleShuffle() {
 
 function startQuiz() {
   if (!selectedSubject) return alert('Please select a handout first!');
-  const pool = h4Q;
+  const pool = selectedSubject === 'h5' ? h5Q : h4Q;
   activeData = shuffleOn ? shuffleArr(pool) : [...pool];
   idx = 0; userAnswers = []; score = 0;
   document.getElementById('startScreen').classList.remove('active');
