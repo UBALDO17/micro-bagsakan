@@ -6,345 +6,132 @@
   <title>Micro Tourism Bagsakan</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800&display=swap');
-
     :root {
-      --gold: #F59E0B;
-      --teal: #0D9488;
-      --dark-teal: #0f766e;
-      --red: #EF4444;
-      --white: #FAFAFA;
-      --card: #ffffff;
-      --text: #1a1a2e;
-      --muted: #6b7280;
-      --correct: #16a34a;
-      --wrong: #dc2626;
-      --correct-bg: #dcfce7;
-      --wrong-bg: #fee2e2;
-      --shadow: 0 8px 32px rgba(13, 148, 136, 0.15);
+      --gold:#F59E0B;--teal:#0D9488;--dark-teal:#0f766e;--red:#EF4444;
+      --white:#FAFAFA;--card:#ffffff;--text:#1a1a2e;--muted:#6b7280;
+      --correct:#16a34a;--wrong:#dc2626;--correct-bg:#dcfce7;--wrong-bg:#fee2e2;
+      --shadow:0 8px 32px rgba(13,148,136,0.15);
     }
-
-    body.dark {
-      --card: #1a2e2e;
-      --text: #e8f4f4;
-      --muted: #9ca3af;
-      --white: #0d1f1f;
-      --correct-bg: #14532d;
-      --wrong-bg: #7f1d1d;
-      --shadow: 0 8px 32px rgba(0,0,0,0.4);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Nunito', sans-serif;
-      min-height: 100vh;
-      transition: background 0.3s;
-    }
-
-    body:not(.dark) {
-      background: linear-gradient(135deg, #e6fffe 0%, #fffbeb 50%, #f0fdf4 100%);
-    }
-
-    body.dark {
-      background: linear-gradient(135deg, #071a1a 0%, #0d1f1f 100%);
-    }
-
-    .header {
-      background: linear-gradient(135deg, var(--teal) 0%, #134e4a 100%);
-      color: white;
-      padding: 20px 24px;
-      position: relative;
-      box-shadow: 0 4px 20px rgba(13,148,136,0.4);
-    }
-
-    .header-top {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 4px;
-      position: relative;
-    }
-
-    .header h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px;
-      letter-spacing: 3px;
-      color: var(--gold);
-      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    }
-
-    .header-sub {
-      text-align: center;
-      font-size: 11px;
-      opacity: 0.8;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-
-    .back-btn {
-      position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-      background: rgba(255,255,255,0.15); border: none; color: white;
-      padding: 7px 13px; border-radius: 8px; cursor: pointer;
-      font-size: 14px; font-family: 'Nunito', sans-serif; font-weight: 700;
-      display: none; align-items: center; gap: 4px; transition: background 0.2s;
-    }
-    .back-btn:hover { background: rgba(255,255,255,0.25); }
-    .back-btn.show { display: flex; }
-
-    .theme-btn {
-      position: absolute; right: 0; top: 50%; transform: translateY(-50%);
-      background: rgba(255,255,255,0.15); border: none; color: white;
-      width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
-      font-size: 17px; display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s;
-    }
-    .theme-btn:hover { background: rgba(255,255,255,0.25); }
-
-    .progress-wrap {
-      background: rgba(255,255,255,0.15); border-radius: 10px;
-      padding: 11px 15px; margin-top: 13px; display: none;
-    }
-    .progress-bar { background: rgba(255,255,255,0.2); border-radius: 10px; height: 11px; overflow: hidden; }
-    .progress-fill {
-      background: linear-gradient(90deg, var(--gold), #f97316);
-      height: 100%; border-radius: 10px; transition: width 0.4s ease;
-    }
-    .progress-stats { display: flex; justify-content: space-between; margin-top: 7px; font-size: 12px; font-weight: 700; }
-
-    .container { max-width: 780px; margin: 0 auto; padding: 22px 16px; }
-
-    .start-screen { display: none; text-align: center; animation: fadeUp 0.5s ease; }
-    .start-screen.active { display: block; }
-
-    .welcome-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, var(--teal), #0f766e);
-      color: white; padding: 7px 18px; border-radius: 50px;
-      font-size: 12px; font-weight: 700; letter-spacing: 1px;
-      margin-bottom: 16px; text-transform: uppercase;
-    }
-
-    .start-title {
-      font-family: 'Bebas Neue', sans-serif; font-size: 40px;
-      color: var(--text); letter-spacing: 2px; margin-bottom: 6px;
-    }
-
-    .start-desc {
-      color: var(--muted); font-size: 14px; margin-bottom: 28px;
-      max-width: 500px; margin-left: auto; margin-right: auto;
-    }
-
-    .subject-grid {
-      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px;
-    }
-    @media(max-width:720px) { .subject-grid { grid-template-columns: 1fr 1fr; } }
-    @media(max-width:480px) { .subject-grid { grid-template-columns: 1fr; } }
-
-    .subject-card {
-      background: var(--card); border-radius: 18px; padding: 26px 20px;
-      box-shadow: var(--shadow); border: 3px solid transparent;
-      cursor: pointer; transition: all 0.3s; position: relative;
-      overflow: hidden; text-align: center;
-    }
-    .subject-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
-      background: linear-gradient(90deg, var(--teal), var(--gold), var(--red));
-    }
-    .subject-card:hover { transform: translateY(-4px); border-color: var(--teal); box-shadow: 0 16px 48px rgba(13,148,136,0.2); }
-    .subject-card.selected { border-color: var(--correct); box-shadow: 0 0 0 4px rgba(22,163,74,0.2); }
-
-    .card-emoji { font-size: 42px; margin-bottom: 8px; }
-    .card-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--text); letter-spacing: 1px; }
-    .card-sub { color: var(--muted); font-size: 12px; font-weight: 600; margin-top: 4px; line-height: 1.4; }
-    .card-count {
-      display: inline-block;
-      background: linear-gradient(135deg, var(--teal), var(--dark-teal));
-      color: white; padding: 3px 12px; border-radius: 20px;
-      font-size: 12px; font-weight: 700; margin-top: 8px;
-    }
-
-    .shuffle-toggle {
-      background: var(--card); border: 2px solid #e5e7eb; border-radius: 14px;
-      padding: 14px 18px; cursor: pointer; display: none; align-items: center;
-      gap: 12px; margin-bottom: 18px; transition: all 0.2s; box-shadow: var(--shadow);
-    }
-    .shuffle-toggle:hover { border-color: var(--teal); }
-    .shuffle-toggle.selected { border-color: var(--teal); background: rgba(13,148,136,0.05); }
-
-    .checkbox-box {
-      width: 24px; height: 24px; border: 2px solid var(--teal); border-radius: 6px;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--teal); font-weight: 800; font-size: 14px; flex-shrink: 0;
-    }
-    .shuffle-label { font-weight: 700; color: var(--text); font-size: 14px; }
-    .shuffle-sub { font-size: 11px; color: var(--muted); }
-
-    .btn-start {
-      display: none;
-      background: linear-gradient(135deg, var(--teal), var(--dark-teal));
-      color: white; border: none; padding: 15px 55px; font-size: 17px;
-      font-family: 'Nunito', sans-serif; font-weight: 800; border-radius: 14px;
-      cursor: pointer; letter-spacing: 1px; transition: all 0.3s;
-      box-shadow: 0 8px 24px rgba(13,148,136,0.35);
-    }
-    .btn-start:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(13,148,136,0.45); }
-
-    .quiz-wrap { display: none; animation: fadeUp 0.4s ease; }
-
-    .q-card {
-      background: var(--card); border-radius: 20px; padding: 28px;
-      box-shadow: var(--shadow); margin-bottom: 14px;
-      position: relative; overflow: hidden;
-    }
-    .q-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-      background: linear-gradient(90deg, var(--teal), var(--gold));
-    }
-
-    .q-num { font-size: 11px; font-weight: 800; color: var(--teal); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
-    .q-text { font-size: 16px; line-height: 1.7; color: var(--text); font-weight: 600; margin-bottom: 22px; }
-
-    .choices { display: flex; flex-direction: column; gap: 9px; }
-
-    .choice {
-      background: var(--white); border: 2px solid #e5e7eb; border-radius: 11px;
-      padding: 13px 16px; cursor: pointer; display: flex; align-items: center;
-      gap: 12px; transition: all 0.25s; font-weight: 600; color: var(--text);
-    }
-    body.dark .choice { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
-    .choice:hover:not(.disabled) { border-color: var(--teal); background: rgba(13,148,136,0.05); transform: translateX(4px); }
-
-    .choice-ltr {
-      width: 34px; height: 34px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--teal), var(--dark-teal));
-      color: white; display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 13px; flex-shrink: 0;
-    }
-
-    .choice.correct { background: var(--correct-bg); border-color: var(--correct); }
-    .choice.correct .choice-ltr { background: var(--correct); }
-    .choice.wrong { background: var(--wrong-bg); border-color: var(--wrong); }
-    .choice.wrong .choice-ltr { background: var(--wrong); }
-    .choice.disabled { cursor: not-allowed; }
-
-    .feedback {
-      margin-top: 14px; padding: 13px 16px; border-radius: 11px;
-      font-weight: 700; font-size: 14px; display: none; align-items: center; gap: 8px;
-    }
-    .feedback.show { display: flex; }
-    .feedback.correct { background: var(--correct-bg); color: var(--correct); }
-    .feedback.wrong { background: var(--wrong-bg); color: var(--wrong); }
-
-    .nav-bar { display: none; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 0; }
-
-    .btn {
-      padding: 11px 22px; border: none; border-radius: 10px; font-size: 13px;
-      font-family: 'Nunito', sans-serif; font-weight: 800; cursor: pointer;
-      transition: all 0.2s; letter-spacing: 0.5px;
-    }
-    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .btn-prev { background: #6b7280; color: white; }
-    .btn-prev:hover:not(:disabled) { background: #4b5563; }
-    .btn-next { background: linear-gradient(135deg, var(--teal), var(--dark-teal)); color: white; box-shadow: 0 4px 12px rgba(13,148,136,0.3); }
-    .btn-next:hover:not(:disabled) { transform: translateY(-1px); }
-    .btn-reset { background: var(--red); color: white; }
-    .btn-reset:hover { background: #b91c1c; }
-
-    .result-screen { display: none; text-align: center; animation: fadeUp 0.5s ease; }
-    .result-screen.active { display: block; }
-
-    .result-card {
-      background: var(--card); border-radius: 24px; padding: 44px 28px;
-      box-shadow: var(--shadow); position: relative; overflow: hidden;
-    }
-    .result-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px;
-      background: linear-gradient(90deg, var(--teal), var(--gold), var(--red));
-    }
-
-    .result-icon { font-size: 68px; margin-bottom: 14px; }
-    .result-score { font-family: 'Bebas Neue', sans-serif; font-size: 58px; color: var(--teal); letter-spacing: 3px; line-height: 1; margin-bottom: 10px; }
-    .result-msg { font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 24px; }
-
-    .result-stats { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 24px; }
-
-    .stat-box { background: var(--white); border-radius: 12px; padding: 14px; font-weight: 700; }
-    body.dark .stat-box { background: rgba(255,255,255,0.08); }
-    .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
-    .stat-val { font-size: 26px; color: var(--text); font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
-
-    .result-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-    .btn-review { background: #f59e0b; color: white; padding: 13px 28px; font-size: 15px; }
-    .btn-review:hover { background: #d97706; }
-    .btn-restart { background: linear-gradient(135deg, var(--teal), var(--dark-teal)); color: white; padding: 13px 28px; font-size: 15px; box-shadow: 0 4px 16px rgba(13,148,136,0.3); }
-    .btn-restart:hover { transform: translateY(-1px); }
-
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(4px); }
-    .modal.active { display: flex; }
-
-    .modal-box { background: var(--card); border-radius: 20px; padding: 32px 26px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.4); animation: popIn 0.3s ease; }
-    .modal-icon { font-size: 48px; margin-bottom: 14px; }
-    .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--text); letter-spacing: 2px; margin-bottom: 8px; }
-    .modal-msg { font-size: 14px; color: var(--muted); margin-bottom: 22px; line-height: 1.6; }
-    .modal-btns { display: flex; gap: 10px; justify-content: center; }
-    .btn-cancel { background: #6b7280; color: white; padding: 11px 26px; }
-    .btn-cancel:hover { background: #4b5563; }
-    .btn-confirm { background: var(--red); color: white; padding: 11px 26px; }
-    .btn-confirm:hover { background: #b91c1c; }
-
-    .review-modal-box {
-      background: var(--card); border-radius: 20px; max-width: 680px; width: 100%;
-      max-height: 85vh; overflow: hidden; display: flex; flex-direction: column;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4); animation: popIn 0.3s ease;
-    }
-    .review-header { padding: 18px 22px; border-bottom: 2px solid rgba(13,148,136,0.1); display: flex; justify-content: space-between; align-items: center; background: var(--card); }
-    .review-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--text); letter-spacing: 2px; }
-    .close-btn { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--muted); padding: 4px 8px; border-radius: 8px; transition: background 0.2s; }
-    .close-btn:hover { background: rgba(0,0,0,0.08); }
-    .review-body { padding: 18px; overflow-y: auto; }
-    .review-item { background: var(--white); border-radius: 11px; padding: 14px; margin-bottom: 10px; }
-    body.dark .review-item { background: rgba(255,255,255,0.05); }
-    .review-q { font-weight: 700; color: var(--text); margin-bottom: 7px; font-size: 13px; }
-    .review-a { padding: 7px 11px; border-radius: 7px; font-size: 12px; font-weight: 600; }
-    .review-correct { background: var(--correct-bg); color: var(--correct); }
-    .review-wrong { background: var(--wrong-bg); color: var(--wrong); }
-
-    .welcome-modal-box {
-      background: var(--card); border-radius: 22px; padding: 38px 30px; max-width: 440px; width: 100%;
-      text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.4); animation: popIn 0.4s ease;
-      position: relative; overflow: hidden;
-    }
-    .welcome-modal-box::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px;
-      background: linear-gradient(90deg, var(--teal), var(--gold), var(--red), var(--gold), var(--teal));
-    }
-    .btn-welcome {
-      background: linear-gradient(135deg, var(--teal), var(--dark-teal));
-      color: white; padding: 13px 44px; font-size: 16px; border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(13,148,136,0.35);
-    }
-    .btn-welcome:hover { transform: translateY(-2px); }
-
-    .unanswered-list {
-      background: #fffbeb; border: 1px solid #fcd34d; border-radius: 10px;
-      padding: 12px; margin: 14px 0; text-align: left;
-      font-size: 13px; color: #92400e; font-weight: 600;
-    }
-    body.dark .unanswered-list { background: #451a03; border-color: #92400e; color: #fcd34d; }
-
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-
-    @media(max-width:600px) {
-      .header h1 { font-size: 22px; }
-      .start-title { font-size: 32px; }
-      .q-text { font-size: 14px; }
-      .result-score { font-size: 46px; }
-      .q-card { padding: 18px; }
-      .btn { padding: 10px 14px; font-size: 12px; }
-    }
+    body.dark{--card:#1a2e2e;--text:#e8f4f4;--muted:#9ca3af;--white:#0d1f1f;--correct-bg:#14532d;--wrong-bg:#7f1d1d;--shadow:0 8px 32px rgba(0,0,0,0.4);}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Nunito',sans-serif;min-height:100vh;transition:background 0.3s;}
+    body:not(.dark){background:linear-gradient(135deg,#e6fffe 0%,#fffbeb 50%,#f0fdf4 100%);}
+    body.dark{background:linear-gradient(135deg,#071a1a 0%,#0d1f1f 100%);}
+    .header{background:linear-gradient(135deg,var(--teal) 0%,#134e4a 100%);color:white;padding:20px 24px;position:relative;box-shadow:0 4px 20px rgba(13,148,136,0.4);}
+    .header-top{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:4px;position:relative;}
+    .header h1{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--gold);text-shadow:0 2px 8px rgba(0,0,0,0.3);}
+    .header-sub{text-align:center;font-size:11px;opacity:0.8;letter-spacing:2px;text-transform:uppercase;font-weight:600;}
+    .back-btn{position:absolute;left:0;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.15);border:none;color:white;padding:7px 13px;border-radius:8px;cursor:pointer;font-size:14px;font-family:'Nunito',sans-serif;font-weight:700;display:none;align-items:center;gap:4px;transition:background 0.2s;}
+    .back-btn:hover{background:rgba(255,255,255,0.25);}
+    .back-btn.show{display:flex;}
+    .theme-btn{position:absolute;right:0;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.15);border:none;color:white;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+    .theme-btn:hover{background:rgba(255,255,255,0.25);}
+    .progress-wrap{background:rgba(255,255,255,0.15);border-radius:10px;padding:11px 15px;margin-top:13px;display:none;}
+    .progress-bar{background:rgba(255,255,255,0.2);border-radius:10px;height:11px;overflow:hidden;}
+    .progress-fill{background:linear-gradient(90deg,var(--gold),#f97316);height:100%;border-radius:10px;transition:width 0.4s ease;}
+    .progress-stats{display:flex;justify-content:space-between;margin-top:7px;font-size:12px;font-weight:700;}
+    .container{max-width:780px;margin:0 auto;padding:22px 16px;}
+    .start-screen{display:none;text-align:center;animation:fadeUp 0.5s ease;}
+    .start-screen.active{display:block;}
+    .welcome-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--teal),#0f766e);color:white;padding:7px 18px;border-radius:50px;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:16px;text-transform:uppercase;}
+    .start-title{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--text);letter-spacing:2px;margin-bottom:6px;}
+    .start-desc{color:var(--muted);font-size:14px;margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto;}
+    .subject-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+    @media(max-width:600px){.subject-grid{grid-template-columns:1fr;}}
+    .subject-card{background:var(--card);border-radius:18px;padding:26px 20px;box-shadow:var(--shadow);border:3px solid transparent;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;text-align:center;}
+    .subject-card::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--teal),var(--gold),var(--red));}
+    .subject-card:hover{transform:translateY(-4px);border-color:var(--teal);box-shadow:0 16px 48px rgba(13,148,136,0.2);}
+    .subject-card.selected{border-color:var(--correct);box-shadow:0 0 0 4px rgba(22,163,74,0.2);}
+    .card-emoji{font-size:42px;margin-bottom:8px;}
+    .card-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text);letter-spacing:1px;}
+    .card-sub{color:var(--muted);font-size:12px;font-weight:600;margin-top:4px;line-height:1.4;}
+    .card-count{display:inline-block;background:linear-gradient(135deg,var(--teal),var(--dark-teal));color:white;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:700;margin-top:8px;}
+    .card-count.hard{background:linear-gradient(135deg,#7c3aed,#5b21b6);}
+    .shuffle-toggle{background:var(--card);border:2px solid #e5e7eb;border-radius:14px;padding:14px 18px;cursor:pointer;display:none;align-items:center;gap:12px;margin-bottom:18px;transition:all 0.2s;box-shadow:var(--shadow);}
+    .shuffle-toggle:hover{border-color:var(--teal);}
+    .shuffle-toggle.selected{border-color:var(--teal);background:rgba(13,148,136,0.05);}
+    .checkbox-box{width:24px;height:24px;border:2px solid var(--teal);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--teal);font-weight:800;font-size:14px;flex-shrink:0;}
+    .shuffle-label{font-weight:700;color:var(--text);font-size:14px;}
+    .shuffle-sub{font-size:11px;color:var(--muted);}
+    .btn-start{display:none;background:linear-gradient(135deg,var(--teal),var(--dark-teal));color:white;border:none;padding:15px 55px;font-size:17px;font-family:'Nunito',sans-serif;font-weight:800;border-radius:14px;cursor:pointer;letter-spacing:1px;transition:all 0.3s;box-shadow:0 8px 24px rgba(13,148,136,0.35);}
+    .btn-start:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(13,148,136,0.45);}
+    .quiz-wrap{display:none;animation:fadeUp 0.4s ease;}
+    .q-card{background:var(--card);border-radius:20px;padding:28px;box-shadow:var(--shadow);margin-bottom:14px;position:relative;overflow:hidden;}
+    .q-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--teal),var(--gold));}
+    .q-num{font-size:11px;font-weight:800;color:var(--teal);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;}
+    .q-text{font-size:16px;line-height:1.7;color:var(--text);font-weight:600;margin-bottom:22px;}
+    .choices{display:flex;flex-direction:column;gap:9px;}
+    .choice{background:var(--white);border:2px solid #e5e7eb;border-radius:11px;padding:13px 16px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all 0.25s;font-weight:600;color:var(--text);}
+    body.dark .choice{background:rgba(255,255,255,0.05);border-color:rgba(255,255,255,0.1);}
+    .choice:hover:not(.disabled){border-color:var(--teal);background:rgba(13,148,136,0.05);transform:translateX(4px);}
+    .choice-ltr{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--dark-teal));color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;}
+    .choice.correct{background:var(--correct-bg);border-color:var(--correct);}
+    .choice.correct .choice-ltr{background:var(--correct);}
+    .choice.wrong{background:var(--wrong-bg);border-color:var(--wrong);}
+    .choice.wrong .choice-ltr{background:var(--wrong);}
+    .choice.disabled{cursor:not-allowed;}
+    .feedback{margin-top:14px;padding:13px 16px;border-radius:11px;font-weight:700;font-size:14px;display:none;align-items:center;gap:8px;}
+    .feedback.show{display:flex;}
+    .feedback.correct{background:var(--correct-bg);color:var(--correct);}
+    .feedback.wrong{background:var(--wrong-bg);color:var(--wrong);}
+    .nav-bar{display:none;justify-content:space-between;align-items:center;gap:10px;padding:14px 0;}
+    .btn{padding:11px 22px;border:none;border-radius:10px;font-size:13px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;transition:all 0.2s;letter-spacing:0.5px;}
+    .btn:disabled{opacity:0.4;cursor:not-allowed;}
+    .btn-prev{background:#6b7280;color:white;}
+    .btn-prev:hover:not(:disabled){background:#4b5563;}
+    .btn-next{background:linear-gradient(135deg,var(--teal),var(--dark-teal));color:white;box-shadow:0 4px 12px rgba(13,148,136,0.3);}
+    .btn-next:hover:not(:disabled){transform:translateY(-1px);}
+    .btn-reset{background:var(--red);color:white;}
+    .btn-reset:hover{background:#b91c1c;}
+    .result-screen{display:none;text-align:center;animation:fadeUp 0.5s ease;}
+    .result-screen.active{display:block;}
+    .result-card{background:var(--card);border-radius:24px;padding:44px 28px;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+    .result-card::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--teal),var(--gold),var(--red));}
+    .result-icon{font-size:68px;margin-bottom:14px;}
+    .result-score{font-family:'Bebas Neue',sans-serif;font-size:58px;color:var(--teal);letter-spacing:3px;line-height:1;margin-bottom:10px;}
+    .result-msg{font-size:19px;font-weight:700;color:var(--text);margin-bottom:24px;}
+    .result-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px;}
+    .stat-box{background:var(--white);border-radius:12px;padding:14px;font-weight:700;}
+    body.dark .stat-box{background:rgba(255,255,255,0.08);}
+    .stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+    .stat-val{font-size:26px;color:var(--text);font-family:'Bebas Neue',sans-serif;letter-spacing:1px;}
+    .result-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+    .btn-review{background:#f59e0b;color:white;padding:13px 28px;font-size:15px;}
+    .btn-review:hover{background:#d97706;}
+    .btn-restart{background:linear-gradient(135deg,var(--teal),var(--dark-teal));color:white;padding:13px 28px;font-size:15px;box-shadow:0 4px 16px rgba(13,148,136,0.3);}
+    .btn-restart:hover{transform:translateY(-1px);}
+    .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;justify-content:center;align-items:center;padding:20px;backdrop-filter:blur(4px);}
+    .modal.active{display:flex;}
+    .modal-box{background:var(--card);border-radius:20px;padding:32px 26px;max-width:400px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.4);animation:popIn 0.3s ease;}
+    .modal-icon{font-size:48px;margin-bottom:14px;}
+    .modal-title{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--text);letter-spacing:2px;margin-bottom:8px;}
+    .modal-msg{font-size:14px;color:var(--muted);margin-bottom:22px;line-height:1.6;}
+    .modal-btns{display:flex;gap:10px;justify-content:center;}
+    .btn-cancel{background:#6b7280;color:white;padding:11px 26px;}
+    .btn-cancel:hover{background:#4b5563;}
+    .btn-confirm{background:var(--red);color:white;padding:11px 26px;}
+    .btn-confirm:hover{background:#b91c1c;}
+    .review-modal-box{background:var(--card);border-radius:20px;max-width:680px;width:100%;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.4);animation:popIn 0.3s ease;}
+    .review-header{padding:18px 22px;border-bottom:2px solid rgba(13,148,136,0.1);display:flex;justify-content:space-between;align-items:center;background:var(--card);}
+    .review-title{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--text);letter-spacing:2px;}
+    .close-btn{background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);padding:4px 8px;border-radius:8px;transition:background 0.2s;}
+    .close-btn:hover{background:rgba(0,0,0,0.08);}
+    .review-body{padding:18px;overflow-y:auto;}
+    .review-item{background:var(--white);border-radius:11px;padding:14px;margin-bottom:10px;}
+    body.dark .review-item{background:rgba(255,255,255,0.05);}
+    .review-q{font-weight:700;color:var(--text);margin-bottom:7px;font-size:13px;}
+    .review-a{padding:7px 11px;border-radius:7px;font-size:12px;font-weight:600;}
+    .review-correct{background:var(--correct-bg);color:var(--correct);}
+    .review-wrong{background:var(--wrong-bg);color:var(--wrong);}
+    .welcome-modal-box{background:var(--card);border-radius:22px;padding:38px 30px;max-width:440px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.4);animation:popIn 0.4s ease;position:relative;overflow:hidden;}
+    .welcome-modal-box::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--teal),var(--gold),var(--red),var(--gold),var(--teal));}
+    .btn-welcome{background:linear-gradient(135deg,var(--teal),var(--dark-teal));color:white;padding:13px 44px;font-size:16px;border-radius:12px;box-shadow:0 8px 24px rgba(13,148,136,0.35);}
+    .btn-welcome:hover{transform:translateY(-2px);}
+    .unanswered-list{background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:12px;margin:14px 0;text-align:left;font-size:13px;color:#92400e;font-weight:600;}
+    body.dark .unanswered-list{background:#451a03;border-color:#92400e;color:#fcd34d;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes popIn{from{opacity:0;transform:scale(0.9);}to{opacity:1;transform:scale(1);}}
+    @media(max-width:600px){.header h1{font-size:22px;}.start-title{font-size:32px;}.q-text{font-size:14px;}.result-score{font-size:46px;}.q-card{padding:18px;}.btn{padding:10px 14px;font-size:12px;}}
   </style>
 </head>
 <body>
@@ -391,6 +178,12 @@
         <div class="card-title">Handout 6</div>
         <div class="card-sub">Client Profiling · Travel Motivation · Consumer Behavior · Marketing Strategies</div>
         <div class="card-count">60 Questions</div>
+      </div>
+      <div class="subject-card" id="card-h7" onclick="selectSubject('h7',this)">
+        <div class="card-emoji">🎯</div>
+        <div class="card-title">Handout 7</div>
+        <div class="card-sub">Tourism Marketing · Market Segmentation · Product Life Cycle · Strategic Marketing</div>
+        <div class="card-count hard">70 Questions · HARD</div>
       </div>
     </div>
 
@@ -445,7 +238,7 @@
     <div class="modal-title">MABUHAY!</div>
     <div class="modal-msg" style="margin-bottom:18px;line-height:1.8;color:var(--muted);">
       Welcome to <strong style="color:var(--teal);">Micro Tourism Bagsakan</strong>!<br>
-      Now with <strong>3 Handouts</strong> — Transportation/Recreation/Gaming, MICE/Travel Trade, and Strategic Solutions. Choose and go! 🎉
+      Now with <strong>4 Handouts</strong> — and the new <strong style="color:#7c3aed;">Handout 7</strong> is HARDER. Handa ka na ba? 🔥
     </div>
     <button class="btn btn-welcome" onclick="closeWelcome()">Tara na! 🚀</button>
   </div>
@@ -499,410 +292,435 @@
 const L = ['A','B','C','D'];
 
 // ══════════════════════════════════
-// HANDOUT 4 — Transportation, Recreation & Attractions, Gaming & Entertainment
+// HANDOUT 4
 // ══════════════════════════════════
 const h4Q = [
-  // ── TRANSPORTATION & TRAVEL EVOLUTION ──
-  { q: "According to the handout, why has transportation been an integral part of the tourism and hospitality industry?", choices: ["Because it is the most profitable sector", "Due to rapid development of the sector and technological innovations enabling tourists to reach destinations worldwide", "Because tourists prefer traveling by land", "Because transportation creates the most jobs in tourism"], answer: "B" },
-  { q: "Which era of transportation history was characterized by few common carriers and almost no regularly scheduled transportation services?", choices: ["Early-Industrial Travel System Era", "Express-Travel System Era", "Pre-Industrial Travel System Era", "Mature-Railway System Era"], answer: "C" },
-  { q: "During the Early-Industrial Travel System Era, what caused transportation to improve significantly?", choices: ["Government subsidies for travel", "Innovation and transportation technology advances such as railways, canals, and steamship services", "Private sector investment in automobiles", "The discovery of oil"], answer: "B" },
-  { q: "Who began his company's activities in the United Kingdom in 1840 during the Mature-Railway System Era?", choices: ["Henry Ford", "James Watt", "Thomas Cook", "George Pullman"], answer: "C" },
-  { q: "What characterized the Mature-Railway System Era?", choices: ["The dominance of automobiles over trains", "Railways expanded operations by running hotels and providing other travel-related services", "Airplanes replaced railways as the primary mode of transport", "Travel was limited to the wealthy"], answer: "B" },
-  { q: "What was the key feature of the Express-Travel System Era?", choices: ["Trains stopped at every station to pick up passengers", "Travel speeds slowed due to overcrowding", "Trains did not stop at every station or terminal, increasing speed of travel", "Express trains were only available to first-class passengers"], answer: "C" },
-  { q: "During which years was the automobile predominant over other travel modes?", choices: ["1880 to 1920", "1900 to 1940", "1920 to 1945", "1945 to 1974"], answer: "C" },
-  { q: "What characterizes the Modern-Tourism Travel System Era?", choices: ["Return of railway travel as the dominant mode", "Mass air travel and wide-bodied jets introduction; car ownership increased at expense of rail travel", "The end of tourist package tours", "Government control of all transportation"], answer: "B" },
-  { q: "The introduction of wide-bodied jets in which year greatly increased air travel?", choices: ["1950", "1960", "1965", "1970"], answer: "D" },
-  { q: "What triggered the Post-Mobility Adjustment Era in 1973–1974?", choices: ["A global financial crisis", "A world war that disrupted transportation", "The OPEC oil embargo and resulting fuel price increases", "The introduction of budget airlines"], answer: "C" },
-  { q: "In the Post-Mobility Adjustment Era, what did travelers look for?", choices: ["Faster and more expensive modes of transport", "Alternative, group-oriented modes of transportation", "Private jets and luxury travel", "Sea voyages instead of air travel"], answer: "B" },
-
-  // ── TRANSPORTATION MODES ──
-  { q: "Which mode of transportation has made significant changes in people's minds concerning time and distance?", choices: ["Railway transportation", "Sea transportation", "Air transportation", "Automobile transportation"], answer: "C" },
-  { q: "Which of the following is NOT an example of air transport vehicle?", choices: ["Airplane", "Helicopter", "Hot air balloon", "Ferry"], answer: "D" },
-  { q: "What advantage does automobile transportation offer over other modes?", choices: ["It is faster for long distances", "It offers great flexibility and low prices compared to air transportation", "It is the safest mode of transportation", "It can carry the most passengers at once"], answer: "B" },
-  { q: "What makes automobile transportation important in tourism?", choices: ["It is the fastest mode of transportation", "It is exclusively used for luxury tourism", "It makes it easy to see local cultures and offers great flexibility and low prices", "It offers zero-emission travel"], answer: "C" },
-  { q: "Why is railway transportation considered the oldest type?", choices: ["Trains were invented before all other vehicles", "Railways were frequently used in the 19th Century", "Thomas Cook invented the railway", "Railway transport predates human civilization"], answer: "B" },
-  { q: "In modern times, why are railways more commonly used to transport loads rather than tourists?", choices: ["Because railways are too expensive for tourists", "Because tourists prefer air or automobile transportation", "Because railways are too slow for long distances", "Because railways only operate in major cities"], answer: "B" },
-  { q: "Which of the following is an example of a modern railway transport type?", choices: ["Ro-ro vessel", "Cruise ship", "Hot air balloon", "High-speed train"], answer: "D" },
-  { q: "Cruise ships are described in the handout as what?", choices: ["The cheapest mode of sea transportation", "Sailing hotels that provide tourists with indispensable travel opportunities", "The fastest mode of sea transportation", "Vessels exclusively used for cargo"], answer: "B" },
-  { q: "Which of the following is NOT a form of sea transportation mentioned in the handout?", choices: ["Cruise travel", "Yachting", "Ferry travel", "Monorail"], answer: "D" },
-  { q: "What unique benefit do cruise ships offer tourists?", choices: ["They are the fastest way to travel", "Tourists can see several countries at a time while aboard", "They offer the cheapest fares in international travel", "They provide the most direct route between destinations"], answer: "B" },
-
-  // ── RECREATION & LEISURE ──
-  { q: "How is recreation defined in the handout?", choices: ["The activity of visiting a place to participate in activities that are relaxing or diverting from normal routines", "The professional management of tourist destinations", "The government's program for developing tourism infrastructure", "The study of tourist behavior patterns"], answer: "A" },
-  { q: "How is leisure defined in the handout?", choices: ["Any activity done outside of work hours", "The productive, creative, or contemplative use of free time", "Time spent on commercial entertainment", "Passive activities that do not require effort"], answer: "B" },
-  { q: "According to the handout, for some people recreation means what?", choices: ["Expensive luxury travel abroad", "The network of public agencies that provide parks, playgrounds, swimming pools, and community centers", "Private sports clubs and entertainment venues", "Online gaming and virtual reality experiences"], answer: "B" },
-  { q: "Which group would be principally concerned about the impact of outdoor recreation on forests, mountains, rivers, and lakes?", choices: ["Casino operators", "Environmentalists", "Railway companies", "Hotel managers"], answer: "B" },
-  { q: "Which of the following is NOT part of recreational participation as described in the handout?", choices: ["Travel and tourism", "Cultural entertainment and participation in the arts", "Membership in social clubs or interest groups", "Mandatory government service"], answer: "D" },
-  { q: "Recreation can be enjoyed in which of the following ways?", choices: ["Only in large groups with spectators", "Only as a solitary experience", "With thousands of participants or spectators, or as a solitary experience; strenuous or mental", "Only through strenuous physical activities"], answer: "C" },
-
-  // ── ATTRACTIONS ──
-  { q: "Which type of attraction serves as the 'mainsprings' that drive many people to travel?", choices: ["Commercial Attractions", "Heritage Attractions", "Natural Attractions", "Industrial Attractions"], answer: "C" },
-  { q: "National parks, forests, botanical parks, and zoological parks are examples of which type of attraction?", choices: ["Purpose Built Attractions", "Heritage Attractions", "Recreation Attractions", "Natural Attractions"], answer: "D" },
-  { q: "Which type of attraction has been purposely developed for tourism, such as theme parks, zoos, or art galleries?", choices: ["Natural Attractions", "Heritage Attractions", "Purpose Built Attractions", "Commercial Attractions"], answer: "C" },
-  { q: "The Great Wall of China and the Rice Terraces of the Philippine Cordilleras are examples of which type of attraction?", choices: ["Natural Attractions", "Heritage Attractions", "Industrial Attractions", "Recreation Attractions"], answer: "B" },
-  { q: "Heritage Attractions appeal to people who are inspired to do what?", choices: ["Participate in extreme sports and adventure activities", "Learn more about contemporary and long-vanished civilizations", "Shop for handmade crafts and souvenirs", "Observe wildlife in its natural habitat"], answer: "B" },
-  { q: "Which type of attraction provides access to indoor and outdoor facilities for sports and activities like bowling, camping, fishing, and golfing?", choices: ["Commercial Attractions", "Heritage Attractions", "Natural Attractions", "Recreation Attractions"], answer: "D" },
-  { q: "Shopping centers and boutiques that attract tourists are classified as which type of attraction?", choices: ["Industrial Attractions", "Heritage Attractions", "Commercial Attractions", "Recreation Attractions"], answer: "C" },
-  { q: "Wineries and breweries are examples of which type of tourist attraction?", choices: ["Natural Attractions", "Commercial Attractions", "Recreation Attractions", "Industrial Attractions"], answer: "D" },
-  { q: "Factory tours are associated with which type of tourist attraction?", choices: ["Industrial Attractions", "Heritage Attractions", "Recreation Attractions", "Purpose Built Attractions"], answer: "A" },
-
-  // ── CHALLENGES IN RECREATION ──
-  { q: "Which of the following is a challenge faced by the Recreation and Leisure Service Field in the 21st century?", choices: ["Reducing the number of parks and public spaces", "Serving a diverse society in terms of race, age, and gender", "Eliminating all outdoor forms of recreation", "Removing accreditation requirements for recreation professionals"], answer: "B" },
-  { q: "What does the challenge of 'promoting recreation's identity as a health-related field' aim to achieve?", choices: ["Turning all recreation into medical treatments", "Recognizing and publicizing the health benefits of recreation activities", "Restricting recreation to hospitals and medical centers", "Eliminating commercial recreation"], answer: "B" },
-  { q: "Which challenge involves researching, proving, and publicizing positive outcomes of recreation?", choices: ["Serving diverse society", "Expanding family-centered programs", "Adopting a benefits-based management approach", "Developing partnerships with environmental organizations"], answer: "C" },
-  { q: "Which challenge calls for unifying public, nonprofit, commercial, and therapeutic recreation fields?", choices: ["Promote higher values in youth sports", "Unify separate recreation and leisure service fields in common programs and projects", "Plan for long-term role in a job-scarce economy", "Strive for mainstreaming of persons with disabilities"], answer: "B" },
-
-  // ── GAMING ENTERTAINMENT – DEFINITIONS ──
-  { q: "What activities does the gaming industry include?", choices: ["Only casino slot machines", "Casinos, card games, charitable games, lottery-operated games, and betting on greyhound and horse races", "Only sports betting and lottery", "Only horse and greyhound racing"], answer: "B" },
-  { q: "Gaming entertainment is described as a subset of what?", choices: ["The hospitality industry", "The recreation and leisure field", "The gaming industry", "The transportation sector"], answer: "C" },
-  { q: "What does gaming entertainment refer to?", choices: ["Only the games played on the casino floor", "The casino gaming business and all its aspects, including hotel operations, entertainment, retail shopping, and recreational activities", "The management of lottery programs nationwide", "Online video gaming platforms and esports"], answer: "B" },
-  { q: "Who are 'social gamblers' as described in the handout?", choices: ["Professional gamblers who earn a living from casino games", "People who gamble exclusively online", "Customers who combine gambling with many other activities during their stay", "Tourists who only visit casinos for sightseeing"], answer: "C" },
-
-  // ── CASINO GAMES ──
-  { q: "What are Table Games in a casino?", choices: ["Games played on mobile devices within the casino", "Games that involve wagering or betting between the casino and customers on a table layout", "Games where players compete only against each other", "Games played in a separate sports arena"], answer: "B" },
-  { q: "Which of the following is an example of a Table Game?", choices: ["Blackjack", "Poker", "Slot machine", "Roulette"], answer: "D" },
-  { q: "How are Card Games different from Table Games in a casino?", choices: ["Card games are played on electronic screens only", "In card games, the casino does not wager against the player; players gamble against each other", "Card games always involve a physical dealer", "Card games have higher minimum bets than table games"], answer: "B" },
-  { q: "Which of the following is an example of a Card Game?", choices: ["Roulette", "Craps", "Baccarat", "Keno"], answer: "C" },
-  { q: "Slot machines feature what activated by a handle or button?", choices: ["Digital scoreboards that display jackpot amounts", "Simulated or actual spinning reels", "Live dealer video feeds", "Random card displays"], answer: "B" },
-  { q: "Pay-offs in slot machines are based on what?", choices: ["The time of day you play", "The player's casino membership level", "A computerized random number generator or alignment of same graphics/symbols on each reel", "The amount of money previously inserted by all players"], answer: "C" },
-  { q: "Keno and Bingo are both based on what?", choices: ["Player skill and strategy", "A random number", "Dealer choice", "Physical card matching"], answer: "B" },
-  { q: "What do Racebooks involve in a casino?", choices: ["Wagering on professional sports events", "Wagering on horse track betting", "Betting on card games", "Wagering on soccer matches"], answer: "B" },
-  { q: "What do Sportsbooks feature in a casino?", choices: ["Horse track betting", "Wagering on professional and collegiate sporting events", "Slot machine tournaments", "Lottery ticket sales"], answer: "B" },
-  { q: "What is the Casino Cage responsible for?", choices: ["Monitoring players for cheating", "Financial customer transactions and accounting for monies handled on the casino floor", "Operating the slot machines", "Managing hotel reservations"], answer: "B" },
-  { q: "Surveillance in a casino is also known as what?", choices: ["The watch tower", "Casino security desk", "The eye in the sky", "The monitoring room"], answer: "C" },
-  { q: "What does casino surveillance do?", choices: ["Provides entertainment by filming games for TV", "Maintains a careful watch on all gaming activities through high-tech cameras and video recording devices", "Monitors the number of chips in each game", "Reviews customer complaints and resolves disputes"], answer: "B" },
-  { q: "Which of the following are examples of Ancillary Departments in a casino?", choices: ["Table games and slot machines", "Keno and bingo halls", "Restaurant operations, bars, entertainment centers, and lodging facilities", "Surveillance and casino cage operations"], answer: "C" },
-
-  // ── REASONS FOR VISITING CASINOS ──
-  { q: "The 'Lure of Gambling' as a reason to visit casinos refers to what?", choices: ["The free food and drinks offered at casinos", "People who just like to gamble, wager, or enter games of chance or skill", "The social media presence of casinos", "The architecture and luxury of casino buildings"], answer: "B" },
-  { q: "Why do many people visit casinos for Recreation and Entertainment?", choices: ["Because casinos offer the cheapest accommodation", "Because a casino environment is an exciting form of entertainment and a mental escape from work stress", "Because casinos are open 24 hours a day", "Because casinos offer free entry to all guests"], answer: "B" },
-  { q: "Which demographic is drawn to casinos primarily for Social reasons?", choices: ["College students on vacation", "Business executives for networking", "Senior citizens and retirees for social interaction", "Young professionals for after-work entertainment"], answer: "C" },
-  { q: "What Economic strategy do some casinos use to attract gamblers?", choices: ["Offering free transportation to the casino", "Offering low room rates", "Providing discounts on all meals", "Giving complimentary gambling chips to all guests"], answer: "B" },
-  { q: "What motivates Curiosity seekers to visit casinos?", choices: ["The chance to become professional gamblers", "Today's mega resorts with must-see facilities", "Free shows and entertainment outside the casino", "The history and heritage of gambling"], answer: "B" },
-  { q: "What Amenity Offerings draw people to hotels and casinos?", choices: ["24-hour grocery stores and hardware shops", "Health spas, hair salons, beauty parlors, barbershops, amusement centers, and theme parks", "Outdoor markets and street food stalls", "Academic libraries and study rooms"], answer: "B" },
-
-  // ── MIXED / APPLICATION ──
-  { q: "Which transportation mode is described as turning into a 'separate tourist attraction element' through examples like cruising and orient express trains?", choices: ["Air transportation only", "Railway transportation only", "Any mode of transportation", "Sea transportation only"], answer: "C" },
-  { q: "Which era marked the beginning of mass tourism philosophy and marketing approaches in the 1950s to 1960s?", choices: ["Express-Travel System Era", "Mature-Railway System Era", "Post-Mobility Adjustment Era", "Modern-Tourism Travel System Era"], answer: "D" },
-  { q: "Video poker, keno, bingo, and lottery terminals are classified under which casino game type?", choices: ["Table Games", "Card Games", "Slot Machine/Video Games", "Race and Sports Books"], answer: "C" },
-  { q: "Which attraction type would a visit to a strawberry farm with guided tour of the jam-making process fall under?", choices: ["Heritage Attractions", "Natural Attractions", "Recreation Attractions", "Industrial Attractions"], answer: "D" },
-  { q: "Transportation can enrich the travel experience depending on what two factors?", choices: ["Cost and speed", "The mode of transport and the frequency of use", "The passenger's age and destination", "Distance traveled and weather conditions"], answer: "B" },
-  { q: "According to the handout, what became another post-World War II occurrence in the Modern-Tourism Travel System Era?", choices: ["The decline of automobile use", "The return of sea voyages as the dominant mode of travel", "Mass air travel", "The invention of the locomotive"], answer: "C" },
-  { q: "Which challenge in recreation specifically addresses working with youth and serving persons with disabilities?", choices: ["Adopting benefits-based management", "Emphasizing key social purposes of recreation", "Developing higher levels of professionalism", "Expanding family-centered programs"], answer: "B" },
-  { q: "The dice/craps game and the Big 6 wheel are examples of which casino game category?", choices: ["Card Games", "Table Games", "Slot Machine/Video Games", "Race and Sports Books"], answer: "B" },
-  { q: "A tourist who books a guided winery tour while visiting a region is engaging with which type of attraction?", choices: ["Natural Attractions", "Heritage Attractions", "Commercial Attractions", "Industrial Attractions"], answer: "D" },
-  { q: "Which of the following best summarizes the overall role of the Transportation Sector in tourism?", choices: ["It provides accommodation for tourists at their destination", "It is the sole determinant of how much tourists spend during their trip", "It enables tourists to reach destinations and can itself become a tourist attraction element", "It is less important than attractions and gaming entertainment"], answer: "C" },
+  {q:"According to the handout, why has transportation been an integral part of the tourism and hospitality industry?",choices:["Because it is the most profitable sector","Due to rapid development of the sector and technological innovations enabling tourists to reach destinations worldwide","Because tourists prefer traveling by land","Because transportation creates the most jobs in tourism"],answer:"B"},
+  {q:"Which era of transportation history was characterized by few common carriers and almost no regularly scheduled transportation services?",choices:["Early-Industrial Travel System Era","Express-Travel System Era","Pre-Industrial Travel System Era","Mature-Railway System Era"],answer:"C"},
+  {q:"During the Early-Industrial Travel System Era, what caused transportation to improve significantly?",choices:["Government subsidies for travel","Innovation and transportation technology advances such as railways, canals, and steamship services","Private sector investment in automobiles","The discovery of oil"],answer:"B"},
+  {q:"Who began his company's activities in the United Kingdom in 1840 during the Mature-Railway System Era?",choices:["Henry Ford","James Watt","Thomas Cook","George Pullman"],answer:"C"},
+  {q:"What characterized the Mature-Railway System Era?",choices:["The dominance of automobiles over trains","Railways expanded operations by running hotels and providing other travel-related services","Airplanes replaced railways as the primary mode of transport","Travel was limited to the wealthy"],answer:"B"},
+  {q:"What was the key feature of the Express-Travel System Era?",choices:["Trains stopped at every station to pick up passengers","Travel speeds slowed due to overcrowding","Trains did not stop at every station or terminal, increasing speed of travel","Express trains were only available to first-class passengers"],answer:"C"},
+  {q:"During which years was the automobile predominant over other travel modes?",choices:["1880 to 1920","1900 to 1940","1920 to 1945","1945 to 1974"],answer:"C"},
+  {q:"What characterizes the Modern-Tourism Travel System Era?",choices:["Return of railway travel as the dominant mode","Mass air travel and wide-bodied jets introduction; car ownership increased at expense of rail travel","The end of tourist package tours","Government control of all transportation"],answer:"B"},
+  {q:"The introduction of wide-bodied jets in which year greatly increased air travel?",choices:["1950","1960","1965","1970"],answer:"D"},
+  {q:"What triggered the Post-Mobility Adjustment Era in 1973–1974?",choices:["A global financial crisis","A world war that disrupted transportation","The OPEC oil embargo and resulting fuel price increases","The introduction of budget airlines"],answer:"C"},
+  {q:"In the Post-Mobility Adjustment Era, what did travelers look for?",choices:["Faster and more expensive modes of transport","Alternative, group-oriented modes of transportation","Private jets and luxury travel","Sea voyages instead of air travel"],answer:"B"},
+  {q:"Which mode of transportation has made significant changes in people's minds concerning time and distance?",choices:["Railway transportation","Sea transportation","Air transportation","Automobile transportation"],answer:"C"},
+  {q:"Which of the following is NOT an example of air transport vehicle?",choices:["Airplane","Helicopter","Hot air balloon","Ferry"],answer:"D"},
+  {q:"What advantage does automobile transportation offer over other modes?",choices:["It is faster for long distances","It offers great flexibility and low prices compared to air transportation","It is the safest mode of transportation","It can carry the most passengers at once"],answer:"B"},
+  {q:"What makes automobile transportation important in tourism?",choices:["It is the fastest mode of transportation","It is exclusively used for luxury tourism","It makes it easy to see local cultures and offers great flexibility and low prices","It offers zero-emission travel"],answer:"C"},
+  {q:"Why is railway transportation considered the oldest type?",choices:["Trains were invented before all other vehicles","Railways were frequently used in the 19th Century","Thomas Cook invented the railway","Railway transport predates human civilization"],answer:"B"},
+  {q:"In modern times, why are railways more commonly used to transport loads rather than tourists?",choices:["Because railways are too expensive for tourists","Because tourists prefer air or automobile transportation","Because railways are too slow for long distances","Because railways only operate in major cities"],answer:"B"},
+  {q:"Which of the following is an example of a modern railway transport type?",choices:["Ro-ro vessel","Cruise ship","Hot air balloon","High-speed train"],answer:"D"},
+  {q:"Cruise ships are described in the handout as what?",choices:["The cheapest mode of sea transportation","Sailing hotels that provide tourists with indispensable travel opportunities","The fastest mode of sea transportation","Vessels exclusively used for cargo"],answer:"B"},
+  {q:"Which of the following is NOT a form of sea transportation mentioned in the handout?",choices:["Cruise travel","Yachting","Ferry travel","Monorail"],answer:"D"},
+  {q:"What unique benefit do cruise ships offer tourists?",choices:["They are the fastest way to travel","Tourists can see several countries at a time while aboard","They offer the cheapest fares in international travel","They provide the most direct route between destinations"],answer:"B"},
+  {q:"How is recreation defined in the handout?",choices:["The activity of visiting a place to participate in activities that are relaxing or diverting from normal routines","The professional management of tourist destinations","The government's program for developing tourism infrastructure","The study of tourist behavior patterns"],answer:"A"},
+  {q:"How is leisure defined in the handout?",choices:["Any activity done outside of work hours","The productive, creative, or contemplative use of free time","Time spent on commercial entertainment","Passive activities that do not require effort"],answer:"B"},
+  {q:"According to the handout, for some people recreation means what?",choices:["Expensive luxury travel abroad","The network of public agencies that provide parks, playgrounds, swimming pools, and community centers","Private sports clubs and entertainment venues","Online gaming and virtual reality experiences"],answer:"B"},
+  {q:"Which group would be principally concerned about the impact of outdoor recreation on forests, mountains, rivers, and lakes?",choices:["Casino operators","Environmentalists","Railway companies","Hotel managers"],answer:"B"},
+  {q:"Which of the following is NOT part of recreational participation as described in the handout?",choices:["Travel and tourism","Cultural entertainment and participation in the arts","Membership in social clubs or interest groups","Mandatory government service"],answer:"D"},
+  {q:"Recreation can be enjoyed in which of the following ways?",choices:["Only in large groups with spectators","Only as a solitary experience","With thousands of participants or spectators, or as a solitary experience; strenuous or mental","Only through strenuous physical activities"],answer:"C"},
+  {q:"Which type of attraction serves as the 'mainsprings' that drive many people to travel?",choices:["Commercial Attractions","Heritage Attractions","Natural Attractions","Industrial Attractions"],answer:"C"},
+  {q:"National parks, forests, botanical parks, and zoological parks are examples of which type of attraction?",choices:["Purpose Built Attractions","Heritage Attractions","Recreation Attractions","Natural Attractions"],answer:"D"},
+  {q:"Which type of attraction has been purposely developed for tourism, such as theme parks, zoos, or art galleries?",choices:["Natural Attractions","Heritage Attractions","Purpose Built Attractions","Commercial Attractions"],answer:"C"},
+  {q:"The Great Wall of China and the Rice Terraces of the Philippine Cordilleras are examples of which type of attraction?",choices:["Natural Attractions","Heritage Attractions","Industrial Attractions","Recreation Attractions"],answer:"B"},
+  {q:"Heritage Attractions appeal to people who are inspired to do what?",choices:["Participate in extreme sports and adventure activities","Learn more about contemporary and long-vanished civilizations","Shop for handmade crafts and souvenirs","Observe wildlife in its natural habitat"],answer:"B"},
+  {q:"Which type of attraction provides access to indoor and outdoor facilities for sports and activities like bowling, camping, fishing, and golfing?",choices:["Commercial Attractions","Heritage Attractions","Natural Attractions","Recreation Attractions"],answer:"D"},
+  {q:"Shopping centers and boutiques that attract tourists are classified as which type of attraction?",choices:["Industrial Attractions","Heritage Attractions","Commercial Attractions","Recreation Attractions"],answer:"C"},
+  {q:"Wineries and breweries are examples of which type of tourist attraction?",choices:["Natural Attractions","Commercial Attractions","Recreation Attractions","Industrial Attractions"],answer:"D"},
+  {q:"Factory tours are associated with which type of tourist attraction?",choices:["Industrial Attractions","Heritage Attractions","Recreation Attractions","Purpose Built Attractions"],answer:"A"},
+  {q:"Which of the following is a challenge faced by the Recreation and Leisure Service Field in the 21st century?",choices:["Reducing the number of parks and public spaces","Serving a diverse society in terms of race, age, and gender","Eliminating all outdoor forms of recreation","Removing accreditation requirements for recreation professionals"],answer:"B"},
+  {q:"What does the challenge of 'promoting recreation's identity as a health-related field' aim to achieve?",choices:["Turning all recreation into medical treatments","Recognizing and publicizing the health benefits of recreation activities","Restricting recreation to hospitals and medical centers","Eliminating commercial recreation"],answer:"B"},
+  {q:"Which challenge involves researching, proving, and publicizing positive outcomes of recreation?",choices:["Serving diverse society","Expanding family-centered programs","Adopting a benefits-based management approach","Developing partnerships with environmental organizations"],answer:"C"},
+  {q:"Which challenge calls for unifying public, nonprofit, commercial, and therapeutic recreation fields?",choices:["Promote higher values in youth sports","Unify separate recreation and leisure service fields in common programs and projects","Plan for long-term role in a job-scarce economy","Strive for mainstreaming of persons with disabilities"],answer:"B"},
+  {q:"What activities does the gaming industry include?",choices:["Only casino slot machines","Casinos, card games, charitable games, lottery-operated games, and betting on greyhound and horse races","Only sports betting and lottery","Only horse and greyhound racing"],answer:"B"},
+  {q:"Gaming entertainment is described as a subset of what?",choices:["The hospitality industry","The recreation and leisure field","The gaming industry","The transportation sector"],answer:"C"},
+  {q:"What does gaming entertainment refer to?",choices:["Only the games played on the casino floor","The casino gaming business and all its aspects, including hotel operations, entertainment, retail shopping, and recreational activities","The management of lottery programs nationwide","Online video gaming platforms and esports"],answer:"B"},
+  {q:"Who are 'social gamblers' as described in the handout?",choices:["Professional gamblers who earn a living from casino games","People who gamble exclusively online","Customers who combine gambling with many other activities during their stay","Tourists who only visit casinos for sightseeing"],answer:"C"},
+  {q:"What are Table Games in a casino?",choices:["Games played on mobile devices within the casino","Games that involve wagering or betting between the casino and customers on a table layout","Games where players compete only against each other","Games played in a separate sports arena"],answer:"B"},
+  {q:"Which of the following is an example of a Table Game?",choices:["Blackjack","Poker","Slot machine","Roulette"],answer:"D"},
+  {q:"How are Card Games different from Table Games in a casino?",choices:["Card games are played on electronic screens only","In card games, the casino does not wager against the player; players gamble against each other","Card games always involve a physical dealer","Card games have higher minimum bets than table games"],answer:"B"},
+  {q:"Which of the following is an example of a Card Game?",choices:["Roulette","Craps","Baccarat","Keno"],answer:"C"},
+  {q:"Slot machines feature what activated by a handle or button?",choices:["Digital scoreboards that display jackpot amounts","Simulated or actual spinning reels","Live dealer video feeds","Random card displays"],answer:"B"},
+  {q:"Pay-offs in slot machines are based on what?",choices:["The time of day you play","The player's casino membership level","A computerized random number generator or alignment of same graphics/symbols on each reel","The amount of money previously inserted by all players"],answer:"C"},
+  {q:"Keno and Bingo are both based on what?",choices:["Player skill and strategy","A random number","Dealer choice","Physical card matching"],answer:"B"},
+  {q:"What do Racebooks involve in a casino?",choices:["Wagering on professional sports events","Wagering on horse track betting","Betting on card games","Wagering on soccer matches"],answer:"B"},
+  {q:"What do Sportsbooks feature in a casino?",choices:["Horse track betting","Wagering on professional and collegiate sporting events","Slot machine tournaments","Lottery ticket sales"],answer:"B"},
+  {q:"What is the Casino Cage responsible for?",choices:["Monitoring players for cheating","Financial customer transactions and accounting for monies handled on the casino floor","Operating the slot machines","Managing hotel reservations"],answer:"B"},
+  {q:"Surveillance in a casino is also known as what?",choices:["The watch tower","Casino security desk","The eye in the sky","The monitoring room"],answer:"C"},
+  {q:"What does casino surveillance do?",choices:["Provides entertainment by filming games for TV","Maintains a careful watch on all gaming activities through high-tech cameras and video recording devices","Monitors the number of chips in each game","Reviews customer complaints and resolves disputes"],answer:"B"},
+  {q:"Which of the following are examples of Ancillary Departments in a casino?",choices:["Table games and slot machines","Keno and bingo halls","Restaurant operations, bars, entertainment centers, and lodging facilities","Surveillance and casino cage operations"],answer:"C"},
+  {q:"The 'Lure of Gambling' as a reason to visit casinos refers to what?",choices:["The free food and drinks offered at casinos","People who just like to gamble, wager, or enter games of chance or skill","The social media presence of casinos","The architecture and luxury of casino buildings"],answer:"B"},
+  {q:"Why do many people visit casinos for Recreation and Entertainment?",choices:["Because casinos offer the cheapest accommodation","Because a casino environment is an exciting form of entertainment and a mental escape from work stress","Because casinos are open 24 hours a day","Because casinos offer free entry to all guests"],answer:"B"},
+  {q:"Which demographic is drawn to casinos primarily for Social reasons?",choices:["College students on vacation","Business executives for networking","Senior citizens and retirees for social interaction","Young professionals for after-work entertainment"],answer:"C"},
+  {q:"What Economic strategy do some casinos use to attract gamblers?",choices:["Offering free transportation to the casino","Offering low room rates","Providing discounts on all meals","Giving complimentary gambling chips to all guests"],answer:"B"},
+  {q:"What motivates Curiosity seekers to visit casinos?",choices:["The chance to become professional gamblers","Today's mega resorts with must-see facilities","Free shows and entertainment outside the casino","The history and heritage of gambling"],answer:"B"},
+  {q:"What Amenity Offerings draw people to hotels and casinos?",choices:["24-hour grocery stores and hardware shops","Health spas, hair salons, beauty parlors, barbershops, amusement centers, and theme parks","Outdoor markets and street food stalls","Academic libraries and study rooms"],answer:"B"},
+  {q:"Which transportation mode is described as turning into a 'separate tourist attraction element' through examples like cruising and orient express trains?",choices:["Air transportation only","Railway transportation only","Any mode of transportation","Sea transportation only"],answer:"C"},
+  {q:"Which era marked the beginning of mass tourism philosophy and marketing approaches in the 1950s to 1960s?",choices:["Express-Travel System Era","Mature-Railway System Era","Post-Mobility Adjustment Era","Modern-Tourism Travel System Era"],answer:"D"},
+  {q:"Video poker, keno, bingo, and lottery terminals are classified under which casino game type?",choices:["Table Games","Card Games","Slot Machine/Video Games","Race and Sports Books"],answer:"C"},
+  {q:"Which attraction type would a visit to a strawberry farm with guided tour of the jam-making process fall under?",choices:["Heritage Attractions","Natural Attractions","Recreation Attractions","Industrial Attractions"],answer:"D"},
+  {q:"Transportation can enrich the travel experience depending on what two factors?",choices:["Cost and speed","The mode of transport and the frequency of use","The passenger's age and destination","Distance traveled and weather conditions"],answer:"B"},
+  {q:"According to the handout, what became another post-World War II occurrence in the Modern-Tourism Travel System Era?",choices:["The decline of automobile use","The return of sea voyages as the dominant mode of travel","Mass air travel","The invention of the locomotive"],answer:"C"},
+  {q:"Which challenge in recreation specifically addresses working with youth and serving persons with disabilities?",choices:["Adopting benefits-based management","Emphasizing key social purposes of recreation","Developing higher levels of professionalism","Expanding family-centered programs"],answer:"B"},
+  {q:"The dice/craps game and the Big 6 wheel are examples of which casino game category?",choices:["Card Games","Table Games","Slot Machine/Video Games","Race and Sports Books"],answer:"B"},
+  {q:"A tourist who books a guided winery tour while visiting a region is engaging with which type of attraction?",choices:["Natural Attractions","Heritage Attractions","Commercial Attractions","Industrial Attractions"],answer:"D"},
+  {q:"Which of the following best summarizes the overall role of the Transportation Sector in tourism?",choices:["It provides accommodation for tourists at their destination","It is the sole determinant of how much tourists spend during their trip","It enables tourists to reach destinations and can itself become a tourist attraction element","It is less important than attractions and gaming entertainment"],answer:"C"}
 ];
 
 // ══════════════════════════════════
-// HANDOUT 5 — MICE & Travel Trade
+// HANDOUT 5
 // ══════════════════════════════════
 const h5Q = [
-  // ── WHAT IS MICE ──
-  { q: "What does the acronym MICE stand for?", choices: ["Meetings, Interactions, Conferences, and Exhibitions", "Meetings, Incentives, Conventions, and Exhibitions", "Management, Incentives, Conventions, and Events", "Meetings, Incentives, Conferences, and Events"], answer: "B" },
-  { q: "According to Juliana Hahn (2021), what alternative terms have been gaining popularity for MICE in recent years?", choices: ["Business travel industry and corporate events industry", "Meetings industry and events industry", "Conference industry and trade show industry", "Incentive industry and convention industry"], answer: "B" },
-  { q: "What is the main goal of MICE?", choices: ["To provide leisure travel for employees", "To promote gambling and entertainment", "To bring professionals together, foster connections, promote new ideas, and push growth", "To generate profit for hotel chains"], answer: "C" },
-  { q: "Traditionally, what types of events does MICE encompass?", choices: ["Mostly leisure events like concerts and festivals", "Mostly business events", "Only government and military events", "Only educational and religious events"], answer: "B" },
-  { q: "What impact did COVID-19 have on the MICE industry?", choices: ["It permanently ended in-person events", "Demand for hybrid and virtual events skyrocketed", "MICE events became exclusively outdoor", "COVID-19 had no impact on MICE"], answer: "B" },
-  { q: "How many main event types (pillars) make up the MICE sector?", choices: ["Two", "Three", "Four", "Five"], answer: "C" },
-
-  // ── MEETINGS ──
-  { q: "Where are meetings typically held?", choices: ["Outdoor venues and parks", "Hotel conference rooms or convention centers", "Sports arenas and stadiums", "Airports and transportation hubs"], answer: "B" },
-  { q: "What is the purpose of meetings in the MICE sector?", choices: ["To provide entertainment and leisure activities", "To bring together people to address challenges, discuss plans, and set goals", "To showcase and sell new products", "To conduct award ceremonies for industry leaders"], answer: "B" },
-  { q: "Which meeting format involves attendees learning by doing in small groups interacting individually?", choices: ["Forum", "Symposium", "Workshop", "Clinic"], answer: "D" },
-  { q: "What is a Forum in the context of MICE meetings?", choices: ["A formal meeting of professionals for a common purpose", "An assembly to discuss a group's common concerns featuring a panel of experts presenting opposite sides", "An informal discussion on group-selected topics", "A small group led by a trainer for skill enhancement"], answer: "B" },
-  { q: "Which meeting type involves professionals working together under the guidance of a discussion leader?", choices: ["Clinic", "Symposium", "Seminar", "Colloquium"], answer: "C" },
-  { q: "What is a Symposium?", choices: ["A workshop where attendees learn by doing", "A meeting where experts discuss a subject and a consensus of the group is gathered", "An informal discussion on group-selected topics", "A formal meeting of professionals for a common purpose"], answer: "B" },
-  { q: "Which meeting format focuses on skill enhancement led by a trainer in a small group?", choices: ["Lecture", "Panel", "Conference", "Workshop"], answer: "D" },
-  { q: "A Conference is best described as?", choices: ["An informal discussion on group-selected topics", "A workshop where attendees learn by doing", "A formal meeting of professionals assembled for a common purpose", "A meeting where experts discuss a subject and gather consensus"], answer: "C" },
-  { q: "What is a Colloquium?", choices: ["A formal meeting of professionals assembled for a common purpose", "An informal discussion on group-selected topics", "A meeting where two or more speakers state their viewpoints", "A gathering where an expert speaker addresses an audience"], answer: "B" },
-  { q: "A Panel in a MICE meeting consists of what?", choices: ["One expert speaker addressing an audience", "Small groups interacting individually", "Two or more speakers stating their viewpoints", "A trainer leading a skill enhancement workshop"], answer: "C" },
-  { q: "What is a Lecture in the context of meetings?", choices: ["An informal discussion on group-selected topics", "A meeting in which an expert speaker addresses an audience", "A workshop where attendees learn by doing", "An assembly featuring a panel of experts on opposite sides"], answer: "B" },
-  { q: "The Theater Style meeting setup is intended for what type of audience?", choices: ["A small number of people requiring note-taking", "Participants who need to refer to documents", "A large audience that does not need many notes or documents", "Executives needing a boardroom environment"], answer: "C" },
-  { q: "When is the Classroom Setup used in meetings?", choices: ["For small executive meetings", "When participants need to take notes or refer to documents", "For large audiences with no need for notes", "For informal discussions among peers"], answer: "B" },
-  { q: "Which meeting setup is intended for a small number of people?", choices: ["Theater Style", "Classroom Setup", "Auditorium Setup", "Boardroom Setup"], answer: "D" },
-  { q: "Who typically organizes meetings?", choices: ["Only government agencies and embassies", "Travel agents and tour operators exclusively", "Corporations, associations, or social, military, educational, religious, and fraternal groups", "Convention and Visitors Bureaus only"], answer: "C" },
-
-  // ── INCENTIVES ──
-  { q: "Incentives in the MICE context are described as what?", choices: ["Mandatory team-building activities for employees", "All types of travel rewards a company offers to staff, teams, or partners", "Government-sponsored travel programs", "Awards given at annual conventions"], answer: "B" },
-  { q: "What is the goal of an incentive in the MICE sector?", choices: ["To introduce new products to the market", "To thank people for great performance, boost morale, or increase employee loyalty", "To conduct large networking events for industry professionals", "To train new employees on company policies"], answer: "B" },
-  { q: "Which of the following is a factor a company considers when planning incentives?", choices: ["Choosing the most expensive destination available", "Setting specific goals, measuring performance, and communicating standards to participants", "Holding the event only in foreign countries", "Inviting clients and competitors to join"], answer: "B" },
-  { q: "Incentives are described as which part of the MICE segment?", choices: ["The most formal and structured part", "The most technical and data-driven part", "The most fun part", "The most challenging part"], answer: "C" },
-
-  // ── CONVENTIONS ──
-  { q: "How are Conventions different from regular Meetings in MICE?", choices: ["Conventions are always virtual", "Conventions are larger meetings that include some form of exposition or trade shows", "Conventions are only held by government agencies", "Conventions last only one day unlike meetings"], answer: "B" },
-  { q: "How do conventions contribute to an association's finances?", choices: ["They cost the association money to run", "Several associations raise a large part of their budget through conventions", "They are fully funded by the government", "Conventions are free events with no registration fees"], answer: "B" },
-  { q: "According to the typical convention format, what happens right after the President's welcome speech?", choices: ["Luncheon", "Exposition booths open", "First keynote address by a speaker", "Dinner"], answer: "C" },
-  { q: "How long are most conventions typically held?", choices: ["One day only", "One to two days", "Three to five days", "One to two weeks"], answer: "C" },
-  { q: "Where are most conventions held?", choices: ["Always in dedicated convention centers", "Mostly in large hotels", "In outdoor stadiums and arenas", "Only in government buildings"], answer: "B" },
-  { q: "In terms of attendance, how do conventions compare to meetings?", choices: ["Conventions usually have fewer attendees than meetings", "Conventions usually have more attendees than meetings", "Conventions and meetings always have the same number of attendees", "Conventions are limited to 50 people maximum"], answer: "B" },
-
-  // ── EXHIBITIONS ──
-  { q: "Exhibitions are also referred to as what?", choices: ["Incentive programs", "Trade shows", "Keynote events", "Conventions"], answer: "B" },
-  { q: "How long can exhibitions last?", choices: ["Only one day", "One to two days maximum", "Several days to a week", "Several months"], answer: "C" },
-  { q: "Why are exhibitions described as industry-specific?", choices: ["They are organized only by government agencies", "They have a well-defined target market and focus on one industry", "They only feature products from one company", "They require special government permits"], answer: "B" },
-  { q: "Why do exhibitors attend trade shows?", choices: ["To take vacations and explore destinations", "To present and promote their products, drive business, and liaise with existing and potential partners", "To attend seminars on personal development", "To compete in industry championships"], answer: "B" },
-  { q: "Why do industry professionals attend trade shows?", choices: ["To gamble and attend entertainment shows", "To network, find clients or jobs, and discover new ways to solve problems", "To shop for personal items and souvenirs", "To attend mandatory government briefings"], answer: "B" },
-  { q: "What is the purpose of Networking Events at trade shows?", choices: ["To conduct formal award ceremonies", "To meet potential partners, discuss collaborations, and exchange thoughts on current trends", "To provide entertainment for attendees", "To promote the host city's tourist attractions"], answer: "B" },
-  { q: "What purpose do Awards at exhibitions serve?", choices: ["They replace keynote speeches at conventions", "They honor industry leaders for their achievements and provide a public relations and marketing push", "They are given only to exhibitors who sell the most products", "They serve as incentives for employees only"], answer: "B" },
-  { q: "New Business Pitches at exhibitions benefit which group most?", choices: ["Large established corporations looking for new clients", "Government agencies seeking private partnerships", "Start-ups looking to gain visibility, funding, clients, and job applicants", "Hotel chains promoting their venues"], answer: "C" },
-
-  // ── KEY PLAYERS ──
-  { q: "What does a professional Meeting Planner do?", choices: ["They design the interior of convention halls", "They make hotel and meeting bookings and ensure contracted services have been delivered", "They provide transportation for meeting attendees", "They conduct the keynote speeches at conventions"], answer: "B" },
-  { q: "Which of the following is a Pre-meeting Activity of a Meeting Planner?", choices: ["Conducting pre-event briefings", "Debriefing and evaluating after the event", "Planning the meeting agenda and selecting the meeting site", "Approving invoices"], answer: "C" },
-  { q: "Which of the following is an On-site Activity of a Meeting Planner?", choices: ["Planning exhibitions and preparing exhibitor packets", "Setting the meeting budget", "Conducting pre-event briefings and troubleshooting", "Planning for the next year of operations"], answer: "C" },
-  { q: "Which of the following is a Post-meeting Activity of a Meeting Planner?", choices: ["Negotiating contracts and planning travel", "Arranging ground transportation", "Debriefing, evaluating, providing recognition, and planning for the next year", "Creating a marketing plan"], answer: "C" },
-  { q: "What is the Convention and Visitors Bureau (CVB)?", choices: ["A for-profit company that manages luxury hotels", "A non-profit organization representing an urban area that solicits business from pleasure-seeking visitors", "A government agency that issues travel permits", "A private tour company that organizes conventions"], answer: "B" },
-  { q: "Which industry sectors does the CVB represent?", choices: ["Only hotels and airlines", "Transportation, hotels and motels, restaurants, attractions, and suppliers", "Only restaurants and entertainment venues", "Government agencies and military organizations"], answer: "B" },
-  { q: "Which of the following is a responsibility of the CVB?", choices: ["Setting room rates for hotels in the area", "Encouraging tourists to participate in historical, cultural, and recreational opportunities offered by the city", "Conducting security checks for convention attendees", "Managing the finances of local restaurants"], answer: "B" },
-
-  // ── SPECIAL EVENTS ──
-  { q: "Why are special events important to MICE attendees?", choices: ["They replace the need for formal meetings and conventions", "They encourage networking, build camaraderie, and provide lasting memories", "They serve as mandatory training sessions for employees", "They are required by government regulations"], answer: "B" },
-  { q: "Incentive programs, product introductions, and ribbon cuttings are examples of which type of special event?", choices: ["Public Events", "Social or Private Events", "Retail Events", "Corporate Events"], answer: "D" },
-  { q: "Gala dinners, opening receptions, and award ceremonies are part of which special events category?", choices: ["Corporate Events", "Public Events", "Meetings, Conventions, and Expositions", "Retail Events"], answer: "C" },
-  { q: "Parades, firework displays, and military ceremonies are examples of which type of special event?", choices: ["Corporate Events", "Public Events", "Retail Events", "Social or Private Events"], answer: "B" },
-  { q: "Grand openings, promotions, and celebrity appearances fall under which special events category?", choices: ["Social or Private Events", "Corporate Events", "Public Events", "Retail Events"], answer: "D" },
-  { q: "Weddings, graduations, funerals, and charity balls are examples of which type of special event?", choices: ["Public Events", "Retail Events", "Corporate Events", "Social or Private Events"], answer: "D" },
-
-  // ── MICE IMPORTANCE & TRENDS ──
-  { q: "According to Dr. Hayley Stainton (2021), MICE tourism is beneficial to what?", choices: ["Only international hotel chains", "A destination's economy", "Only the organizing companies", "Only transportation companies"], answer: "B" },
-  { q: "Which of the following is a benefit of MICE tourism?", choices: ["It discourages international travel", "It attracts high-spending visitors and provides high yield and returns per capita", "It limits access to new technology", "It reduces competitiveness in the tourism market"], answer: "B" },
-  { q: "How do MICE tourists compare to other tourists in terms of behavior?", choices: ["They spend less and stay for shorter periods", "They stay longer and spend more money than other tourists", "They only visit during peak tourism seasons", "They exclusively travel in small groups"], answer: "B" },
-  { q: "According to Getz (2008), what can MICE tourism contribute to beyond economics?", choices: ["Military strategy and national defense", "Community building, urban renewal, and the growth of national identity", "Reduction of the tourism workforce", "Limitation of foreign investment"], answer: "B" },
-  { q: "What infrastructure can MICE tourism encourage development in?", choices: ["Mining and agricultural facilities", "Convention and exhibition centers, airports, and transport infrastructure", "Military bases and government buildings", "Private residential properties"], answer: "B" },
-  { q: "What are the two leading factors shaping emerging trends in the MICE industry?", choices: ["Changes in food and hospitality standards, and new tax policies", "Changes in the communication system (the internet) and the changing character of nations into a global community", "Shifts in climate patterns and new travel safety regulations", "Changing demographics of tourists and rising fuel costs"], answer: "B" },
-  { q: "What accessible format does the internet provide for the MICE industry?", choices: ["Physical venue booking and catering management", "Virtual meetings, exhibitions, video conferencing, and online education", "Printing and distribution of event brochures", "Security surveillance for large events"], answer: "B" },
-
-  // ── TRAVEL TRADE ──
-  { q: "How is Travel Trade defined in the handout?", choices: ["Airlines and hotels that directly sell travel products to customers", "People and companies that resell travel products they have bought and/or reserved from other parties", "Government agencies that regulate international travel", "Tour guides and couriers who accompany tourists"], answer: "B" },
-  { q: "What does the travel trade sector support?", choices: ["The management of immigration and customs procedures", "The bookings and sales in other tourism sectors", "The financing of new hotels and resorts", "The training of tourism professionals"], answer: "B" },
-  { q: "What reservations do people in the travel trade make?", choices: ["Only airline tickets and hotel rooms", "Accommodations, tours, transportation, food and beverage, and/or attractions", "Only international travel arrangements", "Only luxury and premium travel packages"], answer: "B" },
-  { q: "What do Travel Agents do?", choices: ["They build holiday packages and deal with large group travel", "They organize personal travel and accommodation for travelers and provide services on behalf of suppliers", "They develop and market inclusive tours through travel agencies", "They specialize in procuring accommodation facilities for clients"], answer: "B" },
-  { q: "Which suppliers do Travel Agents provide services on behalf of?", choices: ["Only hotels and resorts", "Airlines, hotels, cruise lines, railways, and package tour operators", "Only domestic transportation companies", "Only online booking platforms"], answer: "B" },
-  { q: "What do Tour Operators do that distinguishes them from Travel Agents?", choices: ["They only book airline tickets for individual travelers", "They build a complete package including travel, accommodation, transfers, and activities, often for large groups", "They specialize in short 1–4 night accommodation packages", "They work voluntarily for non-profit organizations"], answer: "B" },
-  { q: "What do Wholesalers in the travel trade do?", choices: ["They sell directly to the public via retail stores", "They develop and market inclusive tours through travel agencies, selling to other travel trade elements", "They organize personal travel for individual clients", "They manage all aspects of conference organization"], answer: "B" },
-  { q: "What is the role of Tour Guides and Couriers?", choices: ["They build holiday packages for large groups", "They travel with tourists, ensure travelers' needs are met, make travel arrangements, and organize excursions", "They develop and market tours through travel agencies", "They procure accommodation facilities for clients"], answer: "B" },
-  { q: "Many travel couriers are described as what type of workers?", choices: ["Full-time government employees", "Freelance workers who work for tour operators", "Corporate staff employed by large hotel chains", "Volunteers working for non-profit organizations"], answer: "B" },
-  { q: "What type of packages do Short Break Operators offer?", choices: ["Long-haul international travel packages of 2–4 weeks", "Accommodation packages usually between 1 and 4 nights", "All-inclusive resort packages for full weeks", "Cruise and sea travel packages"], answer: "B" },
-  { q: "Who do Group Travel Organizers (GTOs) typically work for?", choices: ["Large multinational corporations exclusively", "Government tourism departments", "Organizations such as the Women's Institute, often voluntarily", "International airline companies"], answer: "C" },
-  { q: "What do Hotel Booking Agencies specialize in?", choices: ["Organizing group tours and excursions", "Procuring accommodation facilities and services for their clients", "Building complete holiday packages including flights", "Managing all aspects of conference organization"], answer: "B" },
-  { q: "What do Conference and Incentive Organizers do?", choices: ["They manage only the catering and food services at conferences", "They manage all aspects of conference organization on behalf of clients and offer tourism-based incentives", "They specialize only in short accommodation break packages", "They develop and market inclusive tours through travel agencies"], answer: "B" },
-  { q: "What is the overall value of the Travel Trade to destinations?", choices: ["It limits the number of tourists to prevent overcrowding", "It helps open up new markets, attract more visitors, and encourage longer stays", "It replaces the need for direct booking by tourists", "It only benefits long-haul international travelers"], answer: "B" },
+  {q:"What does the acronym MICE stand for?",choices:["Meetings, Interactions, Conferences, and Exhibitions","Meetings, Incentives, Conventions, and Exhibitions","Management, Incentives, Conventions, and Events","Meetings, Incentives, Conferences, and Events"],answer:"B"},
+  {q:"According to Juliana Hahn (2021), what alternative terms have been gaining popularity for MICE in recent years?",choices:["Business travel industry and corporate events industry","Meetings industry and events industry","Conference industry and trade show industry","Incentive industry and convention industry"],answer:"B"},
+  {q:"What is the main goal of MICE?",choices:["To provide leisure travel for employees","To promote gambling and entertainment","To bring professionals together, foster connections, promote new ideas, and push growth","To generate profit for hotel chains"],answer:"C"},
+  {q:"Traditionally, what types of events does MICE encompass?",choices:["Mostly leisure events like concerts and festivals","Mostly business events","Only government and military events","Only educational and religious events"],answer:"B"},
+  {q:"What impact did COVID-19 have on the MICE industry?",choices:["It permanently ended in-person events","Demand for hybrid and virtual events skyrocketed","MICE events became exclusively outdoor","COVID-19 had no impact on MICE"],answer:"B"},
+  {q:"How many main event types (pillars) make up the MICE sector?",choices:["Two","Three","Four","Five"],answer:"C"},
+  {q:"Where are meetings typically held?",choices:["Outdoor venues and parks","Hotel conference rooms or convention centers","Sports arenas and stadiums","Airports and transportation hubs"],answer:"B"},
+  {q:"What is the purpose of meetings in the MICE sector?",choices:["To provide entertainment and leisure activities","To bring together people to address challenges, discuss plans, and set goals","To showcase and sell new products","To conduct award ceremonies for industry leaders"],answer:"B"},
+  {q:"Which meeting format involves attendees learning by doing in small groups interacting individually?",choices:["Forum","Symposium","Workshop","Clinic"],answer:"D"},
+  {q:"What is a Forum in the context of MICE meetings?",choices:["A formal meeting of professionals for a common purpose","An assembly to discuss a group's common concerns featuring a panel of experts presenting opposite sides","An informal discussion on group-selected topics","A small group led by a trainer for skill enhancement"],answer:"B"},
+  {q:"Which meeting type involves professionals working together under the guidance of a discussion leader?",choices:["Clinic","Symposium","Seminar","Colloquium"],answer:"C"},
+  {q:"What is a Symposium?",choices:["A workshop where attendees learn by doing","A meeting where experts discuss a subject and a consensus of the group is gathered","An informal discussion on group-selected topics","A formal meeting of professionals for a common purpose"],answer:"B"},
+  {q:"Which meeting format focuses on skill enhancement led by a trainer in a small group?",choices:["Lecture","Panel","Conference","Workshop"],answer:"D"},
+  {q:"A Conference is best described as?",choices:["An informal discussion on group-selected topics","A workshop where attendees learn by doing","A formal meeting of professionals assembled for a common purpose","A meeting where experts discuss a subject and gather consensus"],answer:"C"},
+  {q:"What is a Colloquium?",choices:["A formal meeting of professionals assembled for a common purpose","An informal discussion on group-selected topics","A meeting where two or more speakers state their viewpoints","A gathering where an expert speaker addresses an audience"],answer:"B"},
+  {q:"A Panel in a MICE meeting consists of what?",choices:["One expert speaker addressing an audience","Small groups interacting individually","Two or more speakers stating their viewpoints","A trainer leading a skill enhancement workshop"],answer:"C"},
+  {q:"What is a Lecture in the context of meetings?",choices:["An informal discussion on group-selected topics","A meeting in which an expert speaker addresses an audience","A workshop where attendees learn by doing","An assembly featuring a panel of experts on opposite sides"],answer:"B"},
+  {q:"The Theater Style meeting setup is intended for what type of audience?",choices:["A small number of people requiring note-taking","Participants who need to refer to documents","A large audience that does not need many notes or documents","Executives needing a boardroom environment"],answer:"C"},
+  {q:"When is the Classroom Setup used in meetings?",choices:["For small executive meetings","When participants need to take notes or refer to documents","For large audiences with no need for notes","For informal discussions among peers"],answer:"B"},
+  {q:"Which meeting setup is intended for a small number of people?",choices:["Theater Style","Classroom Setup","Auditorium Setup","Boardroom Setup"],answer:"D"},
+  {q:"Who typically organizes meetings?",choices:["Only government agencies and embassies","Travel agents and tour operators exclusively","Corporations, associations, or social, military, educational, religious, and fraternal groups","Convention and Visitors Bureaus only"],answer:"C"},
+  {q:"Incentives in the MICE context are described as what?",choices:["Mandatory team-building activities for employees","All types of travel rewards a company offers to staff, teams, or partners","Government-sponsored travel programs","Awards given at annual conventions"],answer:"B"},
+  {q:"What is the goal of an incentive in the MICE sector?",choices:["To introduce new products to the market","To thank people for great performance, boost morale, or increase employee loyalty","To conduct large networking events for industry professionals","To train new employees on company policies"],answer:"B"},
+  {q:"Which of the following is a factor a company considers when planning incentives?",choices:["Choosing the most expensive destination available","Setting specific goals, measuring performance, and communicating standards to participants","Holding the event only in foreign countries","Inviting clients and competitors to join"],answer:"B"},
+  {q:"Incentives are described as which part of the MICE segment?",choices:["The most formal and structured part","The most technical and data-driven part","The most fun part","The most challenging part"],answer:"C"},
+  {q:"How are Conventions different from regular Meetings in MICE?",choices:["Conventions are always virtual","Conventions are larger meetings that include some form of exposition or trade shows","Conventions are only held by government agencies","Conventions last only one day unlike meetings"],answer:"B"},
+  {q:"How do conventions contribute to an association's finances?",choices:["They cost the association money to run","Several associations raise a large part of their budget through conventions","They are fully funded by the government","Conventions are free events with no registration fees"],answer:"B"},
+  {q:"According to the typical convention format, what happens right after the President's welcome speech?",choices:["Luncheon","Exposition booths open","First keynote address by a speaker","Dinner"],answer:"C"},
+  {q:"How long are most conventions typically held?",choices:["One day only","One to two days","Three to five days","One to two weeks"],answer:"C"},
+  {q:"Where are most conventions held?",choices:["Always in dedicated convention centers","Mostly in large hotels","In outdoor stadiums and arenas","Only in government buildings"],answer:"B"},
+  {q:"In terms of attendance, how do conventions compare to meetings?",choices:["Conventions usually have fewer attendees than meetings","Conventions usually have more attendees than meetings","Conventions and meetings always have the same number of attendees","Conventions are limited to 50 people maximum"],answer:"B"},
+  {q:"Exhibitions are also referred to as what?",choices:["Incentive programs","Trade shows","Keynote events","Conventions"],answer:"B"},
+  {q:"How long can exhibitions last?",choices:["Only one day","One to two days maximum","Several days to a week","Several months"],answer:"C"},
+  {q:"Why are exhibitions described as industry-specific?",choices:["They are organized only by government agencies","They have a well-defined target market and focus on one industry","They only feature products from one company","They require special government permits"],answer:"B"},
+  {q:"Why do exhibitors attend trade shows?",choices:["To take vacations and explore destinations","To present and promote their products, drive business, and liaise with existing and potential partners","To attend seminars on personal development","To compete in industry championships"],answer:"B"},
+  {q:"Why do industry professionals attend trade shows?",choices:["To gamble and attend entertainment shows","To network, find clients or jobs, and discover new ways to solve problems","To shop for personal items and souvenirs","To attend mandatory government briefings"],answer:"B"},
+  {q:"What is the purpose of Networking Events at trade shows?",choices:["To conduct formal award ceremonies","To meet potential partners, discuss collaborations, and exchange thoughts on current trends","To provide entertainment for attendees","To promote the host city's tourist attractions"],answer:"B"},
+  {q:"What purpose do Awards at exhibitions serve?",choices:["They replace keynote speeches at conventions","They honor industry leaders for their achievements and provide a public relations and marketing push","They are given only to exhibitors who sell the most products","They serve as incentives for employees only"],answer:"B"},
+  {q:"New Business Pitches at exhibitions benefit which group most?",choices:["Large established corporations looking for new clients","Government agencies seeking private partnerships","Start-ups looking to gain visibility, funding, clients, and job applicants","Hotel chains promoting their venues"],answer:"C"},
+  {q:"What does a professional Meeting Planner do?",choices:["They design the interior of convention halls","They make hotel and meeting bookings and ensure contracted services have been delivered","They provide transportation for meeting attendees","They conduct the keynote speeches at conventions"],answer:"B"},
+  {q:"Which of the following is a Pre-meeting Activity of a Meeting Planner?",choices:["Conducting pre-event briefings","Debriefing and evaluating after the event","Planning the meeting agenda and selecting the meeting site","Approving invoices"],answer:"C"},
+  {q:"Which of the following is an On-site Activity of a Meeting Planner?",choices:["Planning exhibitions and preparing exhibitor packets","Setting the meeting budget","Conducting pre-event briefings and troubleshooting","Planning for the next year of operations"],answer:"C"},
+  {q:"Which of the following is a Post-meeting Activity of a Meeting Planner?",choices:["Negotiating contracts and planning travel","Arranging ground transportation","Debriefing, evaluating, providing recognition, and planning for the next year","Creating a marketing plan"],answer:"C"},
+  {q:"What is the Convention and Visitors Bureau (CVB)?",choices:["A for-profit company that manages luxury hotels","A non-profit organization representing an urban area that solicits business from pleasure-seeking visitors","A government agency that issues travel permits","A private tour company that organizes conventions"],answer:"B"},
+  {q:"Which industry sectors does the CVB represent?",choices:["Only hotels and airlines","Transportation, hotels and motels, restaurants, attractions, and suppliers","Only restaurants and entertainment venues","Government agencies and military organizations"],answer:"B"},
+  {q:"Which of the following is a responsibility of the CVB?",choices:["Setting room rates for hotels in the area","Encouraging tourists to participate in historical, cultural, and recreational opportunities offered by the city","Conducting security checks for convention attendees","Managing the finances of local restaurants"],answer:"B"},
+  {q:"Why are special events important to MICE attendees?",choices:["They replace the need for formal meetings and conventions","They encourage networking, build camaraderie, and provide lasting memories","They serve as mandatory training sessions for employees","They are required by government regulations"],answer:"B"},
+  {q:"Incentive programs, product introductions, and ribbon cuttings are examples of which type of special event?",choices:["Public Events","Social or Private Events","Retail Events","Corporate Events"],answer:"D"},
+  {q:"Gala dinners, opening receptions, and award ceremonies are part of which special events category?",choices:["Corporate Events","Public Events","Meetings, Conventions, and Expositions","Retail Events"],answer:"C"},
+  {q:"Parades, firework displays, and military ceremonies are examples of which type of special event?",choices:["Corporate Events","Public Events","Retail Events","Social or Private Events"],answer:"B"},
+  {q:"Grand openings, promotions, and celebrity appearances fall under which special events category?",choices:["Social or Private Events","Corporate Events","Public Events","Retail Events"],answer:"D"},
+  {q:"Weddings, graduations, funerals, and charity balls are examples of which type of special event?",choices:["Public Events","Retail Events","Corporate Events","Social or Private Events"],answer:"D"},
+  {q:"According to Dr. Hayley Stainton (2021), MICE tourism is beneficial to what?",choices:["Only international hotel chains","A destination's economy","Only the organizing companies","Only transportation companies"],answer:"B"},
+  {q:"Which of the following is a benefit of MICE tourism?",choices:["It discourages international travel","It attracts high-spending visitors and provides high yield and returns per capita","It limits access to new technology","It reduces competitiveness in the tourism market"],answer:"B"},
+  {q:"How do MICE tourists compare to other tourists in terms of behavior?",choices:["They spend less and stay for shorter periods","They stay longer and spend more money than other tourists","They only visit during peak tourism seasons","They exclusively travel in small groups"],answer:"B"},
+  {q:"According to Getz (2008), what can MICE tourism contribute to beyond economics?",choices:["Military strategy and national defense","Community building, urban renewal, and the growth of national identity","Reduction of the tourism workforce","Limitation of foreign investment"],answer:"B"},
+  {q:"What infrastructure can MICE tourism encourage development in?",choices:["Mining and agricultural facilities","Convention and exhibition centers, airports, and transport infrastructure","Military bases and government buildings","Private residential properties"],answer:"B"},
+  {q:"What are the two leading factors shaping emerging trends in the MICE industry?",choices:["Changes in food and hospitality standards, and new tax policies","Changes in the communication system (the internet) and the changing character of nations into a global community","Shifts in climate patterns and new travel safety regulations","Changing demographics of tourists and rising fuel costs"],answer:"B"},
+  {q:"What accessible format does the internet provide for the MICE industry?",choices:["Physical venue booking and catering management","Virtual meetings, exhibitions, video conferencing, and online education","Printing and distribution of event brochures","Security surveillance for large events"],answer:"B"},
+  {q:"How is Travel Trade defined in the handout?",choices:["Airlines and hotels that directly sell travel products to customers","People and companies that resell travel products they have bought and/or reserved from other parties","Government agencies that regulate international travel","Tour guides and couriers who accompany tourists"],answer:"B"},
+  {q:"What does the travel trade sector support?",choices:["The management of immigration and customs procedures","The bookings and sales in other tourism sectors","The financing of new hotels and resorts","The training of tourism professionals"],answer:"B"},
+  {q:"What reservations do people in the travel trade make?",choices:["Only airline tickets and hotel rooms","Accommodations, tours, transportation, food and beverage, and/or attractions","Only international travel arrangements","Only luxury and premium travel packages"],answer:"B"},
+  {q:"What do Travel Agents do?",choices:["They build holiday packages and deal with large group travel","They organize personal travel and accommodation for travelers and provide services on behalf of suppliers","They develop and market inclusive tours through travel agencies","They specialize in procuring accommodation facilities for clients"],answer:"B"},
+  {q:"What do Tour Operators do that distinguishes them from Travel Agents?",choices:["They only book airline tickets for individual travelers","They build a complete package including travel, accommodation, transfers, and activities, often for large groups","They specialize in short 1–4 night accommodation packages","They work voluntarily for non-profit organizations"],answer:"B"},
+  {q:"What do Wholesalers in the travel trade do?",choices:["They sell directly to the public via retail stores","They develop and market inclusive tours through travel agencies, selling to other travel trade elements","They organize personal travel for individual clients","They manage all aspects of conference organization"],answer:"B"},
+  {q:"What is the role of Tour Guides and Couriers?",choices:["They build holiday packages for large groups","They travel with tourists, ensure travelers' needs are met, make travel arrangements, and organize excursions","They develop and market tours through travel agencies","They procure accommodation facilities for clients"],answer:"B"},
+  {q:"Many travel couriers are described as what type of workers?",choices:["Full-time government employees","Freelance workers who work for tour operators","Corporate staff employed by large hotel chains","Volunteers working for non-profit organizations"],answer:"B"},
+  {q:"What type of packages do Short Break Operators offer?",choices:["Long-haul international travel packages of 2–4 weeks","Accommodation packages usually between 1 and 4 nights","All-inclusive resort packages for full weeks","Cruise and sea travel packages"],answer:"B"},
+  {q:"Who do Group Travel Organizers (GTOs) typically work for?",choices:["Large multinational corporations exclusively","Government tourism departments","Organizations such as the Women's Institute, often voluntarily","International airline companies"],answer:"C"},
+  {q:"What do Hotel Booking Agencies specialize in?",choices:["Organizing group tours and excursions","Procuring accommodation facilities and services for their clients","Building complete holiday packages including flights","Managing all aspects of conference organization"],answer:"B"},
+  {q:"What do Conference and Incentive Organizers do?",choices:["They manage only the catering and food services at conferences","They manage all aspects of conference organization on behalf of clients and offer tourism-based incentives","They specialize only in short accommodation break packages","They develop and market inclusive tours through travel agencies"],answer:"B"},
+  {q:"What is the overall value of the Travel Trade to destinations?",choices:["It limits the number of tourists to prevent overcrowding","It helps open up new markets, attract more visitors, and encourage longer stays","It replaces the need for direct booking by tourists","It only benefits long-haul international travelers"],answer:"B"}
 ];
 
 // ══════════════════════════════════
-// HANDOUT 6 — Strategic Solutions for Tourism Businesses
+// HANDOUT 6
 // ══════════════════════════════════
 const h6Q = [
-  // ── CLIENT PROFILING ──
-  { q: "What is client profiling?", choices: ["The process of hiring and training tourism staff", "The process of segmenting clients into different clusters based on common traits and characteristics", "The process of designing tourism packages for specific destinations", "The process of evaluating tourism business performance"], answer: "B" },
-  { q: "What does client profiling enable businesses to do?", choices: ["Reduce their workforce and operating costs", "Better target and engage with customers by determining clear messages and imagery for specific segments", "Eliminate the need for marketing campaigns", "Set prices for their tourism products"], answer: "B" },
-  { q: "What are the results of effective client profiling according to the handout?", choices: ["Reduced staff workload and lower operational costs", "Enhanced customer experience, optimized retention and loyalty, and a more efficient marketing strategy", "Increased prices and premium positioning in the market", "Elimination of negative customer reviews"], answer: "B" },
-  { q: "What is the first step in the Process of Client Profiling?", choices: ["Create a Client Profile Template", "Survey Customers", "Identify the Best Customers", "Extract Data from Online Channels"], answer: "C" },
-  { q: "When identifying the best customers, which types of attributes should be listed?", choices: ["Only purchasing history and frequency of visits", "Demographic, psychographic, socio-economic, geographic, and work profile", "Only age, gender, and nationality", "Only spending habits and brand preferences"], answer: "B" },
-  { q: "Why should businesses conduct surveys during the client profiling process?", choices: ["To replace all other forms of data collection", "To fill gaps in customer attribute information that may not be available", "To promote new tourism products directly to customers", "To gather negative feedback for internal review only"], answer: "B" },
-  { q: "Which online channels are mentioned in the handout as common sources for extracting customer data?", choices: ["Printed newspapers and television advertisements", "Email, websites, and social media", "Radio broadcasts and billboards", "Travel magazines and brochures"], answer: "B" },
-  { q: "When creating a Client Profile Template, what is the key principle to follow?", choices: ["Make it as detailed and complex as possible", "Keep it simple and store all profiles in one place for ease of access and historical reference", "Create a separate template for each individual customer", "Include only the most recent customer data and discard historical records"], answer: "B" },
-  { q: "Why should businesses Update client profiles Regularly?", choices: ["To reduce the cost of data storage", "To capture changing customer preferences and interests and keep profiles up-to-date", "To comply with government regulations on data collection", "To remove inactive customers from the database"], answer: "B" },
-  { q: "How many steps are there in the Process of Client Profiling as described in the handout?", choices: ["Three", "Four", "Five", "Six"], answer: "C" },
+  {q:"What is client profiling?",choices:["The process of hiring and training tourism staff","The process of segmenting clients into different clusters based on common traits and characteristics","The process of designing tourism packages for specific destinations","The process of evaluating tourism business performance"],answer:"B"},
+  {q:"What does client profiling enable businesses to do?",choices:["Reduce their workforce and operating costs","Better target and engage with customers by determining clear messages and imagery for specific segments","Eliminate the need for marketing campaigns","Set prices for their tourism products"],answer:"B"},
+  {q:"What are the results of effective client profiling according to the handout?",choices:["Reduced staff workload and lower operational costs","Enhanced customer experience, optimized retention and loyalty, and a more efficient marketing strategy","Increased prices and premium positioning in the market","Elimination of negative customer reviews"],answer:"B"},
+  {q:"What is the first step in the Process of Client Profiling?",choices:["Create a Client Profile Template","Survey Customers","Identify the Best Customers","Extract Data from Online Channels"],answer:"C"},
+  {q:"When identifying the best customers, which types of attributes should be listed?",choices:["Only purchasing history and frequency of visits","Demographic, psychographic, socio-economic, geographic, and work profile","Only age, gender, and nationality","Only spending habits and brand preferences"],answer:"B"},
+  {q:"Why should businesses conduct surveys during the client profiling process?",choices:["To replace all other forms of data collection","To fill gaps in customer attribute information that may not be available","To promote new tourism products directly to customers","To gather negative feedback for internal review only"],answer:"B"},
+  {q:"Which online channels are mentioned in the handout as common sources for extracting customer data?",choices:["Printed newspapers and television advertisements","Email, websites, and social media","Radio broadcasts and billboards","Travel magazines and brochures"],answer:"B"},
+  {q:"When creating a Client Profile Template, what is the key principle to follow?",choices:["Make it as detailed and complex as possible","Keep it simple and store all profiles in one place for ease of access and historical reference","Create a separate template for each individual customer","Include only the most recent customer data and discard historical records"],answer:"B"},
+  {q:"Why should businesses Update client profiles Regularly?",choices:["To reduce the cost of data storage","To capture changing customer preferences and interests and keep profiles up-to-date","To comply with government regulations on data collection","To remove inactive customers from the database"],answer:"B"},
+  {q:"How many steps are there in the Process of Client Profiling as described in the handout?",choices:["Three","Four","Five","Six"],answer:"C"},
+  {q:"According to the handout, where does the motivation of tourists stem from?",choices:["Economic factors and disposable income","The domain of human psychology","Government travel policies and incentives","The availability of transportation and accommodation"],answer:"B"},
+  {q:"Travel motivation is described as what kind of factor in tourists?",choices:["The decision-forming factor","The satisfaction-forming factor","The budget-forming factor","The destination-forming factor"],answer:"B"},
+  {q:"How many types can the factors of travel motivation be categorized into?",choices:["One","Two","Three","Four"],answer:"B"},
+  {q:"What do Internal Factors of Motivation do?",choices:["They push tourists toward specific destinations based on advertising","They arouse, direct, and integrate a person's behavior and influence travel decisions","They determine the budget a tourist will spend on a trip","They are influenced by social media and peer recommendations"],answer:"B"},
+  {q:"What does Intrinsic Motivation pertain to?",choices:["Seeking money and material rewards from travel","Assuring one's capabilities on different emotional fronts, driving tourists to seek intangible rewards like fun and assurance","Following social trends and peer recommendations","Responding to external advertising and marketing"],answer:"B"},
+  {q:"Intrinsic motivation drives tourists to seek what types of rewards?",choices:["Money and tangible prizes","Intangible rewards such as fun, assurance, and other emotional needs","Discounts and promotional travel packages","Career advancement and professional recognition"],answer:"B"},
+  {q:"With extrinsic motivation, what external factors motivate a tourist?",choices:["Personal emotions and psychological needs","Money and the need to feel competent on the scale of expenditure and performance","Religious beliefs and cultural heritage","Health conditions and physical fitness levels"],answer:"B"},
+  {q:"Which of the following is listed as an external factor that affects tourists' travel decisions?",choices:["Personal goals and intrinsic desires","Place of origin, family and age, culture, social class, and market","Individual health and wellness requirements","Personal hobbies and leisure preferences"],answer:"B"},
+  {q:"Consumer behavior in tourism involves studying what?",choices:["How tourism businesses set their prices","Why a tourist chooses a particular destination and the driving factors influencing the decision to travel","The economic performance of tourism destinations","The effectiveness of government tourism campaigns"],answer:"B"},
+  {q:"Which factor affecting tourist behavior includes climatic conditions and marketing by tourism businesses?",choices:["Social Factors","Education of Tourist","Geographical Factors","Place of Origin"],answer:"C"},
+  {q:"How do Social Factors affect tourist behavior?",choices:["They determine the physical route a tourist takes","A person's social network provides first-hand information that can alter a decision to visit or not visit a place","They set the budget a tourist allocates for travel","They govern the legal requirements for international travel"],answer:"B"},
+  {q:"According to the handout, Japanese and Korean tourists are used as an example of which factor affecting tourist behavior?",choices:["Education of Tourist","Tourism Destination","Social Factors","Place of Origin"],answer:"D"},
+  {q:"What basic provisions does a Tourism Destination need to attract tourists?",choices:["Only luxury hotels and resorts","Electricity, water, clean surroundings, proper accessibility, amenities, and significance","Only famous landmarks and world heritage sites","Only beaches and natural attractions"],answer:"B"},
+  {q:"How does the Education of a Tourist affect travel behavior?",choices:["More educated tourists travel less frequently due to work commitments","The more educated the tourist, the wider the range of choices, curiosity, and knowledge, driving destination decision-making","Education has no impact on tourism decision-making","More educated tourists prefer cheaper and simpler destinations"],answer:"B"},
+  {q:"What is a marketing strategy defined as in the handout?",choices:["A daily operational plan for tourism businesses","An overarching plan to achieve marketing goals and objectives, ensuring tactics continuously contribute to business goals","A budget allocation plan for advertising","A customer service training program"],answer:"B"},
+  {q:"What is the first marketing strategy recommended for tourism businesses?",choices:["Optimize Your Website","Accept Online Bookings","Understand Your Customers","Be Social"],answer:"C"},
+  {q:"Which of the following is a brainstorming question used when understanding ideal customers?",choices:["What is their net worth?","What motivates them to travel and how do they prefer to book?","Where do they live and what do they eat?","What is their political affiliation?"],answer:"B"},
+  {q:"What is a website described as in the context of tourism business marketing?",choices:["An optional add-on for large businesses only","The foundation for a business's internet marketing efforts","A replacement for physical brochures and print advertising","A government-required platform for tourism compliance"],answer:"B"},
+  {q:"Why should tourism businesses optimize their website?",choices:["To reduce the cost of customer service","To improve user experience and boost conversion rates","To eliminate the need for social media marketing","To comply with data privacy regulations"],answer:"B"},
+  {q:"What does the 'Focus on Mobile' strategy emphasize?",choices:["Developing a mobile app only for premium customers","Ensuring the mobile experience is as good as or better than the desktop website experience","Replacing website marketing with SMS campaigns","Using mobile advertising billboards near tourist destinations"],answer:"B"},
+  {q:"Why is Facebook highlighted as a social media platform for tour and activity providers?",choices:["It is the cheapest social media platform available","Despite being a crowded network, its specific targeting and advertising can help a business find its market","It has the most users under the age of 18","It is the only platform that allows video content"],answer:"B"},
+  {q:"Why is Instagram described as a perfect medium to market a destination?",choices:["It has the most users worldwide","It is a purely visual platform","It offers free advertising to all tourism businesses","It allows businesses to list prices directly on posts"],answer:"B"},
+  {q:"What is the growing trend in video marketing for tourism?",choices:["Pre-recorded documentary-style videos","Live streaming videos are getting more and more popular","Animated videos about destinations","Short 15-second advertisement clips"],answer:"B"},
+  {q:"Why is an email list described as more powerful than other marketing strategies?",choices:["It reaches the most people at the lowest cost","It converts better than both social media and search marketing","It is the oldest and most trusted form of marketing","It is required by law for all tourism businesses"],answer:"B"},
+  {q:"How can a tourism business build an active email list?",choices:["By purchasing contact lists from data brokers","By having a subscription form on the business website to invite visitors into the online community","By collecting business cards at trade shows","By requiring registration before accessing the website"],answer:"B"},
+  {q:"According to Zion Market Research cited in the handout, what was the online travel booking market worth in 2017?",choices:["265 billion USD","565 billion USD","765 billion USD","965 billion USD"],answer:"C"},
+  {q:"What percentage of all travel reservations are made online according to the handout?",choices:["Over 37%","Over 47%","Over 57%","Over 67%"],answer:"C"},
+  {q:"What is the expected value of the online travel booking market by 2026?",choices:["955 billion USD","1,255 billion USD","1,655 billion USD","1,955 billion USD"],answer:"D"},
+  {q:"Why is it important for tourism businesses to accept online bookings?",choices:["To avoid paying commissions to travel agents","Because travelers are booking travel deals online and businesses must meet them where they are","Because it is required by government tourism regulations","Because online bookings are always cheaper for the business"],answer:"B"},
+  {q:"What does 'Tap into the Power of Reviews' as a strategy recommend?",choices:["Only responding to positive reviews to maintain brand image","Responding to all negative and positive reviews to show customers they are listened to","Hiding negative reviews from the public","Paying customers to write positive reviews"],answer:"B"},
+  {q:"How do reviews benefit a tourism business's website according to the handout?",choices:["They replace the need for paid advertising","User-generated content can help boost website ranking and conversion rates","They eliminate the need for social media marketing","They automatically generate email subscriptions"],answer:"B"},
+  {q:"What does Blogging help tourism businesses do?",choices:["Replace the need for a website","Tell stories, share unique insights about a destination, share travel tips, and connect with customers","Manage employee schedules and operations","Process online bookings and payments"],answer:"B"},
+  {q:"What is experiential marketing also known as?",choices:["Content marketing","Influencer marketing","Engagement marketing","Search engine marketing"],answer:"C"},
+  {q:"How does experiential marketing work in tourism?",choices:["By offering the lowest prices among competitors","By enabling people to interact with brands one-on-one using physical branded materials to show what the brand offers","By using automated chatbots to answer customer queries","By partnering with airlines to offer bundled packages"],answer:"B"},
+  {q:"What are Micro-Influencers characterized by compared to large influencers?",choices:["Larger audiences and higher costs","Smaller and more targeted audiences, higher engagement, more loyal followers, better conversions, and lower cost","Less credibility and fewer followers","Wider reach but lower engagement rates"],answer:"B"},
+  {q:"Why are micro-influencers preferred by an increasing number of brands?",choices:["They have millions of followers and global reach","They offer higher engagement, more loyal followers, better conversions, and are cheaper than big influencers","They are required by social media platforms to promote tourism","They exclusively focus on luxury travel content"],answer:"B"},
+  {q:"What does the 'Set Goals, Monitor, and Optimize' strategy involve?",choices:["Setting a fixed marketing plan that never changes","Assessing and analyzing changes in data or feedback and making appropriate adjustments to the marketing strategy","Eliminating all underperforming marketing channels immediately","Hiring external consultants to manage marketing optimization"],answer:"B"},
+  {q:"What does the handout state is essential for operating a sustainable and profitable tourism experience?",choices:["Having the lowest prices in the market","Having a deep understanding of customers","Having the most employees in the industry","Having the most locations and branches"],answer:"B"}
+];
 
-  // ── TRAVEL MOTIVATION ──
-  { q: "According to the handout, where does the motivation of tourists stem from?", choices: ["Economic factors and disposable income", "The domain of human psychology", "Government travel policies and incentives", "The availability of transportation and accommodation"], answer: "B" },
-  { q: "Travel motivation is described as what kind of factor in tourists?", choices: ["The decision-forming factor", "The satisfaction-forming factor", "The budget-forming factor", "The destination-forming factor"], answer: "B" },
-  { q: "How many types can the factors of travel motivation be categorized into?", choices: ["One", "Two", "Three", "Four"], answer: "B" },
-  { q: "What do Internal Factors of Motivation do?", choices: ["They push tourists toward specific destinations based on advertising", "They arouse, direct, and integrate a person's behavior and influence travel decisions", "They determine the budget a tourist will spend on a trip", "They are influenced by social media and peer recommendations"], answer: "B" },
-  { q: "What does Intrinsic Motivation pertain to?", choices: ["Seeking money and material rewards from travel", "Assuring one's capabilities on different emotional fronts, driving tourists to seek intangible rewards like fun and assurance", "Following social trends and peer recommendations", "Responding to external advertising and marketing"], answer: "B" },
-  { q: "Intrinsic motivation drives tourists to seek what types of rewards?", choices: ["Money and tangible prizes", "Intangible rewards such as fun, assurance, and other emotional needs", "Discounts and promotional travel packages", "Career advancement and professional recognition"], answer: "B" },
-  { q: "With extrinsic motivation, what external factors motivate a tourist?", choices: ["Personal emotions and psychological needs", "Money and the need to feel competent on the scale of expenditure and performance", "Religious beliefs and cultural heritage", "Health conditions and physical fitness levels"], answer: "B" },
-  { q: "Which of the following is listed as an external factor that affects tourists' travel decisions?", choices: ["Personal goals and intrinsic desires", "Place of origin, family and age, culture, social class, and market", "Individual health and wellness requirements", "Personal hobbies and leisure preferences"], answer: "B" },
+// ══════════════════════════════════
+// HANDOUT 7 — Tourism Marketing, Market Segmentation, Product Life Cycle, Strategic Marketing
+// Answers distributed: ~17-18 per letter (A/B/C/D)
+// ══════════════════════════════════
+const h7Q = [
+  // ── TOURISM MARKETING DEFINITIONS ──
+  {q:"Tourism marketing is best defined as the collective name given to what?",choices:["Various marketing strategies businesses use within the tourism industry","Research methods used to study tourist behavior","The official tourism promotion campaigns of a country","Government policies that regulate tourism pricing"],answer:"A"},
+  {q:"Which of the following businesses is NOT specifically mentioned as part of tourism marketing?",choices:["Mining companies","Airlines","Car rental services","Travel agents"],answer:"A"},
+  {q:"In tourism, marketing is the systematic process by which an organization tries to maximize what through research, forecasting, and selection of tourism products?",choices:["Employee productivity","The number of tourism-related jobs","The satisfaction of tourist demand","International arrivals to a destination"],answer:"C"},
+  {q:"Marketing activities bring a product or service from the provider to the customer. Which of the following is part of these activities?",choices:["Employee recruitment and training","Distribution methods, pricing and promotion, and forms of selling and advertising","Tourism infrastructure development","Government subsidies for tourism businesses"],answer:"B"},
 
-  // ── CONSUMER BEHAVIOR ──
-  { q: "Consumer behavior in tourism involves studying what?", choices: ["How tourism businesses set their prices", "Why a tourist chooses a particular destination and the driving factors influencing the decision to travel", "The economic performance of tourism destinations", "The effectiveness of government tourism campaigns"], answer: "B" },
-  { q: "Which factor affecting tourist behavior includes climatic conditions and marketing by tourism businesses?", choices: ["Social Factors", "Education of Tourist", "Geographical Factors", "Place of Origin"], answer: "C" },
-  { q: "How do Social Factors affect tourist behavior?", choices: ["They determine the physical route a tourist takes", "A person's social network provides first-hand information that can alter a decision to visit or not visit a place", "They set the budget a tourist allocates for travel", "They govern the legal requirements for international travel"], answer: "B" },
-  { q: "According to the handout, Japanese and Korean tourists are used as an example of which factor affecting tourist behavior?", choices: ["Education of Tourist", "Tourism Destination", "Social Factors", "Place of Origin"], answer: "D" },
-  { q: "What basic provisions does a Tourism Destination need to attract tourists?", choices: ["Only luxury hotels and resorts", "Electricity, water, clean surroundings, proper accessibility, amenities, and significance", "Only famous landmarks and world heritage sites", "Only beaches and natural attractions"], answer: "B" },
-  { q: "How does the Education of a Tourist affect travel behavior?", choices: ["More educated tourists travel less frequently due to work commitments", "The more educated the tourist, the wider the range of choices, curiosity, and knowledge, driving destination decision-making", "Education has no impact on tourism decision-making", "More educated tourists prefer cheaper and simpler destinations"], answer: "B" },
+  // ── MARKET SEGMENTATION ──
+  {q:"Market segmentation is described as a universally accepted way of analyzing what?",choices:["Demand","Employee performance","Tourist satisfaction","Supply chains in tourism"],answer:"A"},
+  {q:"Which of the following BEST describes what market segmentation does?",choices:["Groups people with similar needs and wants to serve the market better","Separates domestic tourists from international tourists","Divides a company into departments based on function","Ranks tourism destinations by popularity"],answer:"A"},
+  {q:"A cruise package suits one part of the market, while a historical tour suits another. This scenario best illustrates which concept?",choices:["Product-related segmentation showing preferences","Price differentiation between customers","Consumer loyalty segmentation","Geographic segmentation by region"],answer:"A"},
+  {q:"How many criteria does the handout identify by which a market segment can be constructed?",choices:["Two","Five","Four","Three"],answer:"C"},
+  {q:"Which of the following variables falls under Socioeconomic and Demographic Segmentation?",choices:["Homeownership","Population density","Lifestyle","Brand loyalty"],answer:"A"},
+  {q:"Which variable is classified under Product-Related Segmentation?",choices:["Usage rate","City size","Personality traits","Race or ethnic group"],answer:"A"},
+  {q:"Which of the following is a Psychographic variable in market segmentation?",choices:["Transportation modes","Occupation","Attitudes, interests, and opinions","Market area"],answer:"C"},
+  {q:"Which of the following variables belongs to Geographic Segmentation?",choices:["Population density","Motivations","Occupation","Equipment type"],answer:"A"},
+  {q:"Why does the handout say socioeconomic criteria are most used at present?",choices:["They are required by international tourism bodies","They replace all other segmentation methods","They are easy to understand and allow data comparability through census and media","They are the most expensive data to collect"],answer:"C"},
+  {q:"Product-Related Segmentation can also be considered a type of what?",choices:["Behavioral segmentation according to individual purchase behaviors","Geographic segmentation based on location","Psychographic segmentation based on personality","Demographic segmentation based on age"],answer:"A"},
+  {q:"What does Product-Related Segmentation identify in terms of buying behavior?",choices:["Specific buying behaviors in terms of shopping frequency and purchase volumes","The social class and income level of the customer","The geographic origin of the customer","The emotional triggers of a customer"],answer:"A"},
+  {q:"Psychographic segmentation is SIMILAR to demographic segmentation but differs by dealing with what?",choices:["Geographic location and population density","Price sensitivity and purchase frequency","More mental and emotional characteristics","Occupation and social class"],answer:"C"},
+  {q:"What type of insight can Psychographic Segmentation provide that Demographics CANNOT?",choices:["A customer's income and family size","Valuable insight into customers' motives, preferences, and needs","The geographic location of the target market","The frequency of product purchase"],answer:"B"},
+  {q:"Which method does the handout suggest for collecting psychographic information?",choices:["Surveys and interaction on a website","Only government census data","Direct observation of purchasing habits in stores","Only analyzing sales receipts"],answer:"A"},
+  {q:"Geographic Segmentation primarily splits up a market based on what?",choices:["Age and family size","Location","Income levels","Cultural background"],answer:"B"},
+  {q:"People living in wet and cold climates favoring warm sunny destinations illustrates which segmentation type?",choices:["Geographic segmentation","Socioeconomic segmentation","Product-related segmentation","Psychographic segmentation"],answer:"A"},
+  {q:"Which geographic variable does the handout say could greatly affect competition among airlines for certain destinations?",choices:["Race or ethnic group of the tourist","Natural resources available at the destination","Climate differences leading to preferences for warm, sunny holiday destinations","Population density of the destination city"],answer:"C"},
 
-  // ── MARKETING STRATEGIES ──
-  { q: "What is a marketing strategy defined as in the handout?", choices: ["A daily operational plan for tourism businesses", "An overarching plan to achieve marketing goals and objectives, ensuring tactics continuously contribute to business goals", "A budget allocation plan for advertising", "A customer service training program"], answer: "B" },
-  { q: "What is the first marketing strategy recommended for tourism businesses?", choices: ["Optimize Your Website", "Accept Online Bookings", "Understand Your Customers", "Be Social"], answer: "C" },
-  { q: "Which of the following is a brainstorming question used when understanding ideal customers?", choices: ["What is their net worth?", "What motivates them to travel and how do they prefer to book?", "Where do they live and what do they eat?", "What is their political affiliation?"], answer: "B" },
-  { q: "What is a website described as in the context of tourism business marketing?", choices: ["An optional add-on for large businesses only", "The foundation for a business's internet marketing efforts", "A replacement for physical brochures and print advertising", "A government-required platform for tourism compliance"], answer: "B" },
-  { q: "Why should tourism businesses optimize their website?", choices: ["To reduce the cost of customer service", "To improve user experience and boost conversion rates", "To eliminate the need for social media marketing", "To comply with data privacy regulations"], answer: "B" },
-  { q: "What does the 'Focus on Mobile' strategy emphasize?", choices: ["Developing a mobile app only for premium customers", "Ensuring the mobile experience is as good as or better than the desktop website experience", "Replacing website marketing with SMS campaigns", "Using mobile advertising billboards near tourist destinations"], answer: "B" },
-  { q: "Why is Facebook highlighted as a social media platform for tour and activity providers?", choices: ["It is the cheapest social media platform available", "Despite being a crowded network, its specific targeting and advertising can help a business find its market", "It has the most users under the age of 18", "It is the only platform that allows video content"], answer: "B" },
-  { q: "Why is Instagram described as a perfect medium to market a destination?", choices: ["It has the most users worldwide", "It is a purely visual platform", "It offers free advertising to all tourism businesses", "It allows businesses to list prices directly on posts"], answer: "B" },
-  { q: "What is the growing trend in video marketing for tourism?", choices: ["Pre-recorded documentary-style videos", "Live streaming videos are getting more and more popular", "Animated videos about destinations", "Short 15-second advertisement clips"], answer: "B" },
-  { q: "Why is an email list described as more powerful than other marketing strategies?", choices: ["It reaches the most people at the lowest cost", "It converts better than both social media and search marketing", "It is the oldest and most trusted form of marketing", "It is required by law for all tourism businesses"], answer: "B" },
-  { q: "How can a tourism business build an active email list?", choices: ["By purchasing contact lists from data brokers", "By having a subscription form on the business website to invite visitors into the online community", "By collecting business cards at trade shows", "By requiring registration before accessing the website"], answer: "B" },
-  { q: "According to Zion Market Research cited in the handout, what was the online travel booking market worth in 2017?", choices: ["265 billion USD", "565 billion USD", "765 billion USD", "965 billion USD"], answer: "C" },
-  { q: "What percentage of all travel reservations are made online according to the handout?", choices: ["Over 37%", "Over 47%", "Over 57%", "Over 67%"], answer: "C" },
-  { q: "What is the expected value of the online travel booking market by 2026?", choices: ["955 billion USD", "1,255 billion USD", "1,655 billion USD", "1,955 billion USD"], answer: "D" },
-  { q: "Why is it important for tourism businesses to accept online bookings?", choices: ["To avoid paying commissions to travel agents", "Because travelers are booking travel deals online and businesses must meet them where they are", "Because it is required by government tourism regulations", "Because online bookings are always cheaper for the business"], answer: "B" },
-  { q: "What does 'Tap into the Power of Reviews' as a strategy recommend?", choices: ["Only responding to positive reviews to maintain brand image", "Responding to all negative and positive reviews to show customers they are listened to", "Hiding negative reviews from the public", "Paying customers to write positive reviews"], answer: "B" },
-  { q: "How do reviews benefit a tourism business's website according to the handout?", choices: ["They replace the need for paid advertising", "User-generated content can help boost website ranking and conversion rates", "They eliminate the need for social media marketing", "They automatically generate email subscriptions"], answer: "B" },
-  { q: "What does Blogging help tourism businesses do?", choices: ["Replace the need for a website", "Tell stories, share unique insights about a destination, share travel tips, and connect with customers", "Manage employee schedules and operations", "Process online bookings and payments"], answer: "B" },
-  { q: "What is experiential marketing also known as?", choices: ["Content marketing", "Influencer marketing", "Engagement marketing", "Search engine marketing"], answer: "C" },
-  { q: "How does experiential marketing work in tourism?", choices: ["By offering the lowest prices among competitors", "By enabling people to interact with brands one-on-one using physical branded materials to show what the brand offers", "By using automated chatbots to answer customer queries", "By partnering with airlines to offer bundled packages"], answer: "B" },
-  { q: "What are Micro-Influencers characterized by compared to large influencers?", choices: ["Larger audiences and higher costs", "Smaller and more targeted audiences, higher engagement, more loyal followers, better conversions, and lower cost", "Less credibility and fewer followers", "Wider reach but lower engagement rates"], answer: "B" },
-  { q: "Why are micro-influencers preferred by an increasing number of brands?", choices: ["They have millions of followers and global reach", "They offer higher engagement, more loyal followers, better conversions, and are cheaper than big influencers", "They are required by social media platforms to promote tourism", "They exclusively focus on luxury travel content"], answer: "B" },
-  { q: "What does the 'Set Goals, Monitor, and Optimize' strategy involve?", choices: ["Setting a fixed marketing plan that never changes", "Assessing and analyzing changes in data or feedback and making appropriate adjustments to the marketing strategy", "Eliminating all underperforming marketing channels immediately", "Hiring external consultants to manage marketing optimization"], answer: "B" },
-  { q: "What does the handout state is essential for operating a sustainable and profitable tourism experience?", choices: ["Having the lowest prices in the market", "Having a deep understanding of customers", "Having the most employees in the industry", "Having the most locations and branches"], answer: "B" },
+  // ── TOURISM PRODUCT LIFE CYCLE ──
+  {q:"What is the Tourism Product Life Cycle concept useful for as a guide for businesses?",choices:["Determining the price of tourism products","Guiding strategies in choosing, attracting, and serving target markets","Measuring the profitability of tourism businesses","Calculating the carrying capacity of a destination"],answer:"B"},
+  {q:"What is treated as the 'tourism product' when explaining the Tourism Product Life Cycle?",choices:["An airline seat","A tour package","A destination","A hotel room"],answer:"C"},
+  {q:"What is the FIRST stage of the Tourism Product Life Cycle?",choices:["Involvement","Exploring","Development","Consolidation"],answer:"B"},
+  {q:"In the Exploring stage, who are the MAIN types of visitors coming to a destination?",choices:["Adventure seekers and nature lovers seeking unexplored destinations","Business travelers attending conventions","Luxury travelers and honeymooners","Retirees looking for relaxation"],answer:"A"},
+  {q:"Which statement is TRUE about the Exploring stage of the Tourism Product Life Cycle?",choices:["There are no or limited tourist services accessible","The local economy is fully controlled by tourism activities","Foreign investment is attracted and international hotels set up operations","Marketing, advertising, and publicity are initiated"],answer:"A"},
+  {q:"In which stage do local communities START setting up their own businesses to provide accommodation, meals, guides, and transportation?",choices:["Exploring","Development","Involvement","Consolidation"],answer:"C"},
+  {q:"What BEGINS to happen during the Involvement stage that does NOT occur in the Exploring stage?",choices:["Marketing, advertising, and publicity are initiated","The destination begins losing its original charm","Foreign investors build international hotel chains","Tourists arrive for the first time"],answer:"A"},
+  {q:"Which stage of the Tourism Product Life Cycle is characterized by foreign investment being attracted and international hotel chains setting up businesses?",choices:["Exploring","Development","Consolidation","Involvement"],answer:"B"},
+  {q:"In the Development stage, what TYPE of infrastructure is built along with natural and artificial attractions?",choices:["Basic roads and simple guesthouses","Modernized infrastructure","The destination is restructured to replace natural attractions","Temporary event structures for tourist festivals"],answer:"B"},
+  {q:"During the Consolidation stage, the local economy becomes dependent on what?",choices:["Manufacturing industries","Agricultural production","Tourism activities","Foreign remittances"],answer:"C"},
+  {q:"Which is a KEY action during the Consolidation stage that determines whether a destination's life can be prolonged?",choices:["Removing all foreign investment","Forming proper steps and policies at this stage","Reducing the number of incoming tourists","Replacing natural attractions with artificial ones"],answer:"B"},
+  {q:"What is 'carrying capacity' as described in the context of the Stagnation stage?",choices:["The total number of hotel rooms available in a destination","The maximum number of people who may visit a tourist destination","The maximum profit a destination can generate annually","The minimum number of tourists needed to sustain the economy"],answer:"B"},
+  {q:"What happens to attractions during the Stagnation stage?",choices:["More foreign investment develops heritage sites","Adventure tourism becomes the dominant activity","Artificial attractions start to replace natural or cultural attractions","Natural attractions are expanded and better preserved"],answer:"C"},
+  {q:"What is the effect of the Stagnation stage on the ORIGINAL features of a destination?",choices:["They are protected through UNESCO heritage programs","The destination has started losing its charm with a gradual fall in tourists","More tourists come due to the fashionable new image","Local authorities invest heavily in restoring original features"],answer:"B"},
+  {q:"From the Stagnation stage, what are the TWO possible outcomes according to the handout?",choices:["Growth and stabilization","Consolidation or stagnation","Expansion and modernization","Decline or rejuvenation"],answer:"D"},
+  {q:"What does 'Rejuvenation' mean in the Tourism Product Life Cycle?",choices:["Reducing the price of tourism products to attract more visitors","Maintaining the destination as it is without changes","Permanently closing the destination to tourists","Re-growth or re-introducing the destination with new tourism products"],answer:"D"},
+  {q:"During Decline, regular visitors are REPLACED by which type of tourist?",choices:["Budget travelers looking for affordable or cheap vacations","Adventure tourists looking for untouched nature","Luxury travelers seeking exclusive experiences","Business tourists attending international conferences"],answer:"A"},
+  {q:"What does Rejuvenation involve in terms of creating new attractions?",choices:["Reducing marketing and promotional efforts","Closing the destination to foreign investors","Creating a new set of artificial attractions within the original destination to boost popularity","Demolishing old tourist facilities"],answer:"C"},
+  {q:"In which TWO stages is marketing and promotional effort EXPLICITLY described as being increased?",choices:["Exploring and Involvement","Involvement and Consolidation","Development and Stagnation","Consolidation and Rejuvenation"],answer:"B"},
+  {q:"What negative impacts are seen with the RAPID fall in tourist numbers during the Decline stage?",choices:["Lack of airline routes and hotel supply","High pricing, overcrowding, environmental pollution, and overrated attractions","Decrease in local employment and closure of resorts","Reduced government investment in tourism infrastructure"],answer:"B"},
+
+  // ── STRATEGIC MARKETING PROCESS ──
+  {q:"According to the handout, a successful marketing plan focuses on the why, how, when, where, who, and what of marketing, and is described as an essential and powerful what?",choices:["Academic framework","Tourism regulation","Government requirement","Business tool"],answer:"D"},
+  {q:"How many steps are there in writing a successful tourism marketing plan according to the handout?",choices:["7 steps","9 steps","8 steps","10 steps"],answer:"D"},
+  {q:"In Step 1, a marketing review helps create an internal standard for which crucial elements?",choices:["Employee performance and compensation","Customer attraction, satisfaction, and loyalty","Budget allocation and financial forecasting","Competitor pricing and product analysis"],answer:"B"},
+  {q:"What does Step 2: Research the Industry help a business do?",choices:["Define the mission statement of the business","Set the marketing budget for the year","Identify ideal customer profiles","Measure the climate of the business by reviewing market trends and competitor successes and failures"],answer:"D"},
+  {q:"A competitive analysis in Step 3 covers what specific aspects of a business' competition?",choices:["The social media following of rival companies","The target market demographics of competing businesses","The strengths and weaknesses of a business' competition","Only the pricing strategies of competitors"],answer:"C"},
+  {q:"Which of the following is NOT listed as a benefit of performing a thorough competitor analysis?",choices:["Identify gaps in the market","Increase employee salaries to attract talent","Uncover other market trends","Develop new products and services"],answer:"B"},
+  {q:"What type of competitor operates NEARBY and offers a product that could serve as a similar substitute for your business?",choices:["Indirect competitor","Supplementary competitor","Substitute competitor","Direct competitor"],answer:"D"},
+  {q:"A business that does NOT offer the same product as yours but COULD satisfy the same customer need or solve the same problem is called what?",choices:["An indirect competitor","A direct competitor","A substitute market","A parallel business"],answer:"A"},
+  {q:"In Step 4, the mission statement drives the business by conveying what to staff, stakeholders, and guests?",choices:["The annual revenue target","The company's reason for existing","The target audience demographics","The annual budget of the company"],answer:"B"},
+  {q:"Which of the following is an example of a mission statement QUESTION as listed in the handout?",choices:["What is our annual revenue target?","What is our marketing budget?","How many employees do we need to hire?","Whom do we serve?"],answer:"D"},
+  {q:"Marketing and content strategy should support the mission statement. This helps the business do what?",choices:["Set minimum performance standards for employees","Outline the company's financial goals","Stay on track and true to the brand and set goals","Maximize quarterly profits"],answer:"C"},
+  {q:"In Step 5, SWOT divides environmental analysis into internal and external components. Which are the EXTERNAL issues?",choices:["Strengths and weaknesses","Market analysis and competitive analysis","Financial analysis and operational analysis","Opportunities and threats"],answer:"D"},
+  {q:"In SWOT, which components are considered INTERNAL issues?",choices:["Opportunities and threats","Consumer behavior and demographic shifts","Market trends and competitor actions","Strengths and weaknesses"],answer:"D"},
+  {q:"What does Step 6 enable a business to do by having a clear picture of the ideal customer?",choices:["Analyze the destination's carrying capacity","Identify competitors in the market","Set the price of tourism products","Relate personally to its target audience and set the tone and content of marketing strategies"],answer:"D"},
+  {q:"The 4Ps in Step 7 are described as a combination of factors a business CAN CONTROL. What is the PURPOSE of controlling these factors?",choices:["Financial indicators used to measure business performance","Government-mandated criteria for tourism businesses","To promote the brand and attract and influence customers to purchase your product","External factors that affect market demand"],answer:"C"},
+  {q:"Which of the following questions belongs to the 'Price' component of the 4Ps?",choices:["How will you brand your product?","What distribution channels do you need?","How can you promote your business online?","Can you undercut your competition without hurting your bottom line?"],answer:"D"},
+  {q:"Which of the following questions belongs to the 'Place' component of the 4Ps?",choices:["What features and benefits does your product have?","What is the customer's perceived value of your product?","Do you need a sales force or intermediaries to help you sell?","Are there certain times of year when customers are more likely to buy?"],answer:"C"},
+  {q:"Which of the following questions belongs to the 'Promotion' component of the 4Ps?",choices:["What does your product look like in color, shape, and size?","What discounts can you offer?","How can you promote your products differently than your competitors?","Where do people look for products such as yours?"],answer:"C"},
+  {q:"SMART goals in Step 8 must be specific, measurable, achievable, relevant, and what?",choices:["Tactical","Technology-driven","Transparent","Time-bound"],answer:"D"},
+  {q:"'Increase brand advocacy and awareness' as a SMART goal means growing what?",choices:["The number of employees in a tourism business","The number of products offered by the business","The number of people that know about a tourism business","The number of international markets entered"],answer:"C"},
+  {q:"'Enhance market penetration' as a SMART goal refers to what?",choices:["Capturing details for remarketing","Entering new markets with new products","Growing the number of people who know about the business","Selling more to existing customers"],answer:"D"},
+  {q:"'Increase lead acquisition' as a SMART goal refers to what activity?",choices:["Selling to new target markets","Enhancing market penetration","Capturing details for remarketing","Growing brand awareness"],answer:"C"},
+  {q:"In Step 9, the STRATEGY explains how to achieve a goal while the TACTIC explains what?",choices:["Why the goal was set in the first place","What to be done to achieve it","Who is responsible for executing it","When the goal should be completed"],answer:"B"},
+  {q:"Which of the following is listed as a STRATEGY or TACTIC tool in Step 9?",choices:["Carrying capacity analysis","SWOT framework review","Market segmentation research","Referral campaigns and word of mouth"],answer:"D"},
+  {q:"In Step 10, while the business plan covers the entire financial side, the marketing plan focuses STRICTLY on what?",choices:["Setting employee salaries and operational budgets","Outlining the capital investment needed for infrastructure","Detailing the entire financial side of the business","Marketing-related activities and their costs"],answer:"D"},
+  {q:"What must a business ensure when setting the marketing budget in Step 10?",choices:["All strategies are identical to the previous year","Tactics are realistic, keeping in mind internal and external resources available","Only internal resources are used for all activities","The budget exceeds the competitor's marketing spend"],answer:"B"}
 ];
 
 // ══ STATE ══
-let activeData = [], idx = 0, userAnswers = [], score = 0, shuffleOn = false, selectedSubject = null;
-
-function shuffleArr(a) { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
-function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-function closeWelcome() { document.getElementById('welcomeModal').classList.remove('active'); }
-function toggleTheme() { document.body.classList.toggle('dark'); document.getElementById('themeBtn').textContent = document.body.classList.contains('dark') ? '☀️' : '🌙'; localStorage.setItem('microTheme', document.body.classList.contains('dark')?'dark':''); }
-
-function selectSubject(key, el) {
-  selectedSubject = key;
-  document.querySelectorAll('.subject-card').forEach(c => c.classList.remove('selected'));
+let activeData=[],idx=0,userAnswers=[],score=0,shuffleOn=false,selectedSubject=null;
+function shuffleArr(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function closeModal(id){document.getElementById(id).classList.remove('active');}
+function closeWelcome(){document.getElementById('welcomeModal').classList.remove('active');}
+function toggleTheme(){document.body.classList.toggle('dark');document.getElementById('themeBtn').textContent=document.body.classList.contains('dark')?'☀️':'🌙';localStorage.setItem('microTheme',document.body.classList.contains('dark')?'dark':'');}
+function selectSubject(key,el){
+  selectedSubject=key;
+  document.querySelectorAll('.subject-card').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
-  document.getElementById('shuffleToggle').style.display = 'flex';
-  document.getElementById('startBtn').style.display = 'inline-block';
-  setTimeout(() => document.getElementById('shuffleToggle').scrollIntoView({behavior:'smooth',block:'center'}), 100);
+  document.getElementById('shuffleToggle').style.display='flex';
+  document.getElementById('startBtn').style.display='inline-block';
+  setTimeout(()=>document.getElementById('shuffleToggle').scrollIntoView({behavior:'smooth',block:'center'}),100);
 }
-
-function toggleShuffle() {
-  shuffleOn = !shuffleOn;
-  document.getElementById('checkBox').textContent = shuffleOn ? '✓' : '';
-  document.getElementById('shuffleToggle').classList.toggle('selected', shuffleOn);
+function toggleShuffle(){
+  shuffleOn=!shuffleOn;
+  document.getElementById('checkBox').textContent=shuffleOn?'✓':'';
+  document.getElementById('shuffleToggle').classList.toggle('selected',shuffleOn);
 }
-
-function startQuiz() {
-  if (!selectedSubject) return alert('Please select a handout first!');
-  const pool = selectedSubject === 'h5' ? h5Q : selectedSubject === 'h6' ? h6Q : h4Q;
-  activeData = shuffleOn ? shuffleArr(pool) : [...pool];
-  idx = 0; userAnswers = []; score = 0;
+function startQuiz(){
+  if(!selectedSubject)return alert('Please select a handout first!');
+  const pool=selectedSubject==='h5'?h5Q:selectedSubject==='h6'?h6Q:selectedSubject==='h7'?h7Q:h4Q;
+  activeData=shuffleOn?shuffleArr(pool):[...pool];
+  idx=0;userAnswers=[];score=0;
   document.getElementById('startScreen').classList.remove('active');
-  document.getElementById('progressWrap').style.display = 'block';
-  document.getElementById('quizWrap').style.display = 'block';
-  document.getElementById('navBar').style.display = 'flex';
+  document.getElementById('progressWrap').style.display='block';
+  document.getElementById('quizWrap').style.display='block';
+  document.getElementById('navBar').style.display='flex';
   document.getElementById('backBtn').classList.add('show');
   loadQ();
 }
-
-function loadQ() {
-  const q = activeData[idx];
-  document.getElementById('qNum').textContent = `Question ${idx+1} of ${activeData.length}`;
-  document.getElementById('qText').textContent = q.q;
-  const ch = document.getElementById('choices'); ch.innerHTML = '';
-  const fb = document.getElementById('feedback'); fb.className = 'feedback'; fb.textContent = '';
-  q.choices.forEach((c,i) => {
-    const div = document.createElement('div'); div.className = 'choice';
-    div.innerHTML = `<div class="choice-ltr">${L[i]}</div><span>${c}</span>`;
-    if (userAnswers[idx]) {
+function loadQ(){
+  const q=activeData[idx];
+  document.getElementById('qNum').textContent=`Question ${idx+1} of ${activeData.length}`;
+  document.getElementById('qText').textContent=q.q;
+  const ch=document.getElementById('choices');ch.innerHTML='';
+  const fb=document.getElementById('feedback');fb.className='feedback';fb.textContent='';
+  q.choices.forEach((c,i)=>{
+    const div=document.createElement('div');div.className='choice';
+    div.innerHTML=`<div class="choice-ltr">${L[i]}</div><span>${c}</span>`;
+    if(userAnswers[idx]){
       div.classList.add('disabled');
-      if (L[i] === q.answer) div.classList.add('correct');
-      if (L[i] === userAnswers[idx] && userAnswers[idx] !== q.answer) div.classList.add('wrong');
-    } else { div.onclick = () => selectAnswer(L[i]); }
+      if(L[i]===q.answer)div.classList.add('correct');
+      if(L[i]===userAnswers[idx]&&userAnswers[idx]!==q.answer)div.classList.add('wrong');
+    }else{div.onclick=()=>selectAnswer(L[i]);}
     ch.appendChild(div);
   });
-  if (userAnswers[idx]) showFeedback(userAnswers[idx] === q.answer, q.answer);
-  updateProgress(); updateBtns();
+  if(userAnswers[idx])showFeedback(userAnswers[idx]===q.answer,q.answer);
+  updateProgress();updateBtns();
 }
-
-function selectAnswer(letter) {
-  const q = activeData[idx];
-  userAnswers[idx] = letter;
-  const cs = document.querySelectorAll('.choice');
-  cs.forEach(c => { c.classList.add('disabled'); c.onclick = null; });
-  cs[L.indexOf(letter)].classList.add(letter === q.answer ? 'correct' : 'wrong');
-  if (letter !== q.answer) cs[L.indexOf(q.answer)].classList.add('correct');
-  if (letter === q.answer) score++;
-  showFeedback(letter === q.answer, q.answer);
-  updateProgress(); updateBtns();
+function selectAnswer(letter){
+  const q=activeData[idx];
+  userAnswers[idx]=letter;
+  const cs=document.querySelectorAll('.choice');
+  cs.forEach(c=>{c.classList.add('disabled');c.onclick=null;});
+  cs[L.indexOf(letter)].classList.add(letter===q.answer?'correct':'wrong');
+  if(letter!==q.answer)cs[L.indexOf(q.answer)].classList.add('correct');
+  if(letter===q.answer)score++;
+  showFeedback(letter===q.answer,q.answer);
+  updateProgress();updateBtns();
 }
-
-function showFeedback(correct, ans) {
-  const fb = document.getElementById('feedback');
-  fb.className = `feedback show ${correct ? 'correct' : 'wrong'}`;
-  fb.textContent = correct ? '✅ Correct! Great job!' : `❌ Wrong! The correct answer is ${ans}.`;
+function showFeedback(correct,ans){
+  const fb=document.getElementById('feedback');
+  fb.className=`feedback show ${correct?'correct':'wrong'}`;
+  fb.textContent=correct?'✅ Correct! Great job!':'❌ Wrong! The correct answer is '+ans+'.';
 }
-
-function updateProgress() {
-  const pct = ((idx+1)/activeData.length)*100;
-  document.getElementById('progressFill').style.width = pct+'%';
-  document.getElementById('qCurrent').textContent = idx+1;
-  document.getElementById('qTotal').textContent = activeData.length;
-  document.getElementById('scoreDisplay').textContent = score;
-  document.getElementById('answeredDisplay').textContent = userAnswers.filter(Boolean).length;
+function updateProgress(){
+  const pct=((idx+1)/activeData.length)*100;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('qCurrent').textContent=idx+1;
+  document.getElementById('qTotal').textContent=activeData.length;
+  document.getElementById('scoreDisplay').textContent=score;
+  document.getElementById('answeredDisplay').textContent=userAnswers.filter(Boolean).length;
 }
-
-function updateBtns() {
-  document.getElementById('prevBtn').disabled = idx === 0;
-  const nb = document.getElementById('nextBtn');
-  const left = activeData.length - userAnswers.filter(Boolean).length;
-  if (idx === activeData.length-1) { nb.textContent = left > 0 ? `Finish (${left} left)` : 'Finish ✓'; }
-  else { nb.textContent = 'Next →'; }
-  nb.disabled = !userAnswers[idx];
+function updateBtns(){
+  document.getElementById('prevBtn').disabled=idx===0;
+  const nb=document.getElementById('nextBtn');
+  const left=activeData.length-userAnswers.filter(Boolean).length;
+  if(idx===activeData.length-1){nb.textContent=left>0?`Finish (${left} left)`:'Finish ✓';}
+  else{nb.textContent='Next →';}
+  nb.disabled=!userAnswers[idx];
 }
-
-function prevQ() { if (idx > 0) { idx--; loadQ(); } }
-function nextQ() {
-  if (!userAnswers[idx]) return;
-  if (idx < activeData.length-1) { idx++; loadQ(); }
-  else {
-    const left = activeData.length - userAnswers.filter(Boolean).length;
-    if (left > 0) {
-      document.getElementById('unansweredMsg').textContent = `You have ${left} unanswered question${left>1?'s':''}. Please answer all before finishing.`;
-      const nums = activeData.map((_,i) => !userAnswers[i] ? i+1 : null).filter(Boolean);
-      document.getElementById('unansweredList').innerHTML = `<strong>Unanswered:</strong> ${nums.join(', ')}`;
+function prevQ(){if(idx>0){idx--;loadQ();}}
+function nextQ(){
+  if(!userAnswers[idx])return;
+  if(idx<activeData.length-1){idx++;loadQ();}
+  else{
+    const left=activeData.length-userAnswers.filter(Boolean).length;
+    if(left>0){
+      document.getElementById('unansweredMsg').textContent=`You have ${left} unanswered question${left>1?'s':''}. Please answer all before finishing.`;
+      const nums=activeData.map((_,i)=>!userAnswers[i]?i+1:null).filter(Boolean);
+      document.getElementById('unansweredList').innerHTML=`<strong>Unanswered:</strong> ${nums.join(', ')}`;
       document.getElementById('unansweredModal').classList.add('active');
-    } else { showResults(); }
+    }else{showResults();}
   }
 }
-
-function showResults() {
-  document.getElementById('quizWrap').style.display = 'none';
-  document.getElementById('navBar').style.display = 'none';
+function showResults(){
+  document.getElementById('quizWrap').style.display='none';
+  document.getElementById('navBar').style.display='none';
   document.getElementById('backBtn').classList.remove('show');
   document.getElementById('resultScreen').classList.add('active');
-  const total = activeData.length, pct = ((score/total)*100).toFixed(1);
-  document.getElementById('resultScore').textContent = `${score}/${total}`;
-  document.getElementById('statTotal').textContent = total;
-  document.getElementById('statCorrect').textContent = score;
-  document.getElementById('statWrong').textContent = total-score;
-  document.getElementById('statPercent').textContent = pct+'%';
-  let msg, icon;
-  if (pct >= 80) { msg = 'Excellent! You aced it! 🌟'; icon = '🏆'; }
-  else if (pct >= 60) { msg = 'Good job! Keep it up! 👍'; icon = '🎉'; }
-  else if (pct >= 40) { msg = 'Not bad! Keep practicing! 💪'; icon = '📚'; }
-  else { msg = "Keep studying! You'll get it! 💡"; icon = '📖'; }
-  document.getElementById('resultMsg').textContent = msg;
-  document.getElementById('resultIcon').textContent = icon;
+  const total=activeData.length,pct=((score/total)*100).toFixed(1);
+  document.getElementById('resultScore').textContent=`${score}/${total}`;
+  document.getElementById('statTotal').textContent=total;
+  document.getElementById('statCorrect').textContent=score;
+  document.getElementById('statWrong').textContent=total-score;
+  document.getElementById('statPercent').textContent=pct+'%';
+  let msg,icon;
+  if(pct>=80){msg='Excellent! You aced it! 🌟';icon='🏆';}
+  else if(pct>=60){msg='Good job! Keep it up! 👍';icon='🎉';}
+  else if(pct>=40){msg='Not bad! Keep practicing! 💪';icon='📚';}
+  else{msg="Keep studying! You'll get it! 💡";icon='📖';}
+  document.getElementById('resultMsg').textContent=msg;
+  document.getElementById('resultIcon').textContent=icon;
 }
-
-function showReview() {
-  const body = document.getElementById('reviewBody'); body.innerHTML = '';
-  activeData.forEach((q,i) => {
-    const ua = userAnswers[i], correct = ua === q.answer;
-    const uaIdx = L.indexOf(ua), caIdx = L.indexOf(q.answer);
-    const uaText = uaIdx !== -1 ? q.choices[uaIdx] : 'Not answered';
-    const caText = q.choices[caIdx];
-    const div = document.createElement('div'); div.className = 'review-item';
-    div.innerHTML = `<div class="review-q">Q${i+1}: ${q.q}</div>
-      <div class="review-a ${correct ? 'review-correct' : 'review-wrong'}">
-        Your answer: ${ua ? `${ua}. ${uaText}` : 'Not answered'}
-        ${!correct ? `<br><strong>✓ Correct: ${q.answer}. ${caText}</strong>` : ''}
+function showReview(){
+  const body=document.getElementById('reviewBody');body.innerHTML='';
+  activeData.forEach((q,i)=>{
+    const ua=userAnswers[i],correct=ua===q.answer;
+    const uaIdx=L.indexOf(ua),caIdx=L.indexOf(q.answer);
+    const uaText=uaIdx!==-1?q.choices[uaIdx]:'Not answered';
+    const caText=q.choices[caIdx];
+    const div=document.createElement('div');div.className='review-item';
+    div.innerHTML=`<div class="review-q">Q${i+1}: ${q.q}</div>
+      <div class="review-a ${correct?'review-correct':'review-wrong'}">
+        Your answer: ${ua?`${ua}. ${uaText}`:'Not answered'}
+        ${!correct?`<br><strong>✓ Correct: ${q.answer}. ${caText}</strong>`:''}
       </div>`;
     body.appendChild(div);
   });
   document.getElementById('reviewModal').classList.add('active');
 }
-
-function showResetModal() { document.getElementById('resetModal').classList.add('active'); }
-function confirmReset() { closeModal('resetModal'); idx=0; userAnswers=[]; score=0; loadQ(); }
-
-function showBackModal() { document.getElementById('backModal').classList.add('active'); }
-function confirmBack() {
+function showResetModal(){document.getElementById('resetModal').classList.add('active');}
+function confirmReset(){closeModal('resetModal');idx=0;userAnswers=[];score=0;loadQ();}
+function showBackModal(){document.getElementById('backModal').classList.add('active');}
+function confirmBack(){
   closeModal('backModal');
-  idx=0; userAnswers=[]; score=0; selectedSubject=null; shuffleOn=false; activeData=[];
+  idx=0;userAnswers=[];score=0;selectedSubject=null;shuffleOn=false;activeData=[];
   document.getElementById('quizWrap').style.display='none';
   document.getElementById('navBar').style.display='none';
   document.getElementById('progressWrap').style.display='none';
@@ -914,10 +732,9 @@ function confirmBack() {
   document.getElementById('checkBox').textContent='';
   document.getElementById('shuffleToggle').classList.remove('selected');
 }
-
-function restartQuiz() {
+function restartQuiz(){
   document.getElementById('resultScreen').classList.remove('active');
-  idx=0; userAnswers=[]; score=0; selectedSubject=null; shuffleOn=false; activeData=[];
+  idx=0;userAnswers=[];score=0;selectedSubject=null;shuffleOn=false;activeData=[];
   document.getElementById('progressWrap').style.display='none';
   document.getElementById('startScreen').classList.add('active');
   document.querySelectorAll('.subject-card').forEach(c=>c.classList.remove('selected'));
@@ -926,11 +743,10 @@ function restartQuiz() {
   document.getElementById('checkBox').textContent='';
   document.getElementById('shuffleToggle').classList.remove('selected');
 }
-
-window.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('microTheme') === 'dark') {
+window.addEventListener('DOMContentLoaded',()=>{
+  if(localStorage.getItem('microTheme')==='dark'){
     document.body.classList.add('dark');
-    document.getElementById('themeBtn').textContent = '☀️';
+    document.getElementById('themeBtn').textContent='☀️';
   }
 });
 </script>
