@@ -47,6 +47,7 @@
     .card-sub{color:var(--muted);font-size:12px;font-weight:600;margin-top:4px;line-height:1.4;}
     .card-count{display:inline-block;background:linear-gradient(135deg,var(--teal),var(--dark-teal));color:white;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:700;margin-top:8px;}
     .card-count.hard{background:linear-gradient(135deg,#7c3aed,#5b21b6);}
+    .card-count.finals{background:linear-gradient(135deg,#dc2626,#991b1b);}
     .shuffle-toggle{background:var(--card);border:2px solid #e5e7eb;border-radius:14px;padding:14px 18px;cursor:pointer;display:none;align-items:center;gap:12px;margin-bottom:18px;transition:all 0.2s;box-shadow:var(--shadow);}
     .shuffle-toggle:hover{border-color:var(--teal);}
     .shuffle-toggle.selected{border-color:var(--teal);background:rgba(13,148,136,0.05);}
@@ -183,7 +184,13 @@
         <div class="card-emoji">🎯</div>
         <div class="card-title">Handout 7</div>
         <div class="card-sub">Tourism Marketing · Market Segmentation · Product Life Cycle · Strategic Marketing</div>
-        <div class="card-count hard">70 Questions · HARD</div>
+        <div class="card-count hard">71 Questions · HARD</div>
+      </div>
+      <div class="subject-card" id="card-h7v2" onclick="selectSubject('h7v2',this)">
+        <div class="card-emoji">🔥</div>
+        <div class="card-title">Handout 7 V2</div>
+        <div class="card-sub">Pang-Finals · 100-Item Final Exam · Tourism Marketing</div>
+        <div class="card-count finals">100 Questions · FINALS</div>
       </div>
     </div>
 
@@ -238,7 +245,7 @@
     <div class="modal-title">MABUHAY!</div>
     <div class="modal-msg" style="margin-bottom:18px;line-height:1.8;color:var(--muted);">
       Welcome to <strong style="color:var(--teal);">Micro Tourism Bagsakan</strong>!<br>
-      Now with <strong>4 Handouts</strong> — and the new <strong style="color:#7c3aed;">Handout 7</strong> is HARDER. Handa ka na ba? 🔥
+      Now with <strong>5 Handouts</strong> — including the new <strong style="color:#dc2626;">Handout 7 V2</strong> with a full 100-item finals exam! 🔥
     </div>
     <button class="btn btn-welcome" onclick="closeWelcome()">Tara na! 🚀</button>
   </div>
@@ -503,84 +510,187 @@ const h6Q = [
 ];
 
 // ══════════════════════════════════
-// HANDOUT 7 — Tourism Marketing, Market Segmentation, Product Life Cycle, Strategic Marketing
-// Answers distributed: ~17-18 per letter (A/B/C/D)
+// HANDOUT 7 — HARD (Enhanced V1, 71 items)
+// Distractors length-matched · Trickier wording · Situational framing
 // ══════════════════════════════════
 const h7Q = [
-  // ── TOURISM MARKETING DEFINITIONS ──
-  {q:"Tourism marketing is best defined as the collective name given to what?",choices:["Various marketing strategies businesses use within the tourism industry","Research methods used to study tourist behavior","The official tourism promotion campaigns of a country","Government policies that regulate tourism pricing"],answer:"A"},
-  {q:"Which of the following businesses is NOT specifically mentioned as part of tourism marketing?",choices:["Mining companies","Airlines","Car rental services","Travel agents"],answer:"A"},
-  {q:"In tourism, marketing is the systematic process by which an organization tries to maximize what through research, forecasting, and selection of tourism products?",choices:["Employee productivity","The number of tourism-related jobs","The satisfaction of tourist demand","International arrivals to a destination"],answer:"C"},
-  {q:"Marketing activities bring a product or service from the provider to the customer. Which of the following is part of these activities?",choices:["Employee recruitment and training","Distribution methods, pricing and promotion, and forms of selling and advertising","Tourism infrastructure development","Government subsidies for tourism businesses"],answer:"B"},
+  {q:"Tourism marketing is best understood as the collective name for what?",choices:["The marketing strategies businesses use within the tourism industry","A single unified campaign run by national tourism boards","Research conducted on tourist consumption patterns","The official pricing framework used by travel operators"],answer:"A"},
+  {q:"Which business is NOT specifically named as part of tourism marketing in the handout?",choices:["Airlines","Travel agents","Car rental services","Mining companies"],answer:"D"},
+  {q:"Through research, forecasting, and product selection, tourism marketing systematically maximizes what?",choices:["National tourism revenue","Tourist arrivals per destination","Satisfaction of tourist demand","Industry-wide employment rates"],answer:"C"},
+  {q:"Distribution, pricing, promotion, and selling are described as what within tourism marketing?",choices:["Regulatory compliance steps","Activities that bring a product or service to the customer","Revenue-generating departments","Financial performance indicators"],answer:"B"},
+  {q:"Market segmentation is universally accepted as a way of analyzing what?",choices:["Tourist satisfaction","Employee output","Demand","Competitor supply"],answer:"C"},
+  {q:"What does market segmentation actually DO?",choices:["Groups people with similar needs and wants to serve the market better","Ranks destinations by their global popularity levels","Separates domestic travelers from international ones","Splits a company into operational departments"],answer:"A"},
+  {q:"A cruise package suits one group while a heritage tour suits another. Which concept does this BEST illustrate?",choices:["Geographic segmentation by climate zone","Product-related segmentation showing preferences","Price discrimination between customer tiers","Psychographic segmentation by personality"],answer:"B"},
+  {q:"How many criteria for building market segments does the handout identify?",choices:["Two","Three","Four","Five"],answer:"C"},
+  {q:"Which variable belongs to Socioeconomic and Demographic Segmentation?",choices:["Lifestyle","Homeownership","Brand loyalty","Population density"],answer:"B"},
+  {q:"Which variable belongs to Product-Related Segmentation?",choices:["Usage rate","Personality traits","Ethnic group","City size"],answer:"A"},
+  {q:"Which of the following is a Psychographic variable?",choices:["Occupation","Market area","Attitudes, interests, opinions","Transportation mode"],answer:"C"},
+  {q:"Which variable belongs to Geographic Segmentation?",choices:["Motivations","Population density","Occupation","Equipment type"],answer:"B"},
+  {q:"Why are socioeconomic criteria the most commonly used at present?",choices:["They are mandated by international tourism bodies","They replace the need for all other segmentation data","Ease of understanding and census data comparability","They provide the deepest psychological insights"],answer:"C"},
+  {q:"Product-related segmentation can also be treated as which other type?",choices:["Behavioral segmentation by purchase patterns","Geographic segmentation by region","Psychographic segmentation by personality","Demographic segmentation by age bracket"],answer:"A"},
+  {q:"Product-related segmentation identifies what in terms of buying behavior?",choices:["The social class and income of the customer","Specific buying patterns like shopping frequency and volume","The geographic origin of the customer base","The emotional triggers behind purchase decisions"],answer:"B"},
+  {q:"Psychographic segmentation is similar to demographic segmentation but deals primarily with what?",choices:["Location and population density","Price sensitivity and purchase frequency","Mental and emotional characteristics","Occupation and earned social class"],answer:"C"},
+  {q:"Which insight can Psychographics provide that Demographics CANNOT?",choices:["Customer's income bracket and household size","Motives, preferences, and needs of the customer","Geographic location of the target market","Frequency of product purchases made"],answer:"B"},
+  {q:"Which method does the handout suggest for collecting psychographic data?",choices:["Government census records only","Direct in-store observation of shoppers","Analysis of past sales receipts","Surveys and website interactions"],answer:"D"},
+  {q:"Geographic segmentation splits a market primarily based on what?",choices:["Lifestyle","Income","Location","Loyalty"],answer:"C"},
+  {q:"Tourists from cold, wet regions favoring sunny destinations illustrates which segmentation?",choices:["Geographic segmentation","Socioeconomic segmentation","Product-related segmentation","Psychographic segmentation"],answer:"A"},
+  {q:"Which geographic variable greatly affects airline competition for certain destinations?",choices:["Race or ethnic group of tourists","Destination's natural resource base","Climate differences driving warm-holiday preferences","Population density of destination cities"],answer:"C"},
+  {q:"The Tourism Product Life Cycle is useful as a guide for what?",choices:["Pricing of tourism products per season","Strategies in choosing, attracting, and serving markets","Measuring profitability of tourism businesses","Calculating destination carrying capacity"],answer:"B"},
+  {q:"What does the handout treat as the 'tourism product' in the life cycle?",choices:["A single airline seat","A packaged group tour","A destination","A hotel room booking"],answer:"C"},
+  {q:"The FIRST stage of the Tourism Product Life Cycle is:",choices:["Involvement","Exploring","Development","Consolidation"],answer:"B"},
+  {q:"In the Exploring stage, the main visitors are:",choices:["Adventure seekers and nature lovers","Business travelers at conventions","Luxury travelers and honeymooners","Retirees seeking relaxation"],answer:"A"},
+  {q:"Which statement is TRUE about the Exploring stage?",choices:["The local economy is already tourism-dependent","There are no or limited tourist services","Foreign chains dominate the skyline already","Advertising campaigns are aggressively launched"],answer:"B"},
+  {q:"In which stage do locals BEGIN setting up small businesses for lodging, meals, and guiding?",choices:["Exploring","Development","Involvement","Consolidation"],answer:"C"},
+  {q:"What BEGINS in the Involvement stage that did NOT occur in Exploring?",choices:["Marketing, advertising, and publicity","The destination begins losing its charm","Foreign investors build mega-resorts","Tourists arrive at the site for the first time"],answer:"A"},
+  {q:"Which stage is marked by foreign investment and international hotel chains opening?",choices:["Involvement","Development","Consolidation","Stagnation"],answer:"B"},
+  {q:"In the Development stage, infrastructure is built that can BEST be described as:",choices:["Basic roads and simple guesthouses","Modernized along with natural and artificial attractions","Temporary structures for festival use","Replacing all natural attractions entirely"],answer:"B"},
+  {q:"In the Consolidation stage, the local economy becomes dependent on:",choices:["Manufacturing output","Agricultural exports","Tourism activities","Foreign remittances"],answer:"C"},
+  {q:"What key action in Consolidation can prolong a destination's life?",choices:["Removing all foreign investors from the area","Forming proper steps and policies at this stage","Cutting incoming tourist volume sharply","Swapping natural attractions for artificial ones"],answer:"B"},
+  {q:"In the Stagnation stage, 'carrying capacity' refers to what?",choices:["The total count of hotel rooms in the destination","The maximum visitors the destination can sustain","The yearly profit ceiling for tourism businesses","The minimum tourists needed to stay viable"],answer:"B"},
+  {q:"What happens to attractions during the Stagnation stage?",choices:["More foreign money develops heritage sites","Adventure tourism becomes the top activity","Artificial attractions begin replacing natural or cultural ones","Natural attractions are expanded and protected"],answer:"C"},
+  {q:"What effect does Stagnation have on a destination's original features?",choices:["They receive UNESCO heritage protection","The destination starts losing its charm with falling tourists","More tourists arrive due to the fashionable new image","Local authorities restore the original features heavily"],answer:"B"},
+  {q:"From Stagnation, what are the TWO possible outcomes?",choices:["Growth or stabilization","Consolidation or involvement","Expansion or modernization","Decline or rejuvenation"],answer:"D"},
+  {q:"What does 'Rejuvenation' mean in the life cycle?",choices:["Dropping prices to attract budget tourists","Maintaining the destination without any change","Re-growth through new tourism products","Permanently closing the site to tourists"],answer:"C"},
+  {q:"During Decline, regular visitors are REPLACED mostly by:",choices:["Budget travelers looking for cheap deals","Adventure tourists seeking untouched land","Luxury travelers wanting exclusive stays","Business tourists attending conferences"],answer:"A"},
+  {q:"Rejuvenation typically involves:",choices:["Cutting marketing and promotional spending","Shutting the destination to foreign investors","Creating new artificial attractions to boost popularity","Demolishing old tourist facilities wholesale"],answer:"C"},
+  {q:"In which TWO stages is marketing effort EXPLICITLY described as increased?",choices:["Exploring and Involvement","Involvement and Consolidation","Development and Stagnation","Consolidation and Rejuvenation"],answer:"B"},
+  {q:"What negative impacts appear during the Decline stage?",choices:["Shortage of airline routes and hotel supply","Overcrowding, pollution, and overrated attractions","Falling employment and closing resorts","Reduced government tourism investment"],answer:"B"},
+  {q:"A successful marketing plan is described as what kind of tool?",choices:["An academic framework for study","A government-mandated requirement","A regulatory tourism document","An essential and powerful business tool"],answer:"D"},
+  {q:"How many steps are there in writing a successful tourism marketing plan?",choices:["Seven","Eight","Nine","Ten"],answer:"D"},
+  {q:"In Step 1, a marketing review creates an internal standard for which three elements?",choices:["Employee performance, retention, compensation","Customer attraction, satisfaction, and loyalty","Revenue, cost control, and forecasting","Competitor pricing, ads, and placement"],answer:"B"},
+  {q:"Step 2: Research the Industry helps a business do what?",choices:["Define its mission statement clearly","Set the marketing budget for the year","Identify an ideal customer profile","Measure the climate via market trends and competitor moves"],answer:"D"},
+  {q:"A competitive analysis in Step 3 covers which aspect of competitors?",choices:["Only their pricing strategies","Their target market demographics","Their strengths and weaknesses","Only their social media presence"],answer:"C"},
+  {q:"Which is NOT listed as a benefit of thorough competitor analysis?",choices:["Identify gaps in the market","Increase employee salaries to retain talent","Uncover other market trends","Develop new products and services"],answer:"B"},
+  {q:"A competitor that is NEARBY and offers a similar substitute product is called a:",choices:["Substitute competitor","Supplementary competitor","Indirect competitor","Direct competitor"],answer:"D"},
+  {q:"A business that does NOT offer the same product but satisfies the same need is a:",choices:["Direct competitor","Indirect competitor","Substitute market","Parallel business"],answer:"B"},
+  {q:"In Step 4, the mission statement conveys what to staff, stakeholders, and guests?",choices:["The annual revenue target of the business","The company's reason for existing","The target audience demographics","The annual marketing budget"],answer:"B"},
+  {q:"Which is an example of a mission statement QUESTION from the handout?",choices:["What is our annual revenue target?","What is our marketing budget?","Whom do we serve?","How many staff do we need?"],answer:"C"},
+  {q:"Marketing and content strategy should support the mission to help a business do what?",choices:["Meet minimum performance standards","Outline the company's financial goals","Stay on track and true to the brand","Maximize quarterly profits"],answer:"C"},
+  {q:"In SWOT, which components are EXTERNAL issues?",choices:["Strengths and weaknesses","Market and competitive analysis","Financial and operational analysis","Opportunities and threats"],answer:"D"},
+  {q:"In SWOT, which components are INTERNAL issues?",choices:["Opportunities and threats","Consumer and demographic shifts","Market trends and competitor moves","Strengths and weaknesses"],answer:"D"},
+  {q:"In Step 6, a clear picture of the ideal customer enables a business to do what?",choices:["Analyze destination carrying capacity","Identify competitors in the market","Set pricing of tourism products","Set the tone and content of marketing strategies"],answer:"D"},
+  {q:"The 4Ps in Step 7 are factors a business CAN CONTROL in order to:",choices:["Measure financial performance","Comply with government criteria","Promote the brand and influence purchase","Analyze external demand factors"],answer:"C"},
+  {q:"Which question belongs to the 'Price' component of the 4Ps?",choices:["How will you brand your product?","What distribution channels do you need?","How can you promote online?","Can you undercut competition without hurting your bottom line?"],answer:"D"},
+  {q:"Which question belongs to the 'Place' component of the 4Ps?",choices:["What features does your product have?","What is the customer's perceived value?","Do you need a sales force or intermediaries?","When are customers likeliest to buy?"],answer:"C"},
+  {q:"Which question belongs to the 'Promotion' component of the 4Ps?",choices:["How can you promote differently than competitors?","What do your product's colors look like?","What discounts can you offer?","Where do people look for products like yours?"],answer:"A"},
+  {q:"SMART goals must be specific, measurable, achievable, relevant, and:",choices:["Tactical","Technology-driven","Transparent","Time-bound"],answer:"D"},
+  {q:"'Increase brand advocacy and awareness' as a SMART goal means growing:",choices:["The number of employees hired","The number of products offered","The number of people that know about the business","The number of new markets entered"],answer:"C"},
+  {q:"'Enhance market penetration' as a SMART goal refers to:",choices:["Capturing customer details for remarketing","Entering new markets with new products","Growing the people who know about the business","Selling more to existing customers"],answer:"D"},
+  {q:"'Increase lead acquisition' as a SMART goal refers to:",choices:["Entering new target markets","Enhancing market penetration","Capturing details for remarketing","Growing brand awareness broadly"],answer:"C"},
+  {q:"In Step 9, STRATEGY explains how to achieve a goal, while TACTIC explains:",choices:["Why the goal was set at all","What must be done to achieve it","Who is responsible for executing it","When the goal should be completed"],answer:"B"},
+  {q:"Which is listed as a strategy/tactic tool in Step 9?",choices:["Carrying capacity analysis","SWOT framework review","Market segmentation research","Referral campaigns and word of mouth"],answer:"D"},
+  {q:"In Step 10, the marketing plan focuses STRICTLY on what?",choices:["Employee salaries and operational budgets","Infrastructure capital investment","The full financial side of the business","Marketing-related activities and their costs"],answer:"D"},
+  {q:"When setting the marketing budget in Step 10, a business must ensure:",choices:["All strategies copy last year's plan","Tactics are realistic given internal and external resources","Only internal resources are used","The budget exceeds competitor spend"],answer:"B"},
+  {q:"A remote island has 200 yearly visitors, mostly backpackers, and just a few homestays. Which stage?",choices:["Development","Exploring","Involvement","Consolidation"],answer:"B"},
+  {q:"A beach town's mayor says '80% of our jobs depend on tourism.' Which stage is this MOST likely?",choices:["Exploring","Involvement","Consolidation","Decline"],answer:"C"},
+  {q:"A once-famous resort now attracts mostly cheap package deals and has outdated hotels. Stage?",choices:["Decline","Stagnation","Development","Rejuvenation"],answer:"A"},
+  {q:"A ski resort targets single professionals aged 25–35 with disposable income. Which TWO segmentation types combine?",choices:["Geographic and Product-related","Demographic and Psychographic","Psychographic and Geographic","Product-related and Demographic"],answer:"B"}
+];
 
-  // ── MARKET SEGMENTATION ──
-  {q:"Market segmentation is described as a universally accepted way of analyzing what?",choices:["Demand","Employee performance","Tourist satisfaction","Supply chains in tourism"],answer:"A"},
-  {q:"Which of the following BEST describes what market segmentation does?",choices:["Groups people with similar needs and wants to serve the market better","Separates domestic tourists from international tourists","Divides a company into departments based on function","Ranks tourism destinations by popularity"],answer:"A"},
-  {q:"A cruise package suits one part of the market, while a historical tour suits another. This scenario best illustrates which concept?",choices:["Product-related segmentation showing preferences","Price differentiation between customers","Consumer loyalty segmentation","Geographic segmentation by region"],answer:"A"},
-  {q:"How many criteria does the handout identify by which a market segment can be constructed?",choices:["Two","Five","Four","Three"],answer:"C"},
-  {q:"Which of the following variables falls under Socioeconomic and Demographic Segmentation?",choices:["Homeownership","Population density","Lifestyle","Brand loyalty"],answer:"A"},
-  {q:"Which variable is classified under Product-Related Segmentation?",choices:["Usage rate","City size","Personality traits","Race or ethnic group"],answer:"A"},
-  {q:"Which of the following is a Psychographic variable in market segmentation?",choices:["Transportation modes","Occupation","Attitudes, interests, and opinions","Market area"],answer:"C"},
-  {q:"Which of the following variables belongs to Geographic Segmentation?",choices:["Population density","Motivations","Occupation","Equipment type"],answer:"A"},
-  {q:"Why does the handout say socioeconomic criteria are most used at present?",choices:["They are required by international tourism bodies","They replace all other segmentation methods","They are easy to understand and allow data comparability through census and media","They are the most expensive data to collect"],answer:"C"},
-  {q:"Product-Related Segmentation can also be considered a type of what?",choices:["Behavioral segmentation according to individual purchase behaviors","Geographic segmentation based on location","Psychographic segmentation based on personality","Demographic segmentation based on age"],answer:"A"},
-  {q:"What does Product-Related Segmentation identify in terms of buying behavior?",choices:["Specific buying behaviors in terms of shopping frequency and purchase volumes","The social class and income level of the customer","The geographic origin of the customer","The emotional triggers of a customer"],answer:"A"},
-  {q:"Psychographic segmentation is SIMILAR to demographic segmentation but differs by dealing with what?",choices:["Geographic location and population density","Price sensitivity and purchase frequency","More mental and emotional characteristics","Occupation and social class"],answer:"C"},
-  {q:"What type of insight can Psychographic Segmentation provide that Demographics CANNOT?",choices:["A customer's income and family size","Valuable insight into customers' motives, preferences, and needs","The geographic location of the target market","The frequency of product purchase"],answer:"B"},
-  {q:"Which method does the handout suggest for collecting psychographic information?",choices:["Surveys and interaction on a website","Only government census data","Direct observation of purchasing habits in stores","Only analyzing sales receipts"],answer:"A"},
-  {q:"Geographic Segmentation primarily splits up a market based on what?",choices:["Age and family size","Location","Income levels","Cultural background"],answer:"B"},
-  {q:"People living in wet and cold climates favoring warm sunny destinations illustrates which segmentation type?",choices:["Geographic segmentation","Socioeconomic segmentation","Product-related segmentation","Psychographic segmentation"],answer:"A"},
-  {q:"Which geographic variable does the handout say could greatly affect competition among airlines for certain destinations?",choices:["Race or ethnic group of the tourist","Natural resources available at the destination","Climate differences leading to preferences for warm, sunny holiday destinations","Population density of the destination city"],answer:"C"},
-
-  // ── TOURISM PRODUCT LIFE CYCLE ──
-  {q:"What is the Tourism Product Life Cycle concept useful for as a guide for businesses?",choices:["Determining the price of tourism products","Guiding strategies in choosing, attracting, and serving target markets","Measuring the profitability of tourism businesses","Calculating the carrying capacity of a destination"],answer:"B"},
-  {q:"What is treated as the 'tourism product' when explaining the Tourism Product Life Cycle?",choices:["An airline seat","A tour package","A destination","A hotel room"],answer:"C"},
-  {q:"What is the FIRST stage of the Tourism Product Life Cycle?",choices:["Involvement","Exploring","Development","Consolidation"],answer:"B"},
-  {q:"In the Exploring stage, who are the MAIN types of visitors coming to a destination?",choices:["Adventure seekers and nature lovers seeking unexplored destinations","Business travelers attending conventions","Luxury travelers and honeymooners","Retirees looking for relaxation"],answer:"A"},
-  {q:"Which statement is TRUE about the Exploring stage of the Tourism Product Life Cycle?",choices:["There are no or limited tourist services accessible","The local economy is fully controlled by tourism activities","Foreign investment is attracted and international hotels set up operations","Marketing, advertising, and publicity are initiated"],answer:"A"},
-  {q:"In which stage do local communities START setting up their own businesses to provide accommodation, meals, guides, and transportation?",choices:["Exploring","Development","Involvement","Consolidation"],answer:"C"},
-  {q:"What BEGINS to happen during the Involvement stage that does NOT occur in the Exploring stage?",choices:["Marketing, advertising, and publicity are initiated","The destination begins losing its original charm","Foreign investors build international hotel chains","Tourists arrive for the first time"],answer:"A"},
-  {q:"Which stage of the Tourism Product Life Cycle is characterized by foreign investment being attracted and international hotel chains setting up businesses?",choices:["Exploring","Development","Consolidation","Involvement"],answer:"B"},
-  {q:"In the Development stage, what TYPE of infrastructure is built along with natural and artificial attractions?",choices:["Basic roads and simple guesthouses","Modernized infrastructure","The destination is restructured to replace natural attractions","Temporary event structures for tourist festivals"],answer:"B"},
-  {q:"During the Consolidation stage, the local economy becomes dependent on what?",choices:["Manufacturing industries","Agricultural production","Tourism activities","Foreign remittances"],answer:"C"},
-  {q:"Which is a KEY action during the Consolidation stage that determines whether a destination's life can be prolonged?",choices:["Removing all foreign investment","Forming proper steps and policies at this stage","Reducing the number of incoming tourists","Replacing natural attractions with artificial ones"],answer:"B"},
-  {q:"What is 'carrying capacity' as described in the context of the Stagnation stage?",choices:["The total number of hotel rooms available in a destination","The maximum number of people who may visit a tourist destination","The maximum profit a destination can generate annually","The minimum number of tourists needed to sustain the economy"],answer:"B"},
-  {q:"What happens to attractions during the Stagnation stage?",choices:["More foreign investment develops heritage sites","Adventure tourism becomes the dominant activity","Artificial attractions start to replace natural or cultural attractions","Natural attractions are expanded and better preserved"],answer:"C"},
-  {q:"What is the effect of the Stagnation stage on the ORIGINAL features of a destination?",choices:["They are protected through UNESCO heritage programs","The destination has started losing its charm with a gradual fall in tourists","More tourists come due to the fashionable new image","Local authorities invest heavily in restoring original features"],answer:"B"},
-  {q:"From the Stagnation stage, what are the TWO possible outcomes according to the handout?",choices:["Growth and stabilization","Consolidation or stagnation","Expansion and modernization","Decline or rejuvenation"],answer:"D"},
-  {q:"What does 'Rejuvenation' mean in the Tourism Product Life Cycle?",choices:["Reducing the price of tourism products to attract more visitors","Maintaining the destination as it is without changes","Permanently closing the destination to tourists","Re-growth or re-introducing the destination with new tourism products"],answer:"D"},
-  {q:"During Decline, regular visitors are REPLACED by which type of tourist?",choices:["Budget travelers looking for affordable or cheap vacations","Adventure tourists looking for untouched nature","Luxury travelers seeking exclusive experiences","Business tourists attending international conferences"],answer:"A"},
-  {q:"What does Rejuvenation involve in terms of creating new attractions?",choices:["Reducing marketing and promotional efforts","Closing the destination to foreign investors","Creating a new set of artificial attractions within the original destination to boost popularity","Demolishing old tourist facilities"],answer:"C"},
-  {q:"In which TWO stages is marketing and promotional effort EXPLICITLY described as being increased?",choices:["Exploring and Involvement","Involvement and Consolidation","Development and Stagnation","Consolidation and Rejuvenation"],answer:"B"},
-  {q:"What negative impacts are seen with the RAPID fall in tourist numbers during the Decline stage?",choices:["Lack of airline routes and hotel supply","High pricing, overcrowding, environmental pollution, and overrated attractions","Decrease in local employment and closure of resorts","Reduced government investment in tourism infrastructure"],answer:"B"},
-
-  // ── STRATEGIC MARKETING PROCESS ──
-  {q:"According to the handout, a successful marketing plan focuses on the why, how, when, where, who, and what of marketing, and is described as an essential and powerful what?",choices:["Academic framework","Tourism regulation","Government requirement","Business tool"],answer:"D"},
-  {q:"How many steps are there in writing a successful tourism marketing plan according to the handout?",choices:["7 steps","9 steps","8 steps","10 steps"],answer:"D"},
-  {q:"In Step 1, a marketing review helps create an internal standard for which crucial elements?",choices:["Employee performance and compensation","Customer attraction, satisfaction, and loyalty","Budget allocation and financial forecasting","Competitor pricing and product analysis"],answer:"B"},
-  {q:"What does Step 2: Research the Industry help a business do?",choices:["Define the mission statement of the business","Set the marketing budget for the year","Identify ideal customer profiles","Measure the climate of the business by reviewing market trends and competitor successes and failures"],answer:"D"},
-  {q:"A competitive analysis in Step 3 covers what specific aspects of a business' competition?",choices:["The social media following of rival companies","The target market demographics of competing businesses","The strengths and weaknesses of a business' competition","Only the pricing strategies of competitors"],answer:"C"},
-  {q:"Which of the following is NOT listed as a benefit of performing a thorough competitor analysis?",choices:["Identify gaps in the market","Increase employee salaries to attract talent","Uncover other market trends","Develop new products and services"],answer:"B"},
-  {q:"What type of competitor operates NEARBY and offers a product that could serve as a similar substitute for your business?",choices:["Indirect competitor","Supplementary competitor","Substitute competitor","Direct competitor"],answer:"D"},
-  {q:"A business that does NOT offer the same product as yours but COULD satisfy the same customer need or solve the same problem is called what?",choices:["An indirect competitor","A direct competitor","A substitute market","A parallel business"],answer:"A"},
-  {q:"In Step 4, the mission statement drives the business by conveying what to staff, stakeholders, and guests?",choices:["The annual revenue target","The company's reason for existing","The target audience demographics","The annual budget of the company"],answer:"B"},
-  {q:"Which of the following is an example of a mission statement QUESTION as listed in the handout?",choices:["What is our annual revenue target?","What is our marketing budget?","How many employees do we need to hire?","Whom do we serve?"],answer:"D"},
-  {q:"Marketing and content strategy should support the mission statement. This helps the business do what?",choices:["Set minimum performance standards for employees","Outline the company's financial goals","Stay on track and true to the brand and set goals","Maximize quarterly profits"],answer:"C"},
-  {q:"In Step 5, SWOT divides environmental analysis into internal and external components. Which are the EXTERNAL issues?",choices:["Strengths and weaknesses","Market analysis and competitive analysis","Financial analysis and operational analysis","Opportunities and threats"],answer:"D"},
-  {q:"In SWOT, which components are considered INTERNAL issues?",choices:["Opportunities and threats","Consumer behavior and demographic shifts","Market trends and competitor actions","Strengths and weaknesses"],answer:"D"},
-  {q:"What does Step 6 enable a business to do by having a clear picture of the ideal customer?",choices:["Analyze the destination's carrying capacity","Identify competitors in the market","Set the price of tourism products","Relate personally to its target audience and set the tone and content of marketing strategies"],answer:"D"},
-  {q:"The 4Ps in Step 7 are described as a combination of factors a business CAN CONTROL. What is the PURPOSE of controlling these factors?",choices:["Financial indicators used to measure business performance","Government-mandated criteria for tourism businesses","To promote the brand and attract and influence customers to purchase your product","External factors that affect market demand"],answer:"C"},
-  {q:"Which of the following questions belongs to the 'Price' component of the 4Ps?",choices:["How will you brand your product?","What distribution channels do you need?","How can you promote your business online?","Can you undercut your competition without hurting your bottom line?"],answer:"D"},
-  {q:"Which of the following questions belongs to the 'Place' component of the 4Ps?",choices:["What features and benefits does your product have?","What is the customer's perceived value of your product?","Do you need a sales force or intermediaries to help you sell?","Are there certain times of year when customers are more likely to buy?"],answer:"C"},
-  {q:"Which of the following questions belongs to the 'Promotion' component of the 4Ps?",choices:["What does your product look like in color, shape, and size?","What discounts can you offer?","How can you promote your products differently than your competitors?","Where do people look for products such as yours?"],answer:"C"},
-  {q:"SMART goals in Step 8 must be specific, measurable, achievable, relevant, and what?",choices:["Tactical","Technology-driven","Transparent","Time-bound"],answer:"D"},
-  {q:"'Increase brand advocacy and awareness' as a SMART goal means growing what?",choices:["The number of employees in a tourism business","The number of products offered by the business","The number of people that know about a tourism business","The number of international markets entered"],answer:"C"},
-  {q:"'Enhance market penetration' as a SMART goal refers to what?",choices:["Capturing details for remarketing","Entering new markets with new products","Growing the number of people who know about the business","Selling more to existing customers"],answer:"D"},
-  {q:"'Increase lead acquisition' as a SMART goal refers to what activity?",choices:["Selling to new target markets","Enhancing market penetration","Capturing details for remarketing","Growing brand awareness"],answer:"C"},
-  {q:"In Step 9, the STRATEGY explains how to achieve a goal while the TACTIC explains what?",choices:["Why the goal was set in the first place","What to be done to achieve it","Who is responsible for executing it","When the goal should be completed"],answer:"B"},
-  {q:"Which of the following is listed as a STRATEGY or TACTIC tool in Step 9?",choices:["Carrying capacity analysis","SWOT framework review","Market segmentation research","Referral campaigns and word of mouth"],answer:"D"},
-  {q:"In Step 10, while the business plan covers the entire financial side, the marketing plan focuses STRICTLY on what?",choices:["Setting employee salaries and operational budgets","Outlining the capital investment needed for infrastructure","Detailing the entire financial side of the business","Marketing-related activities and their costs"],answer:"D"},
-  {q:"What must a business ensure when setting the marketing budget in Step 10?",choices:["All strategies are identical to the previous year","Tactics are realistic, keeping in mind internal and external resources available","Only internal resources are used for all activities","The budget exceeds the competitor's marketing spend"],answer:"B"}
+// ══════════════════════════════════
+// HANDOUT 7 V2 — PANG-FINALS (100 ITEMS, shuffled answers)
+// ══════════════════════════════════
+const h7v2Q = [
+  {q:"Tourism marketing is the collective name given to ___.",choices:["tourist destinations","various marketing strategies in the tourism industry","travel activities","selling"],answer:"B"},
+  {q:"Marketing brings a ___.",choices:["product or service to the customer","tourist to a hotel","company to success","worker to a job"],answer:"A"},
+  {q:"Tourism marketing focuses on ___.",choices:["profit only","advertising only","maximizing tourist satisfaction","transportation"],answer:"C"},
+  {q:"Market segmentation is the ___.",choices:["pricing method","advertising strategy","selling process","grouping of people with similar needs"],answer:"D"},
+  {q:"Which is demographic?",choices:["Age","Lifestyle","Motivation","Behavior"],answer:"A"},
+  {q:"Which is product-related?",choices:["Income","Region","Usage rate","Personality"],answer:"C"},
+  {q:"Psychographic includes ___.",choices:["location","income","age","personality"],answer:"D"},
+  {q:"Geographic segmentation is based on ___.",choices:["behavior","location","attitude","income"],answer:"B"},
+  {q:"First stage of the life cycle:",choices:["Development","Decline","Exploring","Stagnation"],answer:"C"},
+  {q:"Few tourists, limited services:",choices:["Exploring","Development","Consolidation","Decline"],answer:"A"},
+  {q:"Tourists increase gradually:",choices:["Exploring","Involvement","Decline","Stagnation"],answer:"B"},
+  {q:"Locals participate in tourism:",choices:["Development","Exploring","Involvement","Decline"],answer:"C"},
+  {q:"Foreign investors enter:",choices:["Exploring","Development","Stagnation","Decline"],answer:"B"},
+  {q:"Infrastructure improves:",choices:["Development","Exploring","Decline","Stagnation"],answer:"A"},
+  {q:"Economy depends on tourism:",choices:["Exploring","Decline","Involvement","Consolidation"],answer:"D"},
+  {q:"Carrying capacity exceeded:",choices:["Development","Exploring","Stagnation","Involvement"],answer:"C"},
+  {q:"Tourists decrease:",choices:["Development","Decline","Exploring","Consolidation"],answer:"B"},
+  {q:"Re-growth stage:",choices:["Decline","Development","Exploring","Rejuvenation"],answer:"D"},
+  {q:"SWOT means ___.",choices:["system","strategy","strengths, weaknesses, opportunities, threats","sales"],answer:"C"},
+  {q:"Step 1 is ___.",choices:["marketing review","reflect","analyze","plan"],answer:"A"},
+  {q:"Step 2 is ___.",choices:["SWOT","target audience","research industry","budget"],answer:"C"},
+  {q:"Step 3 is ___.",choices:["promotion","price","place","analyze competitors"],answer:"D"},
+  {q:"Mission statement shows ___.",choices:["cost","location","purpose","design"],answer:"C"},
+  {q:"The 4Ps include ___.",choices:["product","price","place","all of the above"],answer:"D"},
+  {q:"Promotion means ___.",choices:["pricing","distribution","advertising","product"],answer:"C"},
+  {q:"Grouping customers by income:",choices:["Geographic","Demographic","Psychographic","Product"],answer:"B"},
+  {q:"Grouping by lifestyle:",choices:["Demographic","Geographic","Product","Psychographic"],answer:"D"},
+  {q:"Grouping by region:",choices:["Geographic","Psychographic","Product","Demographic"],answer:"A"},
+  {q:"Grouping by buying habits:",choices:["Geographic","Demographic","Product-related","Psychographic"],answer:"C"},
+  {q:"Benefit expectation belongs to ___.",choices:["Demographic","Product","Geographic","Psychographic"],answer:"B"},
+  {q:"Personality traits belong to ___.",choices:["Demographic","Product","Geographic","Psychographic"],answer:"D"},
+  {q:"Population density is ___.",choices:["Product","Geographic","Demographic","Psychographic"],answer:"B"},
+  {q:"Brand loyalty is ___.",choices:["Geographic","Demographic","Psychographic","Product-related"],answer:"D"},
+  {q:"Motivation is ___.",choices:["Demographic","Psychographic","Product","Geographic"],answer:"B"},
+  {q:"Occupation is ___.",choices:["Product","Demographic","Geographic","Psychographic"],answer:"B"},
+  {q:"Length of stay is ___.",choices:["Demographic","Geographic","Product-related","Psychographic"],answer:"C"},
+  {q:"Region is ___.",choices:["Product","Geographic","Demographic","Psychographic"],answer:"B"},
+  {q:"Lifestyle is ___.",choices:["Demographic","Product","Geographic","Psychographic"],answer:"D"},
+  {q:"Usage rate is ___.",choices:["Product-related","Geographic","Demographic","Psychographic"],answer:"A"},
+  {q:"City size is ___.",choices:["Demographic","Product","Geographic","Psychographic"],answer:"C"},
+  {q:"Market segmentation helps ___.",choices:["ignore customers","increase cost","serve market better","reduce service"],answer:"C"},
+  {q:"Tourists have ___.",choices:["same needs","same behavior","no needs","different preferences"],answer:"D"},
+  {q:"Cruise package vs historical tour shows ___.",choices:["promotion","pricing","segmentation","branding"],answer:"C"},
+  {q:"Segmentation helps ___.",choices:["confuse customers","reduce demand","avoid planning","identify needs"],answer:"D"},
+  {q:"Product-related segmentation includes ___.",choices:["location","behavior","income","age"],answer:"B"},
+  {q:"Psychographic data is ___.",choices:["easy to observe","numeric only","location-based","difficult to observe"],answer:"D"},
+  {q:"Geographic segmentation considers ___.",choices:["climate","location","region","all of the above"],answer:"D"},
+  {q:"Demographic data is ___.",choices:["hard to collect","emotional","easy to understand","behavioral"],answer:"C"},
+  {q:"Segmentation improves ___.",choices:["cost","confusion","marketing strategy","risk"],answer:"C"},
+  {q:"Segmentation helps satisfy ___.",choices:["company","employees","tourist demand","government"],answer:"C"},
+  {q:"Exploring stage has ___ tourists.",choices:["many","few","none","maximum"],answer:"B"},
+  {q:"Involvement stage shows ___.",choices:["stagnation","decline","no growth","gradual increase"],answer:"D"},
+  {q:"Development stage has ___.",choices:["foreign investment","no investment","no tourists","decline"],answer:"A"},
+  {q:"Consolidation stage economy is ___.",choices:["weak","tourism-based","declining","new"],answer:"B"},
+  {q:"Stagnation stage shows ___.",choices:["growth","new market","capacity limit","improvement"],answer:"C"},
+  {q:"Decline stage shows ___.",choices:["increase","growth","stability","decrease"],answer:"D"},
+  {q:"Rejuvenation involves ___.",choices:["stopping tourism","removal","decline","new attractions"],answer:"D"},
+  {q:"Carrying capacity means ___.",choices:["max visitors","minimum visitors","cost","income"],answer:"A"},
+  {q:"Stagnation leads to ___.",choices:["improvement","growth","problems","investment"],answer:"C"},
+  {q:"Decline leads to ___.",choices:["growth","increase","decrease","expansion"],answer:"C"},
+  {q:"Step 4 is ___.",choices:["SWOT","Mission","Budget","Strategy"],answer:"B"},
+  {q:"Step 5 is ___.",choices:["Price","Promotion","Place","SWOT"],answer:"D"},
+  {q:"Step 6 is ___.",choices:["Target audience","Budget","Strategy","Plan"],answer:"A"},
+  {q:"Step 7 is ___.",choices:["SWOT","Goals","4Ps","Budget"],answer:"C"},
+  {q:"Step 8 is ___.",choices:["Price","SMART goals","Promotion","Place"],answer:"B"},
+  {q:"Step 9 is ___.",choices:["SWOT","Budget","Strategies and tactics","Mission"],answer:"C"},
+  {q:"Step 10 is ___.",choices:["SWOT","Promotion","Price","Budget"],answer:"D"},
+  {q:"Strategy means ___.",choices:["what","when","where","how"],answer:"D"},
+  {q:"Tactics mean ___.",choices:["how","why","where","what"],answer:"D"},
+  {q:"Budget means ___.",choices:["planning","money allocation","strategy","goals"],answer:"B"},
+  {q:"The purpose of a mission statement is to show ___.",choices:["price","place","purpose","promotion"],answer:"C"},
+  {q:"Competitor analysis identifies ___.",choices:["price only","location","promotion","strengths and weaknesses"],answer:"D"},
+  {q:"Direct competitors offer ___.",choices:["different product","same product","no product","service only"],answer:"B"},
+  {q:"Indirect competitors offer ___.",choices:["different but same need","same product","no need","no service"],answer:"A"},
+  {q:"A marketing plan includes ___.",choices:["goals","strategies","actions","all of the above"],answer:"D"},
+  {q:"Targeting luxury travelers is ___.",choices:["Demographic","Geographic","Product","Psychographic"],answer:"D"},
+  {q:"Targeting by region is ___.",choices:["Geographic","Demographic","Psychographic","Product"],answer:"A"},
+  {q:"Grouping by buying behavior is ___.",choices:["Geographic","Demographic","Psychographic","Product-related"],answer:"D"},
+  {q:"Adjusting marketing based on trends shows ___.",choices:["ignoring research","failure","decline","adaptation"],answer:"D"},
+  {q:"Using social media is ___.",choices:["strategy","tactic","both","none"],answer:"C"},
+  {q:"Offering discounts is part of ___.",choices:["Product","Place","Promotion","Price"],answer:"D"},
+  {q:"Online booking is ___.",choices:["Product","Place","Price","Promotion"],answer:"B"},
+  {q:"Advertising is ___.",choices:["Product","Price","Place","Promotion"],answer:"D"},
+  {q:"Features of a product fall under ___.",choices:["Product","Price","Place","Promotion"],answer:"A"},
+  {q:"Customer value is ___.",choices:["Product","Place","Price","Promotion"],answer:"C"},
+  {q:"SMART goals are important because they ___.",choices:["confuse","reduce work","avoid planning","guide direction"],answer:"D"},
+  {q:"SWOT helps ___.",choices:["reduce cost","analyze environment","promote","sell"],answer:"B"},
+  {q:"Target audience helps create ___.",choices:["random marketing","no marketing","less strategy","focused marketing"],answer:"D"},
+  {q:"Segmentation helps deliver ___.",choices:["confusion","cost increase","better service","failure"],answer:"C"},
+  {q:"Stagnation is risky because of ___.",choices:["growth","investment","loss of interest","increase"],answer:"C"},
+  {q:"Rejuvenation helps with ___.",choices:["decline","stopping tourism","reduced demand","recovery"],answer:"D"},
+  {q:"Competitor analysis helps to ___.",choices:["ignore competitors","reduce effort","improve strategy","avoid planning"],answer:"C"},
+  {q:"The marketing mix helps to ___.",choices:["reduce marketing","avoid planning","remove customers","control marketing factors"],answer:"D"},
+  {q:"Product satisfies ___.",choices:["needs","price","location","promotion"],answer:"A"},
+  {q:"Place refers to ___.",choices:["price","product","distribution","promotion"],answer:"C"},
+  {q:"Promotion refers to ___.",choices:["cost","communication","location","design"],answer:"B"},
+  {q:"Price refers to ___.",choices:["place","product","value","promotion"],answer:"C"},
+  {q:"Strategy and tactics help ___.",choices:["avoid goals","reduce effort","achieve goals","ignore plan"],answer:"C"},
+  {q:"Budget ensures ___.",choices:["no plan","no marketing","resources available","no goals"],answer:"C"},
+  {q:"A marketing plan produces ___.",choices:["random action","organized strategy","no direction","confusion"],answer:"B"}
 ];
 
 // ══ STATE ══
@@ -604,7 +714,11 @@ function toggleShuffle(){
 }
 function startQuiz(){
   if(!selectedSubject)return alert('Please select a handout first!');
-  const pool=selectedSubject==='h5'?h5Q:selectedSubject==='h6'?h6Q:selectedSubject==='h7'?h7Q:h4Q;
+  const pool = selectedSubject==='h7v2' ? h7v2Q
+            : selectedSubject==='h5'   ? h5Q
+            : selectedSubject==='h6'   ? h6Q
+            : selectedSubject==='h7'   ? h7Q
+            : h4Q;
   activeData=shuffleOn?shuffleArr(pool):[...pool];
   idx=0;userAnswers=[];score=0;
   document.getElementById('startScreen').classList.remove('active');
